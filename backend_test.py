@@ -335,7 +335,7 @@ def test_stripe_connect_create_login_link_invalid():
     fake_account_id = "acct_invalid123456789"
     response = make_request("POST", f"/stripe-connect/create-login-link/{fake_account_id}")
     
-    if response and response.status_code == 400:
+    if response is not None and response.status_code == 400:
         log_test("Stripe Connect Login Link Invalid", "PASS", 
                 "Correctly returned 400 for invalid account ID")
         return True
