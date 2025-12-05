@@ -28,20 +28,26 @@ const Dashboard = () => {
       <div className="mb-8">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-4">
-            <img src={mockUser.avatar} alt={mockUser.name} className="w-20 h-20 rounded-full" />
+            <img src={user?.avatar} alt={user?.name} className="w-20 h-20 rounded-full" />
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">{mockUser.name}</h1>
-              <p className="text-gray-600">Member since {new Date(mockUser.memberSince).getFullYear()}</p>
+              <h1 className="text-3xl font-bold text-gray-900">{user?.name}</h1>
+              <p className="text-gray-600">Member since {new Date(user?.createdAt || Date.now()).getFullYear()}</p>
               <div className="flex items-center gap-2 mt-1">
-                <Badge variant="secondary">⭐ {mockUser.rating.toFixed(1)}</Badge>
-                <Badge variant="outline">{mockUser.totalReviews} reviews</Badge>
+                <Badge variant="secondary">⭐ 5.0</Badge>
+                <Badge variant="outline">0 reviews</Badge>
               </div>
             </div>
           </div>
-          <Button variant="outline" onClick={() => navigate('/settings')}>
-            <Settings className="w-4 h-4 mr-2" />
-            Settings
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={() => navigate('/personal-details')}>
+              <User className="w-4 h-4 mr-2" />
+              Personal Details
+            </Button>
+            <Button variant="outline" onClick={() => navigate('/payment-processors')}>
+              <CreditCard className="w-4 h-4 mr-2" />
+              Payment Processors
+            </Button>
+          </div>
         </div>
       </div>
 
