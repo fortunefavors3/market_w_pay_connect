@@ -47,6 +47,10 @@ const Dashboard = () => {
               <CreditCard className="w-4 h-4 mr-2" />
               Payment Processors
             </Button>
+            <Button variant="outline" onClick={() => navigate('/seller-page-editor')}>
+              <Edit className="w-4 h-4 mr-2" />
+              Edit Seller Page
+            </Button>
           </div>
         </div>
       </div>
