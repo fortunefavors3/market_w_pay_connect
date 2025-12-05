@@ -42,11 +42,19 @@ const Navbar = () => {
             </Link>
           </div>
           <div className="flex gap-4 items-center">
-            <Link to="/dashboard" className="text-gray-700 hover:text-gray-900 transition-colors">
-              My Account
-            </Link>
-            <span className="text-gray-400">|</span>
-            <span className="text-gray-700">Hi, {mockUser.name}!</span>
+            {isAuthenticated ? (
+              <>
+                <Link to="/dashboard" className="text-gray-700 hover:text-gray-900 transition-colors">
+                  My Account
+                </Link>
+                <span className="text-gray-400">|</span>
+                <span className="text-gray-700">Hi, {user?.name || user?.email?.split('@')[0]}!</span>
+              </>
+            ) : (
+              <Link to="/auth" className="text-gray-700 hover:text-gray-900 transition-colors">
+                Sign In
+              </Link>
+            )}
           </div>
         </div>
       </div>
