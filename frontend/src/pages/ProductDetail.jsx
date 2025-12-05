@@ -34,11 +34,15 @@ const ProductDetail = () => {
   };
 
   const handleBuyNow = () => {
-    toast({
-      title: "Proceeding to checkout",
-      description: "Redirecting to checkout page...",
-    });
-    setTimeout(() => navigate('/checkout'), 1000);
+    if (isAuthenticated) {
+      toast({
+        title: "Proceeding to checkout",
+        description: "Redirecting to checkout page...",
+      });
+      setTimeout(() => navigate('/checkout'), 1000);
+    } else {
+      navigate('/auth', { state: { from: { pathname: '/checkout' } } });
+    }
   };
 
   const averageRating = product.reviews.length > 0
