@@ -222,11 +222,11 @@ frontend:
 
   - task: "Sell Item Stripe Enforcement"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/frontend/src/pages/EnhancedSellItem.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
@@ -234,6 +234,9 @@ frontend:
       - working: "NA"
         agent: "main"
         comment: "Ready for frontend testing - need to verify redirect happens, toast shows, access blocked without Stripe"
+      - working: true
+        agent: "testing"
+        comment: "TESTED: Sell Item Stripe enforcement working correctly. When user without Stripe connection attempts to access /sell page, they are automatically redirected to /stripe-connect page. Toast notification appears with title 'Stripe account required' and message about connecting Stripe before listing items. Redirect happens after 2-second delay as designed. Access is properly blocked without Stripe connection."
 
   - task: "App Routing"
     implemented: true
