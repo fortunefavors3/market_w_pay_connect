@@ -8,7 +8,7 @@ import Footer from './components/Footer';
 // Conditional Navbar component
 const ConditionalNavbar = () => {
   const location = useLocation();
-  const hideNavbarRoutes = ['/checkout', '/listing-preview'];
+  const hideNavbarRoutes = ['/checkout', '/listing-preview', '/auth', '/order-success'];
   const shouldShowNavbar = !hideNavbarRoutes.includes(location.pathname);
   
   return shouldShowNavbar ? <Navbar /> : null;
