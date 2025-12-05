@@ -205,8 +205,11 @@ async def refresh_access_token(request: RefreshTokenRequest):
         raise HTTPException(status_code=400, detail=str(e))
 
 
+class RevokeTokenRequest(BaseModel):
+    access_token: str
+
 @router.post("/revoke-token")
-async def revoke_access_token(access_token: str):
+async def revoke_access_token(request: RevokeTokenRequest):
     """
     Revoke a merchant's access token (disconnect)
     """
