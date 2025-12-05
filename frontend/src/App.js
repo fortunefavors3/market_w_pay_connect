@@ -16,6 +16,7 @@ import Home from './pages/Home';
 import ProductDetail from './pages/ProductDetail';
 import SearchResults from './pages/SearchResults';
 import EnhancedSellItem from './pages/EnhancedSellItem';
+import ListingPreview from './pages/ListingPreview';
 import Dashboard from './pages/Dashboard';
 import ProductCustomizer from './pages/ProductCustomizer';
 import SellerProfile from './pages/SellerProfile';
