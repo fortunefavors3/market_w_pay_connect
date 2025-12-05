@@ -52,6 +52,11 @@ class User(BaseModel):
     square_access_token: str | None = None
     square_refresh_token: str | None = None
     square_connected: bool = False
+    paypal_payer_id: str | None = None
+    paypal_email: str | None = None
+    paypal_access_token: str | None = None
+    paypal_refresh_token: str | None = None
+    paypal_connected: bool = False
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
