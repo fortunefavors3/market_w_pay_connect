@@ -39,6 +39,7 @@ function App() {
             <Route path="/category/:category" element={<SearchResults />} />
             <Route path="/category/:category/:subcategory" element={<SearchResults />} />
             <Route path="/sell" element={<EnhancedSellItem />} />
+            <Route path="/listing-preview" element={<ListingPreview />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/customize/:id" element={<ProductCustomizer />} />
             <Route path="/seller/:id" element={<SellerProfile />} />
