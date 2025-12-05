@@ -185,10 +185,13 @@ const SearchResults = () => {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="relevance">Best Match</SelectItem>
+                  <SelectItem value="most_relevant">Most Relevant</SelectItem>
                   <SelectItem value="price_low">Price: Low to High</SelectItem>
                   <SelectItem value="price_high">Price: High to Low</SelectItem>
-                  <SelectItem value="newest">Newly Listed</SelectItem>
+                  <SelectItem value="most_recent">Most Recent</SelectItem>
+                  <SelectItem value="most_popular">Most Popular</SelectItem>
+                  <SelectItem value="highest_rated">Highest Rated</SelectItem>
+                  <SelectItem value="alphabetical">Alphabetical (A-Z)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
