@@ -186,63 +186,78 @@ backend:
 
   - task: "Square OAuth Endpoints"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/square_oauth.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Implemented Square OAuth integration with 6 endpoints: POST /api/square-connect/initiate-oauth (generate OAuth URL), POST /api/square-connect/exchange-token (exchange code for tokens), GET /api/square-connect/merchant-status/{merchant_id} (get merchant info), POST /api/square-connect/refresh-token (refresh expired token), POST /api/square-connect/revoke-token (disconnect merchant), GET /api/square-connect/test-connection (test API connection)"
+      - working: true
+        agent: "testing"
+        comment: "TESTED: All Square OAuth endpoints working correctly. Fixed minor implementation issues: updated refresh-token and revoke-token endpoints to accept request body instead of query parameters, fixed merchant status endpoint to use list_merchants API. All 6 endpoints tested: POST /api/square-connect/initiate-oauth generates valid OAuth URLs with correct sandbox domain and state format, POST /api/square-connect/exchange-token properly handles invalid codes with 400 error, GET /api/square-connect/merchant-status correctly validates access tokens, POST /api/square-connect/refresh-token and revoke-token handle invalid tokens appropriately, GET /api/square-connect/test-connection successfully connects to Square sandbox API and returns location data."
 
   - task: "Square User Management Endpoints"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Added User model with Square fields (square_merchant_id, square_access_token, square_refresh_token, square_connected). Created endpoints: POST /api/users/square-account (save Square merchant details), GET /api/users/{user_id}/square-status (get user's Square connection status)"
+      - working: true
+        agent: "testing"
+        comment: "TESTED: Square user management endpoints working perfectly. POST /api/users/square-account successfully saves and updates Square merchant details (returns modified: false for new users, modified: true for updates). GET /api/users/{user_id}/square-status returns proper status object with connected, merchant_id, and has_access_token fields. Handles non-existent users correctly with default values (connected: false, merchant_id: null, has_access_token: false). MongoDB integration confirmed working."
 
   - task: "PayPal OAuth Endpoints"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/paypal_oauth.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Implemented PayPal OAuth integration with 5 endpoints: POST /api/paypal-connect/initiate-oauth (generate OAuth URL), POST /api/paypal-connect/exchange-token (exchange code for tokens and get user info), GET /api/paypal-connect/merchant-status/{payer_id} (get merchant info), POST /api/paypal-connect/refresh-token (refresh expired token), GET /api/paypal-connect/test-connection (test API connection)"
+      - working: true
+        agent: "testing"
+        comment: "TESTED: All PayPal OAuth endpoints working correctly. Fixed refresh-token endpoint to accept request body instead of query parameters. All 5 endpoints tested: POST /api/paypal-connect/initiate-oauth generates valid OAuth URLs with correct sandbox domain and state format, POST /api/paypal-connect/exchange-token properly handles invalid codes and redirect URLs with 400 error, GET /api/paypal-connect/merchant-status correctly validates access tokens, POST /api/paypal-connect/refresh-token handles invalid tokens appropriately, GET /api/paypal-connect/test-connection successfully connects to PayPal sandbox API."
 
   - task: "PayPal User Management Endpoints"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Added User model with PayPal fields (paypal_payer_id, paypal_email, paypal_access_token, paypal_refresh_token, paypal_connected). Created endpoints: POST /api/users/paypal-account (save PayPal account details), GET /api/users/{user_id}/paypal-status (get user's PayPal connection status)"
+      - working: true
+        agent: "testing"
+        comment: "TESTED: PayPal user management endpoints working perfectly. POST /api/users/paypal-account successfully saves and updates PayPal account details including payer_id, email, access_token, and refresh_token (returns modified: false for new users, modified: true for updates). GET /api/users/{user_id}/paypal-status returns proper status object with connected, payer_id, email, and has_access_token fields. Handles non-existent users correctly with default values (connected: false, all fields null/false). MongoDB integration confirmed working."
 
   - task: "Combined Payment Status Endpoint"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created GET /api/users/{user_id}/payment-status endpoint that returns overall payment processor status across all three processors (Stripe, Square, PayPal). Returns has_any_processor flag and individual processor statuses with account IDs."
+      - working: true
+        agent: "testing"
+        comment: "TESTED: Combined payment status endpoint working correctly. GET /api/users/{user_id}/payment-status returns comprehensive status across all three processors. For users with no processors: has_any_processor: false, all processor flags false. For users with connected processors: correctly shows individual processor statuses (stripe_connected, square_connected, paypal_connected) and includes account IDs (stripe_account_id, square_merchant_id, paypal_payer_id). Logic correctly determines has_any_processor based on actual processor readiness states."
 
 frontend:
   - task: "Stripe Connect Page"
