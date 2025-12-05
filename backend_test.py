@@ -383,47 +383,583 @@ def test_user_stripe_status_update_no_account():
                 f"Request failed or unexpected status code")
         return False
 
+# ============================================================================
+# SQUARE OAUTH TESTS
+# ============================================================================
+
+def test_square_initiate_oauth():
+    """Test POST /api/square-connect/initiate-oauth"""
+    global square_oauth_state
+    
+    test_data = {
+        "user_id": TEST_USER_ID,
+        "redirect_url": "https://example.com/square-callback"
+    }
+    
+    response = make_request("POST", "/square-connect/initiate-oauth", test_data)
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        if (data.get("success") is True and 
+            data.get("authorization_url") and 
+            data.get("state") and
+            "connect.squareupsandbox.com" in data["authorization_url"] and
+            data["state"].startswith(TEST_USER_ID)):
+            square_oauth_state = data["state"]
+            log_test("Square Initiate OAuth", "PASS", 
+                    f"Generated OAuth URL with state: {data['state']}")
+            return True
+        else:
+            log_test("Square Initiate OAuth", "FAIL", 
+                    "Response missing required fields or invalid URL format")
+            return False
+    else:
+        log_test("Square Initiate OAuth", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+def test_square_exchange_token():
+    """Test POST /api/square-connect/exchange-token (will fail without real OAuth code)"""
+    test_data = {
+        "code": "fake_authorization_code_12345",
+        "state": square_oauth_state or f"{TEST_USER_ID}_fake_state"
+    }
+    
+    response = make_request("POST", "/square-connect/exchange-token", test_data)
+    
+    # This should fail with 400 since we're using a fake code
+    if response and response.status_code == 400:
+        log_test("Square Exchange Token", "PASS", 
+                "Correctly returned 400 for invalid authorization code (expected)")
+        return True
+    else:
+        log_test("Square Exchange Token", "FAIL", 
+                f"Expected 400 status code, got {response.status_code if response else 'None'}")
+        return False
+
+def test_square_merchant_status():
+    """Test GET /api/square-connect/merchant-status/{merchant_id}"""
+    fake_merchant_id = "fake_merchant_123"
+    fake_access_token = "fake_access_token_456"
+    
+    response = make_request("GET", f"/square-connect/merchant-status/{fake_merchant_id}?access_token={fake_access_token}")
+    
+    # This should fail with 400 since we're using fake credentials
+    if response and response.status_code == 400:
+        log_test("Square Merchant Status", "PASS", 
+                "Correctly returned 400 for invalid merchant credentials (expected)")
+        return True
+    else:
+        log_test("Square Merchant Status", "FAIL", 
+                f"Expected 400 status code, got {response.status_code if response else 'None'}")
+        return False
+
+def test_square_refresh_token():
+    """Test POST /api/square-connect/refresh-token"""
+    test_data = {
+        "refresh_token": "fake_refresh_token_123"
+    }
+    
+    response = make_request("POST", "/square-connect/refresh-token", test_data)
+    
+    # This should fail with 400 since we're using a fake token
+    if response and response.status_code == 400:
+        log_test("Square Refresh Token", "PASS", 
+                "Correctly returned 400 for invalid refresh token (expected)")
+        return True
+    else:
+        log_test("Square Refresh Token", "FAIL", 
+                f"Expected 400 status code, got {response.status_code if response else 'None'}")
+        return False
+
+def test_square_revoke_token():
+    """Test POST /api/square-connect/revoke-token"""
+    test_data = {
+        "access_token": "fake_access_token_123"
+    }
+    
+    response = make_request("POST", "/square-connect/revoke-token", test_data)
+    
+    # This should fail with 400 since we're using a fake token
+    if response and response.status_code == 400:
+        log_test("Square Revoke Token", "PASS", 
+                "Correctly returned 400 for invalid access token (expected)")
+        return True
+    else:
+        log_test("Square Revoke Token", "FAIL", 
+                f"Expected 400 status code, got {response.status_code if response else 'None'}")
+        return False
+
+def test_square_test_connection():
+    """Test GET /api/square-connect/test-connection"""
+    response = make_request("GET", "/square-connect/test-connection")
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        if (data.get("success") is True and 
+            data.get("environment") == "sandbox" and
+            data.get("message") and
+            "locations" in data):
+            log_test("Square Test Connection", "PASS", 
+                    f"Square API connection successful in {data['environment']} mode")
+            return True
+        else:
+            log_test("Square Test Connection", "FAIL", 
+                    "Response missing required fields")
+            return False
+    else:
+        log_test("Square Test Connection", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+# ============================================================================
+# SQUARE USER MANAGEMENT TESTS
+# ============================================================================
+
+def test_square_user_account_save():
+    """Test POST /api/users/square-account"""
+    test_data = {
+        "user_id": TEST_USER_ID,
+        "merchant_id": "fake_merchant_123",
+        "access_token": "fake_access_token_456",
+        "refresh_token": "fake_refresh_token_789"
+    }
+    
+    response = make_request("POST", "/users/square-account", test_data)
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        if data.get("success") is True:
+            log_test("Square User Account Save", "PASS", 
+                    f"Saved Square account for user {TEST_USER_ID}")
+            return True
+        else:
+            log_test("Square User Account Save", "FAIL", 
+                    "Response success field is not True")
+            return False
+    else:
+        log_test("Square User Account Save", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+def test_square_user_account_update():
+    """Test updating existing user's Square account (should show modified: true)"""
+    test_data = {
+        "user_id": TEST_USER_ID,
+        "merchant_id": "updated_merchant_456",
+        "access_token": "updated_access_token_789",
+        "refresh_token": "updated_refresh_token_012"
+    }
+    
+    response = make_request("POST", "/users/square-account", test_data)
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        if data.get("success") is True and data.get("modified") is True:
+            log_test("Square User Account Update", "PASS", 
+                    f"Updated Square account for user {TEST_USER_ID}")
+            return True
+        else:
+            log_test("Square User Account Update", "FAIL", 
+                    f"Expected modified: true, got: {data}")
+            return False
+    else:
+        log_test("Square User Account Update", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+def test_square_user_status_get():
+    """Test GET /api/users/{user_id}/square-status"""
+    response = make_request("GET", f"/users/{TEST_USER_ID}/square-status")
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        required_fields = ["connected", "merchant_id", "has_access_token"]
+        
+        if all(field in data for field in required_fields):
+            if data["connected"] and data["merchant_id"] and data["has_access_token"]:
+                log_test("Square User Status Get", "PASS", 
+                        f"Retrieved Square status for user {TEST_USER_ID}")
+                return True
+            else:
+                log_test("Square User Status Get", "FAIL", 
+                        "User should have Square account but status shows disconnected")
+                return False
+        else:
+            missing_fields = [f for f in required_fields if f not in data]
+            log_test("Square User Status Get", "FAIL", 
+                    f"Missing required fields: {missing_fields}")
+            return False
+    else:
+        log_test("Square User Status Get", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+def test_square_user_status_nonexistent():
+    """Test GET /api/users/{user_id}/square-status for non-existent user"""
+    fake_user_id = f"nonexistent_user_{uuid.uuid4().hex[:8]}"
+    response = make_request("GET", f"/users/{fake_user_id}/square-status")
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        if (data.get("connected") is False and 
+            data.get("merchant_id") is None and
+            data.get("has_access_token") is False):
+            log_test("Square User Status Non-existent", "PASS", 
+                    "Correctly returned default status for non-existent user")
+            return True
+        else:
+            log_test("Square User Status Non-existent", "FAIL", 
+                    f"Unexpected response for non-existent user: {data}")
+            return False
+    else:
+        log_test("Square User Status Non-existent", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+# ============================================================================
+# PAYPAL OAUTH TESTS
+# ============================================================================
+
+def test_paypal_initiate_oauth():
+    """Test POST /api/paypal-connect/initiate-oauth"""
+    global paypal_oauth_state
+    
+    test_data = {
+        "user_id": TEST_USER_ID_2,
+        "redirect_url": "https://example.com/paypal-callback"
+    }
+    
+    response = make_request("POST", "/paypal-connect/initiate-oauth", test_data)
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        if (data.get("success") is True and 
+            data.get("authorization_url") and 
+            data.get("state") and
+            "sandbox.paypal.com" in data["authorization_url"] and
+            data["state"].startswith(TEST_USER_ID_2)):
+            paypal_oauth_state = data["state"]
+            log_test("PayPal Initiate OAuth", "PASS", 
+                    f"Generated OAuth URL with state: {data['state']}")
+            return True
+        else:
+            log_test("PayPal Initiate OAuth", "FAIL", 
+                    "Response missing required fields or invalid URL format")
+            return False
+    else:
+        log_test("PayPal Initiate OAuth", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+def test_paypal_exchange_token():
+    """Test POST /api/paypal-connect/exchange-token (will fail without real OAuth code)"""
+    test_data = {
+        "code": "fake_authorization_code_12345",
+        "state": paypal_oauth_state or f"{TEST_USER_ID_2}_fake_state"
+    }
+    
+    response = make_request("POST", "/paypal-connect/exchange-token?redirect_url=https://example.com/paypal-callback", test_data)
+    
+    # This should fail with 400 since we're using a fake code
+    if response and response.status_code == 400:
+        log_test("PayPal Exchange Token", "PASS", 
+                "Correctly returned 400 for invalid authorization code (expected)")
+        return True
+    else:
+        log_test("PayPal Exchange Token", "FAIL", 
+                f"Expected 400 status code, got {response.status_code if response else 'None'}")
+        return False
+
+def test_paypal_merchant_status():
+    """Test GET /api/paypal-connect/merchant-status/{payer_id}"""
+    fake_payer_id = "fake_payer_123"
+    fake_access_token = "fake_access_token_456"
+    
+    response = make_request("GET", f"/paypal-connect/merchant-status/{fake_payer_id}?access_token={fake_access_token}")
+    
+    # This should fail with 400 since we're using fake credentials
+    if response and response.status_code == 400:
+        log_test("PayPal Merchant Status", "PASS", 
+                "Correctly returned 400 for invalid merchant credentials (expected)")
+        return True
+    else:
+        log_test("PayPal Merchant Status", "FAIL", 
+                f"Expected 400 status code, got {response.status_code if response else 'None'}")
+        return False
+
+def test_paypal_refresh_token():
+    """Test POST /api/paypal-connect/refresh-token"""
+    test_data = {
+        "refresh_token": "fake_refresh_token_123"
+    }
+    
+    response = make_request("POST", "/paypal-connect/refresh-token", test_data)
+    
+    # This should fail with 400 since we're using a fake token
+    if response and response.status_code == 400:
+        log_test("PayPal Refresh Token", "PASS", 
+                "Correctly returned 400 for invalid refresh token (expected)")
+        return True
+    else:
+        log_test("PayPal Refresh Token", "FAIL", 
+                f"Expected 400 status code, got {response.status_code if response else 'None'}")
+        return False
+
+def test_paypal_test_connection():
+    """Test GET /api/paypal-connect/test-connection"""
+    response = make_request("GET", "/paypal-connect/test-connection")
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        if (data.get("success") is True and 
+            data.get("mode") == "sandbox" and
+            data.get("message")):
+            log_test("PayPal Test Connection", "PASS", 
+                    f"PayPal API connection successful in {data['mode']} mode")
+            return True
+        else:
+            log_test("PayPal Test Connection", "FAIL", 
+                    "Response missing required fields")
+            return False
+    else:
+        log_test("PayPal Test Connection", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+# ============================================================================
+# PAYPAL USER MANAGEMENT TESTS
+# ============================================================================
+
+def test_paypal_user_account_save():
+    """Test POST /api/users/paypal-account"""
+    test_data = {
+        "user_id": TEST_USER_ID_2,
+        "payer_id": "fake_payer_123",
+        "email": TEST_EMAIL_2,
+        "access_token": "fake_access_token_456",
+        "refresh_token": "fake_refresh_token_789"
+    }
+    
+    response = make_request("POST", "/users/paypal-account", test_data)
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        if data.get("success") is True:
+            log_test("PayPal User Account Save", "PASS", 
+                    f"Saved PayPal account for user {TEST_USER_ID_2}")
+            return True
+        else:
+            log_test("PayPal User Account Save", "FAIL", 
+                    "Response success field is not True")
+            return False
+    else:
+        log_test("PayPal User Account Save", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+def test_paypal_user_account_update():
+    """Test updating existing user's PayPal account (should show modified: true)"""
+    test_data = {
+        "user_id": TEST_USER_ID_2,
+        "payer_id": "updated_payer_456",
+        "email": f"updated_{TEST_EMAIL_2}",
+        "access_token": "updated_access_token_789",
+        "refresh_token": "updated_refresh_token_012"
+    }
+    
+    response = make_request("POST", "/users/paypal-account", test_data)
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        if data.get("success") is True and data.get("modified") is True:
+            log_test("PayPal User Account Update", "PASS", 
+                    f"Updated PayPal account for user {TEST_USER_ID_2}")
+            return True
+        else:
+            log_test("PayPal User Account Update", "FAIL", 
+                    f"Expected modified: true, got: {data}")
+            return False
+    else:
+        log_test("PayPal User Account Update", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+def test_paypal_user_status_get():
+    """Test GET /api/users/{user_id}/paypal-status"""
+    response = make_request("GET", f"/users/{TEST_USER_ID_2}/paypal-status")
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        required_fields = ["connected", "payer_id", "email", "has_access_token"]
+        
+        if all(field in data for field in required_fields):
+            if data["connected"] and data["payer_id"] and data["email"] and data["has_access_token"]:
+                log_test("PayPal User Status Get", "PASS", 
+                        f"Retrieved PayPal status for user {TEST_USER_ID_2}")
+                return True
+            else:
+                log_test("PayPal User Status Get", "FAIL", 
+                        "User should have PayPal account but status shows disconnected")
+                return False
+        else:
+            missing_fields = [f for f in required_fields if f not in data]
+            log_test("PayPal User Status Get", "FAIL", 
+                    f"Missing required fields: {missing_fields}")
+            return False
+    else:
+        log_test("PayPal User Status Get", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+def test_paypal_user_status_nonexistent():
+    """Test GET /api/users/{user_id}/paypal-status for non-existent user"""
+    fake_user_id = f"nonexistent_user_{uuid.uuid4().hex[:8]}"
+    response = make_request("GET", f"/users/{fake_user_id}/paypal-status")
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        if (data.get("connected") is False and 
+            data.get("payer_id") is None and
+            data.get("email") is None and
+            data.get("has_access_token") is False):
+            log_test("PayPal User Status Non-existent", "PASS", 
+                    "Correctly returned default status for non-existent user")
+            return True
+        else:
+            log_test("PayPal User Status Non-existent", "FAIL", 
+                    f"Unexpected response for non-existent user: {data}")
+            return False
+    else:
+        log_test("PayPal User Status Non-existent", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+# ============================================================================
+# COMBINED PAYMENT STATUS TESTS
+# ============================================================================
+
+def test_payment_status_no_processors():
+    """Test GET /api/users/{user_id}/payment-status for user with no processors"""
+    fake_user_id = f"no_processors_user_{uuid.uuid4().hex[:8]}"
+    response = make_request("GET", f"/users/{fake_user_id}/payment-status")
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        required_fields = ["has_any_processor", "stripe_connected", "square_connected", "paypal_connected"]
+        
+        if all(field in data for field in required_fields):
+            if (data["has_any_processor"] is False and 
+                data["stripe_connected"] is False and
+                data["square_connected"] is False and
+                data["paypal_connected"] is False):
+                log_test("Payment Status No Processors", "PASS", 
+                        "Correctly returned no processors connected for new user")
+                return True
+            else:
+                log_test("Payment Status No Processors", "FAIL", 
+                        f"Expected all processors false, got: {data}")
+                return False
+        else:
+            missing_fields = [f for f in required_fields if f not in data]
+            log_test("Payment Status No Processors", "FAIL", 
+                    f"Missing required fields: {missing_fields}")
+            return False
+    else:
+        log_test("Payment Status No Processors", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+def test_payment_status_with_processors():
+    """Test GET /api/users/{user_id}/payment-status for user with processors connected"""
+    response = make_request("GET", f"/users/{TEST_USER_ID}/payment-status")
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        required_fields = ["has_any_processor", "stripe_connected", "square_connected", "paypal_connected"]
+        
+        if all(field in data for field in required_fields):
+            # Should show square_connected as true since we saved Square account for TEST_USER_ID
+            if data["square_connected"] is True:
+                log_test("Payment Status With Processors", "PASS", 
+                        f"Correctly shows Square connected for user {TEST_USER_ID}")
+                return True
+            else:
+                log_test("Payment Status With Processors", "FAIL", 
+                        f"Expected square_connected: true, got: {data}")
+                return False
+        else:
+            missing_fields = [f for f in required_fields if f not in data]
+            log_test("Payment Status With Processors", "FAIL", 
+                    f"Missing required fields: {missing_fields}")
+            return False
+    else:
+        log_test("Payment Status With Processors", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
 def run_all_tests():
     """Run all tests in sequence"""
     print("=" * 80)
-    print("STRIPE CONNECT INTEGRATION TEST SUITE")
+    print("COMPREHENSIVE PAYMENT PROCESSOR INTEGRATION TEST SUITE")
     print("=" * 80)
     print(f"Base URL: {BASE_URL}")
-    print(f"Test User ID 1: {TEST_USER_ID}")
-    print(f"Test User ID 2: {TEST_USER_ID_2}")
+    print(f"Test User ID 1 (Stripe + Square): {TEST_USER_ID}")
+    print(f"Test User ID 2 (PayPal): {TEST_USER_ID_2}")
+    print(f"Test User ID 3 (Combined): {TEST_USER_ID_3}")
     print(f"Test Email 1: {TEST_EMAIL}")
     print(f"Test Email 2: {TEST_EMAIL_2}")
+    print(f"Test Email 3: {TEST_EMAIL_3}")
     print("=" * 80)
     print()
     
     # Test sequence as specified in requirements
     tests = [
-        # 1. Create Stripe Connect accounts
+        # STRIPE CONNECT TESTS (existing)
         test_stripe_connect_create_account,
         test_stripe_connect_create_account_second,
-        
-        # 2. Save account_id to test user
         test_user_stripe_account_save,
         test_user_stripe_account_update,
-        
-        # 3. Get user's Stripe status
         test_user_stripe_status_get,
         test_user_stripe_status_nonexistent,
-        
-        # 4. Create account link for onboarding
         test_stripe_connect_create_account_link,
-        
-        # 5. Check account status
         test_stripe_connect_account_status,
         test_stripe_connect_account_status_invalid,
-        
-        # 6. Create login link
         test_stripe_connect_create_login_link,
         test_stripe_connect_create_login_link_invalid,
-        
-        # 7. Test status update
         test_user_stripe_status_update,
         test_user_stripe_status_update_no_account,
+        
+        # SQUARE OAUTH TESTS
+        test_square_initiate_oauth,
+        test_square_exchange_token,
+        test_square_merchant_status,
+        test_square_refresh_token,
+        test_square_revoke_token,
+        test_square_test_connection,
+        
+        # SQUARE USER MANAGEMENT TESTS
+        test_square_user_account_save,
+        test_square_user_account_update,
+        test_square_user_status_get,
+        test_square_user_status_nonexistent,
+        
+        # PAYPAL OAUTH TESTS
+        test_paypal_initiate_oauth,
+        test_paypal_exchange_token,
+        test_paypal_merchant_status,
+        test_paypal_refresh_token,
+        test_paypal_test_connection,
+        
+        # PAYPAL USER MANAGEMENT TESTS
+        test_paypal_user_account_save,
+        test_paypal_user_account_update,
+        test_paypal_user_status_get,
+        test_paypal_user_status_nonexistent,
+        
+        # COMBINED PAYMENT STATUS TESTS
+        test_payment_status_no_processors,
+        test_payment_status_with_processors,
     ]
     
     passed = 0
