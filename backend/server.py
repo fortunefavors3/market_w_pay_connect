@@ -70,6 +70,13 @@ class UpdateSquareAccount(BaseModel):
     access_token: str
     refresh_token: str
 
+class UpdatePayPalAccount(BaseModel):
+    user_id: str
+    payer_id: str
+    email: str
+    access_token: str
+    refresh_token: str
+
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
 async def root():
