@@ -463,7 +463,7 @@ def test_square_refresh_token():
     response = make_request("POST", "/square-connect/refresh-token", test_data)
     
     # This should fail with 400 since we're using a fake token
-    if response and response.status_code == 400:
+    if response is not None and response.status_code == 400:
         log_test("Square Refresh Token", "PASS", 
                 "Correctly returned 400 for invalid refresh token (expected)")
         return True
