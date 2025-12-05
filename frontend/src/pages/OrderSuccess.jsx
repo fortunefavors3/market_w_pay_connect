@@ -77,7 +77,7 @@ const OrderSuccess = () => {
             </div>
 
             <p className="text-xs text-gray-500 mt-6">
-              Questions about your order? Contact us at support@baymarket.com
+              Questions about your order? Contact us at support@cheqmart.com
             </p>
           </div>
         </CardContent>

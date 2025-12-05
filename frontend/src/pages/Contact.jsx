@@ -37,9 +37,9 @@ const Contact = () => {
     {
       icon: Mail,
       title: 'Email Us',
-      description: 'support@baymarket.com',
+      description: 'support@cheqmart.com',
       detail: 'Response within 24 hours',
-      action: 'mailto:support@baymarket.com'
+      action: 'mailto:support@cheqmart.com'
     },
     {
       icon: Phone,

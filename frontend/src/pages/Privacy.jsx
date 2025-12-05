@@ -77,7 +77,7 @@ const Privacy = () => {
       icon: Mail,
       title: 'Contact & Updates',
       content: [
-        'Email us at privacy@baymarket.com',
+        'Email us at privacy@cheqmart.com',
         'Updates will be posted on this page',
         'Major changes will be communicated via email',
         'Continued use constitutes acceptance',
@@ -260,7 +260,7 @@ const Privacy = () => {
                 If you have questions about this Privacy Policy or our privacy practices, please contact us:
               </p>
               <div className="space-y-2">
-                <p><strong>Email:</strong> privacy@baymarket.com</p>
+                <p><strong>Email:</strong> privacy@cheqmart.com</p>
                 <p><strong>Phone:</strong> 1-800-BAYMARKET (229-6275)</p>
                 <p><strong>Mail:</strong> CheqMart Privacy Team, 123 Market Street, San Francisco, CA 94103</p>
               </div>

@@ -274,7 +274,7 @@ const Cookies = () => {
                 If you have questions about our use of cookies or this Cookie Policy, please contact us:
               </p>
               <div className="space-y-2 text-sm">
-                <p><strong>Email:</strong> privacy@baymarket.com</p>
+                <p><strong>Email:</strong> privacy@cheqmart.com</p>
                 <p><strong>Phone:</strong> 1-800-BAYMARKET (229-6275)</p>
               </div>
               <Button onClick={() => navigate('/contact')} className="mt-4">

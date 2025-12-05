@@ -172,8 +172,8 @@ const IntegrationGuides = () => {
       {
         title: 'Add Checkout Button to Product Pages',
         description: 'Embed the custom checkout button',
-        code: `<div id="baymarket-checkout" data-product-id="{{product.id}}"></div>
-<script src="https://checkout.baymarket.com/embed.js"></script>
+        code: `<div id="cheqmart-checkout" data-product-id="{{product.id}}"></div>
+<script src="https://checkout.cheqmart.com/embed.js"></script>
 <script>
   CheqMart.init({
     apiKey: 'YOUR_API_KEY',
@@ -221,7 +221,7 @@ const IntegrationGuides = () => {
 
 // Initialize CheqMart
 const BAYMARKET_API_KEY = 'YOUR_API_KEY';
-const BAYMARKET_API_URL = 'https://api.baymarket.com';
+const BAYMARKET_API_URL = 'https://api.cheqmart.com';
 
 export async function initCheqMartCheckout(productId) {
   const response = await fetch(\`\${BAYMARKET_API_URL}/checkout/init\`, {
@@ -235,7 +235,7 @@ export async function initCheqMartCheckout(productId) {
   return await response.json();
 }`,
         instructions: [
-          'In the code panel, create a new file: backend/baymarket.jsw',
+          'In the code panel, create a new file: backend/cheqmart.jsw',
           'Paste the code snippet above',
           'Replace YOUR_API_KEY with your CheqMart API key',
           'Save the file'
@@ -244,7 +244,7 @@ export async function initCheqMartCheckout(productId) {
       {
         title: 'Create Custom Checkout Button',
         description: 'Add button to product pages',
-        code: `import { initCheqMartCheckout } from 'backend/baymarket';
+        code: `import { initCheqMartCheckout } from 'backend/cheqmart';
 
 $w.onReady(function () {
   $w('#buyNowButton').onClick(async () => {
@@ -337,14 +337,14 @@ export async function handleCheckoutComplete(checkoutData) {
         title: 'Enable Custom Checkout',
         description: 'Activate CheqMart checkout for products',
         code: `// Add to functions.php
-add_filter('woocommerce_product_add_to_cart_url', 'baymarket_custom_checkout_url', 10, 2);
+add_filter('woocommerce_product_add_to_cart_url', 'cheqmart_custom_checkout_url', 10, 2);
 
-function baymarket_custom_checkout_url($url, $product) {
-    if (get_post_meta($product->get_id(), '_baymarket_enabled', true) === 'yes') {
+function cheqmart_custom_checkout_url($url, $product) {
+    if (get_post_meta($product->get_id(), '_cheqmart_enabled', true) === 'yes') {
         return add_query_arg([
-            'baymarket_checkout' => '1',
+            'cheqmart_checkout' => '1',
             'product_id' => $product->get_id()
-        ], home_url('/baymarket-checkout/'));
+        ], home_url('/cheqmart-checkout/'));
     }
     return $url;
 }`,
@@ -359,18 +359,18 @@ function baymarket_custom_checkout_url($url, $product) {
         title: 'Customize Checkout Page',
         description: 'Create a custom checkout template',
         code: `<?php
-// Create: wp-content/themes/your-theme/baymarket-checkout.php
+// Create: wp-content/themes/your-theme/cheqmart-checkout.php
 get_header();
 
 $product_id = isset($_GET['product_id']) ? intval($_GET['product_id']) : 0;
-$api_key = get_option('baymarket_api_key');
+$api_key = get_option('cheqmart_api_key');
 ?>
 
-<div id="baymarket-checkout-container">
-  <div id="baymarket-checkout" data-product-id="<?php echo $product_id; ?>"></div>
+<div id="cheqmart-checkout-container">
+  <div id="cheqmart-checkout" data-product-id="<?php echo $product_id; ?>"></div>
 </div>
 
-<script src="https://checkout.baymarket.com/embed.js"></script>
+<script src="https://checkout.cheqmart.com/embed.js"></script>
 <script>
   CheqMart.init({
     apiKey: '<?php echo esc_js($api_key); ?>',
@@ -394,14 +394,14 @@ $api_key = get_option('baymarket_api_key');
         description: 'Sync orders between systems',
         code: `// Add webhook handler in functions.php
 add_action('rest_api_init', function() {
-    register_rest_route('baymarket/v1', '/webhook', [
+    register_rest_route('cheqmart/v1', '/webhook', [
         'methods' => 'POST',
-        'callback' => 'baymarket_handle_webhook',
-        'permission_callback' => 'baymarket_verify_webhook'
+        'callback' => 'cheqmart_handle_webhook',
+        'permission_callback' => 'cheqmart_verify_webhook'
     ]);
 });
 
-function baymarket_handle_webhook($request) {
+function cheqmart_handle_webhook($request) {
     $data = $request->get_json_params();
     
     // Create WooCommerce order
@@ -451,7 +451,7 @@ function baymarket_handle_webhook($request) {
         description: 'Sync your products',
         code: `// API call to sync listings
 const syncEtsyListings = async () => {
-  const response = await fetch('https://api.baymarket.com/etsy/sync', {
+  const response = await fetch('https://api.cheqmart.com/etsy/sync', {
     method: 'POST',
     headers: {
       'Authorization': 'Bearer YOUR_API_KEY',
@@ -490,7 +490,7 @@ const syncEtsyListings = async () => {
         title: 'Configure Order Fulfillment',
         description: 'Handle Etsy order updates',
         code: `// Webhook handler for order updates
-app.post('/webhooks/baymarket-order', async (req, res) => {
+app.post('/webhooks/cheqmart-order', async (req, res) => {
   const order = req.body;
   
   // Update Etsy listing inventory
@@ -559,7 +559,7 @@ const initCheckout = async (cartId) => {
     body: JSON.stringify({
       cart_id: cartId,
       channel_id: 1,
-      checkout_url: \`https://checkout.baymarket.com/bc/\${cartId}\`
+      checkout_url: \`https://checkout.cheqmart.com/bc/\${cartId}\`
     })
   });
   
@@ -577,9 +577,9 @@ const initCheckout = async (cartId) => {
         title: 'Customize Stencil Theme',
         description: 'Add checkout button to templates',
         code: `{{!-- templates/components/products/add-to-cart.html --}}
-<div class="baymarket-checkout-wrapper">
+<div class="cheqmart-checkout-wrapper">
   <button 
-    class="button button--primary baymarket-checkout-btn"
+    class="button button--primary cheqmart-checkout-btn"
     data-product-id="{{product.id}}"
     onclick="openCheqMartCheckout({{product.id}})">
     Buy with CheqMart Checkout
@@ -590,7 +590,7 @@ const initCheckout = async (cartId) => {
 function openCheqMartCheckout(productId) {
   CheqMartCheckout.open({
     productId: productId,
-    apiKey: '{{settings.baymarket_api_key}}',
+    apiKey: '{{settings.cheqmart_api_key}}',
     onSuccess: function(order) {
       window.location.href = '/checkout/order-confirmation?order_id=' + order.id;
     },
@@ -613,7 +613,7 @@ function openCheqMartCheckout(productId) {
         description: 'Sync orders and inventory',
         code: `{
   "scope": "store/order/created",
-  "destination": "https://api.baymarket.com/webhooks/bigcommerce/order",
+  "destination": "https://api.cheqmart.com/webhooks/bigcommerce/order",
   "is_active": true,
   "headers": {
     "X-CheqMart-Key": "YOUR_API_KEY"
@@ -671,19 +671,19 @@ function openCheqMartCheckout(productId) {
         title: 'Embed Checkout with Shortcode',
         description: 'Add checkout buttons to pages and posts',
         code: `<!-- Single Product Checkout -->
-[baymarket_checkout product_id="12345" button_text="Buy Now"]
+[cheqmart_checkout product_id="12345" button_text="Buy Now"]
 
 <!-- Product with Custom Styling -->
-[baymarket_checkout product_id="12345" button_color="#4F46E5" button_size="large"]
+[cheqmart_checkout product_id="12345" button_color="#4F46E5" button_size="large"]
 
 <!-- Multiple Products -->
-[baymarket_checkout product_id="12345,67890,11223" layout="grid"]
+[cheqmart_checkout product_id="12345,67890,11223" layout="grid"]
 
 <!-- Product Gallery -->
-[baymarket_products category="electronics" limit="8" columns="4"]
+[cheqmart_products category="electronics" limit="8" columns="4"]
 
 <!-- Buy Button with Quantity -->
-[baymarket_checkout product_id="12345" show_quantity="true" min="1" max="10"]`,
+[cheqmart_checkout product_id="12345" show_quantity="true" min="1" max="10"]`,
         instructions: [
           'Edit any page or post in WordPress',
           'Add the shortcode where you want the checkout button',
@@ -723,9 +723,9 @@ function openCheqMartCheckout(productId) {
         title: 'Configure Order Notifications',
         description: 'Set up email notifications for orders',
         code: `// Add to functions.php for custom order handling
-add_action('baymarket_order_completed', 'custom_baymarket_order_handler', 10, 1);
+add_action('cheqmart_order_completed', 'custom_cheqmart_order_handler', 10, 1);
 
-function custom_baymarket_order_handler($order_data) {
+function custom_cheqmart_order_handler($order_data) {
     // Send custom email notification
     $to = get_option('admin_email');
     $subject = 'New CheqMart Order: ' . $order_data['order_id'];
@@ -734,7 +734,7 @@ function custom_baymarket_order_handler($order_data) {
     
     // Log to custom database table
     global $wpdb;
-    $wpdb->insert('wp_baymarket_orders', [
+    $wpdb->insert('wp_cheqmart_orders', [
         'order_id' => $order_data['order_id'],
         'customer_email' => $order_data['customer_email'],
         'total' => $order_data['total'],
@@ -760,7 +760,7 @@ function custom_baymarket_order_handler($order_data) {
         code: `/* Add to your theme's style.css or custom CSS */
 
 /* Customize Buy Button */
-.baymarket-checkout-button {
+.cheqmart-checkout-button {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border: none;
     border-radius: 8px;
@@ -771,13 +771,13 @@ function custom_baymarket_order_handler($order_data) {
     transition: transform 0.2s;
 }
 
-.baymarket-checkout-button:hover {
+.cheqmart-checkout-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
 /* Product Grid Layout */
-.baymarket-products-grid {
+.cheqmart-products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 24px;
@@ -785,14 +785,14 @@ function custom_baymarket_order_handler($order_data) {
 }
 
 /* Product Card Styling */
-.baymarket-product-card {
+.cheqmart-product-card {
     border: 1px solid #e5e7eb;
     border-radius: 12px;
     padding: 16px;
     transition: box-shadow 0.3s;
 }
 
-.baymarket-product-card:hover {
+.cheqmart-product-card:hover {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }`,
         instructions: [

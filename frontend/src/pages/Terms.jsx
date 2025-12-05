@@ -170,7 +170,7 @@ const Terms = () => {
                 <h3 className="font-semibold mb-2">Reporting Infringement</h3>
                 <p>
                   If you believe content on CheqMart infringes your intellectual property rights, please contact us at 
-                  legal@baymarket.com with detailed information about the alleged infringement.
+                  legal@cheqmart.com with detailed information about the alleged infringement.
                 </p>
               </div>
             </div>
@@ -228,7 +228,7 @@ const Terms = () => {
                 <h3 className="font-semibold mb-2">Informal Resolution</h3>
                 <p>
                   Before filing a claim, you agree to contact us and attempt to resolve the dispute informally. 
-                  Please contact support@baymarket.com with details of your concern.
+                  Please contact support@cheqmart.com with details of your concern.
                 </p>
               </div>
               <div>
@@ -310,7 +310,7 @@ const Terms = () => {
                 If you have questions about these Terms of Service, please contact us:
               </p>
               <div className="space-y-2">
-                <p><strong>Email:</strong> legal@baymarket.com</p>
+                <p><strong>Email:</strong> legal@cheqmart.com</p>
                 <p><strong>Phone:</strong> 1-800-BAYMARKET (229-6275)</p>
                 <p><strong>Mail:</strong> CheqMart Legal Team, 123 Market Street, San Francisco, CA 94103</p>
               </div>
