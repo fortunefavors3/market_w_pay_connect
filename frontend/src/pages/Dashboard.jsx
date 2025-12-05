@@ -50,9 +50,16 @@ const Dashboard = () => {
               <User className="w-4 h-4 mr-2" />
               Personal Details
             </Button>
-            <Button variant="outline" onClick={() => navigate('/payment-processors')}>
+            <Button 
+              variant="outline" 
+              onClick={() => navigate('/payment-processors')}
+              className={!user?.paymentProcessors || !Object.values(user.paymentProcessors).some(p => p?.configured) ? 'border-amber-500 text-amber-700' : ''}
+            >
               <CreditCard className="w-4 h-4 mr-2" />
               Payment Processors
+              {(!user?.paymentProcessors || !Object.values(user.paymentProcessors).some(p => p?.configured)) && (
+                <Badge className="ml-2 bg-amber-500 hover:bg-amber-600">Required</Badge>
+              )}
             </Button>
             <Button variant="outline" onClick={() => navigate('/seller-page-editor')}>
               <Edit className="w-4 h-4 mr-2" />
