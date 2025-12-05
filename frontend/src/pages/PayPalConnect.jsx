@@ -256,8 +256,12 @@ const PayPalConnect = () => {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-400 rounded-lg flex items-center justify-center">
-                <span className="text-2xl">💙</span>
+              <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center p-2 border border-gray-200">
+                <img 
+                  src="https://www.paypalobjects.com/marketing/web/logos/paypal-mark-color.svg"
+                  alt="PayPal logo"
+                  className="w-full h-full object-contain"
+                />
               </div>
               <div>
                 <CardTitle className="text-xl">PayPal</CardTitle>
