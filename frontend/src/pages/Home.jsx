@@ -8,67 +8,46 @@ import { mockProducts, mockCategories } from '../mock';
 const Home = () => {
   const navigate = useNavigate();
   const featuredProducts = mockProducts.slice(0, 6);
+  
+  // Create 60 featured products (repeating the mock data)
+  const extendedFeaturedProducts = Array(10).fill(mockProducts).flat().slice(0, 60);
+  
+  // Most recent products (reverse order to simulate recent)
+  const recentProducts = [...extendedFeaturedProducts].reverse().slice(0, 60);
 
   return (
     <div>
-      {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-blue-50 to-indigo-50 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 py-16 md:py-24">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                Buy & Sell
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
-                  Anything You Want
-                </span>
-              </h1>
-              <p className="text-lg text-gray-600">
-                Join millions of buyers and sellers. Create your custom product pages and grow your business.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="bg-blue-600 hover:bg-blue-700" onClick={() => navigate('/sell')}>
-                  Start Selling
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-                <Button size="lg" variant="outline" onClick={() => navigate('/search')}>
-                  Browse Products
-                </Button>
+      {/* Features - Compact & Eye-catching */}
+      <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 py-8">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="flex items-center justify-center gap-3 text-white">
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                <Shield className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-lg">Secure Payments</h3>
+                <p className="text-sm text-blue-100">Shop with confidence</p>
               </div>
             </div>
-            <div className="relative hidden md:block">
-              <img
-                src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800"
-                alt="Shopping"
-                className="rounded-2xl shadow-2xl"
-              />
+            <div className="flex items-center justify-center gap-3 text-white">
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                <Truck className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-lg">Fast Shipping</h3>
+                <p className="text-sm text-blue-100">Quick delivery</p>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Features */}
-      <div className="max-w-7xl mx-auto px-4 py-16">
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="text-center space-y-3">
-            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
-              <Shield className="w-8 h-8 text-blue-600" />
+            <div className="flex items-center justify-center gap-3 text-white">
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                <TrendingUp className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-lg">Custom Storefronts</h3>
+                <p className="text-sm text-blue-100">Design your pages</p>
+              </div>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900">Secure Payments</h3>
-            <p className="text-gray-600">Shop with confidence using our secure payment system</p>
-          </div>
-          <div className="text-center space-y-3">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-              <Truck className="w-8 h-8 text-green-600" />
-            </div>
-            <h3 className="text-xl font-semibold text-gray-900">Fast Shipping</h3>
-            <p className="text-gray-600">Get your items delivered quickly and safely</p>
-          </div>
-          <div className="text-center space-y-3">
-            <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto">
-              <TrendingUp className="w-8 h-8 text-purple-600" />
-            </div>
-            <h3 className="text-xl font-semibold text-gray-900">Custom Storefronts</h3>
-            <p className="text-gray-600">Design your product pages with drag-and-drop builder</p>
           </div>
         </div>
       </div>
