@@ -569,7 +569,20 @@ const EnhancedSellItem = () => {
 
               <div className="flex justify-between">
                 <Button type="button" variant="outline" onClick={() => setCurrentStep(3)}>Back</Button>
-                <Button type="submit" className="bg-green-600 hover:bg-green-700">Publish Listing</Button>
+                <div className="flex gap-2">
+                  <Button 
+                    type="button" 
+                    variant="outline"
+                    onClick={() => {
+                      const previewData = encodeURIComponent(JSON.stringify(formData));
+                      window.open(`/listing-preview?data=${previewData}`, '_blank');
+                    }}
+                  >
+                    <Eye className="w-4 h-4 mr-2" />
+                    Preview Listing
+                  </Button>
+                  <Button type="submit" className="bg-green-600 hover:bg-green-700">Publish Listing</Button>
+                </div>
               </div>
             </CardContent>
           </Card>
