@@ -52,23 +52,18 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Categories */}
-      <div className="bg-gray-50 py-16">
+      {/* Categories - Compact & Eye-catching */}
+      <div className="bg-white py-8 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex justify-between items-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900">Shop by Category</h2>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4 text-center">Shop by Category</h2>
+          <div className="flex flex-wrap justify-center gap-3">
             {mockCategories.map((category) => (
               <div
                 key={category.id}
                 onClick={() => navigate(`/category/${category.name}`)}
-                className="bg-white rounded-lg p-6 text-center cursor-pointer hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
+                className="bg-gradient-to-br from-gray-50 to-gray-100 hover:from-blue-50 hover:to-indigo-50 rounded-full px-6 py-3 cursor-pointer transition-all duration-300 transform hover:scale-105 shadow-sm hover:shadow-md border border-gray-200"
               >
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <span className="text-2xl">📦</span>
-                </div>
-                <h3 className="font-semibold text-gray-900">{category.name}</h3>
+                <h3 className="font-semibold text-gray-900 text-sm">{category.name}</h3>
               </div>
             ))}
           </div>
