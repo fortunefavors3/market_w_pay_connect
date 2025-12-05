@@ -984,9 +984,13 @@ def run_all_tests():
     print(f"Success Rate: {(passed / (passed + failed) * 100):.1f}%" if (passed + failed) > 0 else "0%")
     
     if created_account_id:
-        print(f"\nCreated Test Account 1: {created_account_id}")
+        print(f"\nCreated Stripe Test Account 1: {created_account_id}")
     if created_account_id_2:
-        print(f"Created Test Account 2: {created_account_id_2}")
+        print(f"Created Stripe Test Account 2: {created_account_id_2}")
+    if square_oauth_state:
+        print(f"Generated Square OAuth State: {square_oauth_state}")
+    if paypal_oauth_state:
+        print(f"Generated PayPal OAuth State: {paypal_oauth_state}")
     
     print("=" * 80)
     
