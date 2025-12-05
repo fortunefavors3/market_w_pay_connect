@@ -214,13 +214,14 @@ async def get_user_square_status(user_id: str):
 
 @api_router.get("/users/{user_id}/payment-status")
 async def get_user_payment_status(user_id: str):
-    """Get user's overall payment processor status (Stripe + Square)"""
+    """Get user's overall payment processor status (Stripe + Square + PayPal)"""
     user = await db.users.find_one({"id": user_id}, {"_id": 0})
     if not user:
         return {
             "has_any_processor": False,
             "stripe_connected": False,
-            "square_connected": False
+            "square_connected": False,
+            "paypal_connected": False
         }
     
     stripe_ready = (
@@ -228,13 +229,55 @@ async def get_user_payment_status(user_id: str):
         user.get("stripe_payouts_enabled", False)
     )
     square_ready = user.get("square_connected", False)
+    paypal_ready = user.get("paypal_connected", False)
     
     return {
-        "has_any_processor": stripe_ready or square_ready,
+        "has_any_processor": stripe_ready or square_ready or paypal_ready,
         "stripe_connected": stripe_ready,
         "square_connected": square_ready,
+        "paypal_connected": paypal_ready,
         "stripe_account_id": user.get("stripe_account_id"),
-        "square_merchant_id": user.get("square_merchant_id")
+        "square_merchant_id": user.get("square_merchant_id"),
+        "paypal_payer_id": user.get("paypal_payer_id")
+    }
+
+# PayPal Endpoints
+@api_router.post("/users/paypal-account")
+async def update_user_paypal_account(data: UpdatePayPalAccount):
+    """Update user's PayPal account details after OAuth"""
+    result = await db.users.update_one(
+        {"id": data.user_id},
+        {
+            "$set": {
+                "paypal_payer_id": data.payer_id,
+                "paypal_email": data.email,
+                "paypal_access_token": data.access_token,
+                "paypal_refresh_token": data.refresh_token,
+                "paypal_connected": True,
+                "updated_at": datetime.now(timezone.utc).isoformat()
+            }
+        },
+        upsert=True
+    )
+    return {"success": True, "modified": result.modified_count > 0}
+
+@api_router.get("/users/{user_id}/paypal-status")
+async def get_user_paypal_status(user_id: str):
+    """Get user's PayPal connection status"""
+    user = await db.users.find_one({"id": user_id}, {"_id": 0})
+    if not user:
+        return {
+            "connected": False,
+            "payer_id": None,
+            "email": None,
+            "has_access_token": False
+        }
+    
+    return {
+        "connected": user.get("paypal_connected", False),
+        "payer_id": user.get("paypal_payer_id"),
+        "email": user.get("paypal_email"),
+        "has_access_token": user.get("paypal_access_token") is not None
     }
 
 # Import routers
