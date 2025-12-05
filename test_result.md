@@ -204,11 +204,11 @@ frontend:
 
   - task: "Dashboard Stripe Integration"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/frontend/src/pages/Dashboard.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
@@ -216,6 +216,9 @@ frontend:
       - working: "NA"
         agent: "main"
         comment: "Ready for frontend testing - need to verify alert displays, button links correctly, badge shows when required"
+      - working: true
+        agent: "testing"
+        comment: "TESTED: Dashboard Stripe integration working correctly. Shows amber alert card with 'Action Required: Connect Stripe Account' title and message about connecting Stripe before listing items. 'Connect Now' button present and functional. Payment Setup button in settings section has amber border styling and 'Required' badge when Stripe not connected. Payment Setup button correctly redirects to /stripe-connect page."
 
   - task: "Sell Item Stripe Enforcement"
     implemented: true
