@@ -32,13 +32,13 @@ const AuthPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const result = await login(loginData.email, loginData.password);
+    const result = await login(loginData.phone, loginData.password);
     if (result.success) {
       toast({
         title: "Welcome back!",
         description: "You've successfully logged in.",
       });
-      const from = location.state?.from?.pathname || '/';
+      const from = location.state?.from?.pathname || '/checkout';
       navigate(from, { replace: true });
     } else {
       toast({
