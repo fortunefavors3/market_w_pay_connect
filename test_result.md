@@ -332,6 +332,42 @@ frontend:
         agent: "testing"
         comment: "TESTED: App routing working correctly. /stripe-connect route properly configured and loads StripeConnect component. Route handles authentication redirects correctly - unauthenticated users are redirected to /auth with proper state preservation for return navigation. All navigation flows working as expected."
 
+  - task: "Square Connect Page"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/SquareConnect.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created comprehensive SquareConnect page with: OAuth flow, Connect button, status display (3 sections: Account Status, Merchant ID badges), refresh status button, View Square Dashboard button, disconnect button for connected accounts, handles OAuth return with URL params (code & state), platform fee info (5.5%), Square processing fee (2.6% + $0.10), How Square Payments Work info section with 5 bullet points. Full OAuth flow: initiate-oauth -> redirect to Square -> callback with code/state -> exchange-token -> save to user account."
+
+  - task: "PayPal Connect Page"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/PayPalConnect.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created comprehensive PayPalConnect page with: OAuth flow, Connect button, status display (4 sections: Account Status, Payer ID, Email, Verification badges), refresh status button, View PayPal Dashboard button, disconnect button for connected accounts, handles OAuth return with URL params (code & state), platform fee info (5.5%), PayPal processing fee (2.99%), How PayPal Payments Work info section with 5 bullet points. Full OAuth flow: initiate-oauth -> redirect to PayPal -> callback with code/state -> exchange-token -> save to user account."
+
+  - task: "Payment Setup Hub Page"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/PaymentSetup.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created comprehensive Payment Setup hub page showing all three processors (Stripe, Square, PayPal) with: Overall status card (Ready to Sell / Setup Required), individual processor cards with logos, descriptions, connection status badges, fee information, feature lists (4 features each), Connect/Manage buttons, amber alert when no processor connected, platform fee notice (5.5%), Help section explaining when to choose each processor. Fetches combined payment status from /api/users/{user_id}/payment-status endpoint."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
