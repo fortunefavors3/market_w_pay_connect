@@ -87,14 +87,20 @@ const EnhancedCheckout = () => {
   const handlePaymentSubmit = (e) => {
     e.preventDefault();
     
-    // Save payment method (masked)
-    const paymentMethod = {
-      cardNumber: formData.cardNumber,
-      cardName: formData.cardName,
-      expiryDate: formData.expiryDate,
-    };
-    
-    savePaymentMethod(paymentMethod);
+    // Only save payment method if it's a new card (not already saved)
+    if (!user?.paymentMethods?.length) {
+      const paymentMethod = {
+        cardNumber: formData.cardNumber,
+        cardName: formData.cardName,
+        expiryDate: formData.expiryDate,
+      };
+      savePaymentMethod(paymentMethod);
+      
+      toast({
+        title: "Payment method saved",
+        description: "Your card has been saved to your account.",
+      });
+    }
     
     // Generate 6-digit coupon code
     const couponCode = Math.floor(100000 + Math.random() * 900000).toString();
@@ -112,11 +118,7 @@ const EnhancedCheckout = () => {
       duration: 10000,
     });
     
-    toast({
-      title: "Payment method saved",
-      description: "Your card has been saved to your account.",
-    });
-    
+    // Move to confirmation step
     setStep(3);
   };
 
