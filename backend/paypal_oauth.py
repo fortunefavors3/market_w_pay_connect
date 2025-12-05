@@ -200,7 +200,7 @@ async def refresh_access_token(request: RefreshTokenRequest):
             PAYPAL_TOKEN_URL,
             data={
                 "grant_type": "refresh_token",
-                "refresh_token": refresh_token,
+                "refresh_token": request.refresh_token,
             },
             headers={
                 "Authorization": f"Basic {encoded_credentials}",
