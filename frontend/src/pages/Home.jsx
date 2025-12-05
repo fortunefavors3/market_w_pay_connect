@@ -86,19 +86,19 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Most Recent Products - 60 items */}
+      {/* Newest Products - 24 items */}
       <div className="bg-gray-50 py-12">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-3xl font-bold text-gray-900">Most Recent Products</h2>
+            <h2 className="text-3xl font-bold text-gray-900">Newest Products</h2>
             <Button variant="ghost" onClick={() => navigate('/search')}>
               View All
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {recentProducts.map((product, idx) => (
-              <ProductCard key={`recent-${product.id}-${idx}`} product={product} />
+            {newestProducts.map((product, idx) => (
+              <ProductCard key={`newest-${product.id}-${idx}`} product={product} />
             ))}
           </div>
         </div>
