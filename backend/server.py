@@ -59,6 +59,12 @@ class UpdateStripeAccount(BaseModel):
     user_id: str
     stripe_account_id: str
 
+class UpdateSquareAccount(BaseModel):
+    user_id: str
+    merchant_id: str
+    access_token: str
+    refresh_token: str
+
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
 async def root():
