@@ -240,11 +240,11 @@ frontend:
 
   - task: "App Routing"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/frontend/src/App.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
@@ -252,6 +252,9 @@ frontend:
       - working: "NA"
         agent: "main"
         comment: "Ready for frontend testing - need to verify route works and page loads"
+      - working: true
+        agent: "testing"
+        comment: "TESTED: App routing working correctly. /stripe-connect route properly configured and loads StripeConnect component. Route handles authentication redirects correctly - unauthenticated users are redirected to /auth with proper state preservation for return navigation. All navigation flows working as expected."
 
 metadata:
   created_by: "main_agent"
