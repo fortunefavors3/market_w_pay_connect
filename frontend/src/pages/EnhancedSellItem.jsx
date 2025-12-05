@@ -14,6 +14,7 @@ import { toast } from '../hooks/use-toast';
 
 const EnhancedSellItem = () => {
   const navigate = useNavigate();
+  const { user, isAuthenticated } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
     // Basic Info
