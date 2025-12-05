@@ -378,6 +378,7 @@ test_plan:
   current_focus:
     - "Square Connect Page"
     - "PayPal Connect Page"
+    - "Payment Setup Hub Page"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
