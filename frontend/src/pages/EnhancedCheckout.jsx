@@ -288,55 +288,85 @@ const EnhancedCheckout = () => {
                   </div>
 
                   <div className="space-y-4">
-                    <div>
-                      <Label htmlFor="cardNumber">Card Number *</Label>
-                      <Input
-                        id="cardNumber"
-                        placeholder="1234 5678 9012 3456"
-                        value={formData.cardNumber}
-                        onChange={(e) => setFormData({ ...formData, cardNumber: e.target.value })}
-                        required={!user?.paymentMethods?.length}
-                        disabled={user?.paymentMethods?.length > 0}
-                      />
-                      {user?.paymentMethods?.length > 0 && (
-                        <p className="text-xs text-gray-600 mt-1">
-                          Card ending in {user.paymentMethods[0].last4}
-                        </p>
-                      )}
-                    </div>
-                    <div>
-                      <Label htmlFor="cardName">Name on Card *</Label>
-                      <Input
-                        id="cardName"
-                        value={formData.cardName}
-                        onChange={(e) => setFormData({ ...formData, cardName: e.target.value })}
-                        required={!user?.paymentMethods?.length}
-                        disabled={user?.paymentMethods?.length > 0}
-                      />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="expiryDate">Expiry Date *</Label>
-                        <Input
-                          id="expiryDate"
-                          placeholder="MM/YY"
-                          value={formData.expiryDate}
-                          onChange={(e) => setFormData({ ...formData, expiryDate: e.target.value })}
-                          required={!user?.paymentMethods?.length}
-                          disabled={user?.paymentMethods?.length > 0}
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="cvv">CVV *</Label>
-                        <Input
-                          id="cvv"
-                          placeholder="123"
-                          value={formData.cvv}
-                          onChange={(e) => setFormData({ ...formData, cvv: e.target.value })}
-                          required
-                        />
-                      </div>
-                    </div>
+                    {user?.paymentMethods?.length > 0 ? (
+                      <>
+                        {/* Show saved card info */}
+                        <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+                          <div className="flex items-center gap-2 mb-2">
+                            <CreditCard className="w-5 h-5 text-green-600" />
+                            <span className="font-semibold text-green-900">Saved Card</span>
+                          </div>
+                          <p className="text-sm text-gray-700">
+                            Card ending in {user.paymentMethods[0].last4}
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            Expires: {user.paymentMethods[0].expiryMonth}/{user.paymentMethods[0].expiryYear}
+                          </p>
+                        </div>
+                        
+                        {/* Only CVV required for saved cards */}
+                        <div>
+                          <Label htmlFor="cvv">CVV * (Security Code)</Label>
+                          <Input
+                            id="cvv"
+                            type="password"
+                            placeholder="123"
+                            maxLength="4"
+                            value={formData.cvv}
+                            onChange={(e) => setFormData({ ...formData, cvv: e.target.value })}
+                            required
+                          />
+                          <p className="text-xs text-gray-500 mt-1">Enter the 3-4 digit code on the back of your card</p>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        {/* New card entry */}
+                        <div>
+                          <Label htmlFor="cardNumber">Card Number *</Label>
+                          <Input
+                            id="cardNumber"
+                            placeholder="1234 5678 9012 3456"
+                            value={formData.cardNumber}
+                            onChange={(e) => setFormData({ ...formData, cardNumber: e.target.value })}
+                            required
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="cardName">Name on Card *</Label>
+                          <Input
+                            id="cardName"
+                            value={formData.cardName}
+                            onChange={(e) => setFormData({ ...formData, cardName: e.target.value })}
+                            required
+                          />
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <Label htmlFor="expiryDate">Expiry Date *</Label>
+                            <Input
+                              id="expiryDate"
+                              placeholder="MM/YY"
+                              value={formData.expiryDate}
+                              onChange={(e) => setFormData({ ...formData, expiryDate: e.target.value })}
+                              required
+                            />
+                          </div>
+                          <div>
+                            <Label htmlFor="cvv">CVV *</Label>
+                            <Input
+                              id="cvv"
+                              type="password"
+                              placeholder="123"
+                              maxLength="4"
+                              value={formData.cvv}
+                              onChange={(e) => setFormData({ ...formData, cvv: e.target.value })}
+                              required
+                            />
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
 
                   <div className="flex gap-4">
