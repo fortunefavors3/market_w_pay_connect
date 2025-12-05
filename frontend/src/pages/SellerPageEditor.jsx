@@ -16,7 +16,14 @@ import { toast } from '../hooks/use-toast';
 
 const SellerPageEditor = () => {
   const navigate = useNavigate();
-  const { user, updateUser } = useAuth();
+  const { user, isAuthenticated, updateUser } = useAuth();
+
+  // Redirect to auth if not logged in
+  React.useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/auth', { state: { from: { pathname: '/seller-page-editor' } } });
+    }
+  }, [isAuthenticated, navigate]);
 
   const [pageData, setPageData] = useState({
     // Layout & Design
