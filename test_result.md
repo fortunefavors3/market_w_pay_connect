@@ -110,63 +110,78 @@ user_problem_statement: |
 backend:
   - task: "User Management Endpoints"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Added User model with Stripe account fields (stripe_account_id, onboarding_complete, charges_enabled, payouts_enabled). Created endpoints: POST /api/users/stripe-account (save Stripe account ID), GET /api/users/{user_id}/stripe-status (get user's Stripe status), POST /api/users/{user_id}/stripe-status-update (sync status from Stripe API)"
+      - working: true
+        agent: "testing"
+        comment: "TESTED: All user management endpoints working correctly. POST /api/users/stripe-account successfully saves and updates Stripe account IDs (returns modified: false for new, modified: true for updates). GET /api/users/{user_id}/stripe-status returns proper status object with all required fields. POST /api/users/{user_id}/stripe-status-update syncs status from Stripe API. Handles non-existent users correctly with default values."
 
   - task: "Stripe Connect Account Creation"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/stripe_connect.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Updated create-account endpoint to accept user_id and return it with account_id. Creates Express Connected Accounts with card_payments and transfers capabilities. Uses Stripe API key from environment variables."
+      - working: true
+        agent: "testing"
+        comment: "TESTED: POST /api/stripe-connect/create-account working perfectly. Successfully creates Express Connected Accounts with valid account IDs (format: acct_*). Returns user_id, account_id, and success: true. Stripe API integration confirmed working with test keys."
 
   - task: "Stripe Account Onboarding Flow"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/stripe_connect.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "create-account-link endpoint creates onboarding URLs for sellers. Includes refresh_url and return_url parameters. Supports both new onboarding and continuing incomplete onboarding."
+      - working: true
+        agent: "testing"
+        comment: "TESTED: POST /api/stripe-connect/create-account-link working correctly. Creates valid onboarding URLs starting with https://connect.stripe.com/setup/. Accepts refresh_url and return_url parameters. Returns success: true and valid URL for account onboarding."
 
   - task: "Stripe Account Status Checking"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/stripe_connect.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "account-status endpoint retrieves account details from Stripe API. Returns charges_enabled, payouts_enabled, details_submitted, and requirements (currently_due, eventually_due, past_due)"
+      - working: true
+        agent: "testing"
+        comment: "TESTED: GET /api/stripe-connect/account-status/{account_id} working correctly. Returns all required fields: account_id, charges_enabled, payouts_enabled, details_submitted, and requirements object with currently_due, eventually_due, past_due arrays. Properly handles invalid account IDs with 400 status code and appropriate error messages."
 
   - task: "Stripe Dashboard Login Links"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/stripe_connect.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "create-login-link endpoint generates temporary login URLs for sellers to access their Stripe Express dashboard"
+      - working: true
+        agent: "testing"
+        comment: "TESTED: POST /api/stripe-connect/create-login-link/{account_id} working correctly. Properly returns 400 error for accounts that haven't completed onboarding (expected Stripe behavior). Error handling works correctly for invalid account IDs. Implementation is correct - login links can only be created after onboarding completion."
 
 frontend:
   - task: "Stripe Connect Page"
