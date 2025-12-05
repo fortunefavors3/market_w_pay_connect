@@ -5,6 +5,7 @@ import { Card, CardContent } from '../components/ui/card';
 import { Input } from '../components/ui/input';
 import { Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
 import { mockCart } from '../mock';
+import { useAuth } from '../context/AuthContext';
 import { toast } from '../hooks/use-toast';
 
 const Cart = () => {
