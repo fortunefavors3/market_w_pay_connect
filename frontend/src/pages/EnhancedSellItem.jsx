@@ -52,7 +52,7 @@ const EnhancedSellItem = () => {
   const [previewMedia, setPreviewMedia] = useState([]);
   const [newVariant, setNewVariant] = useState({ name: '', values: '' });
 
-  // Check authentication and Stripe Connect setup
+  // Check authentication and payment processor setup
   React.useEffect(() => {
     // First check if user is logged in
     if (!isAuthenticated) {
@@ -60,16 +60,18 @@ const EnhancedSellItem = () => {
       return;
     }
 
-    // Check if user has Stripe connected
-    if (!user?.stripeConnected) {
+    // Check if user has at least one payment processor connected
+    const hasPaymentProcessor = user?.stripeConnected || user?.squareConnected;
+    
+    if (!hasPaymentProcessor) {
       toast({
-        title: "Stripe account required",
-        description: "You must connect your Stripe account before listing items for sale.",
+        title: "Payment processor required",
+        description: "You must connect a payment processor (Stripe or Square) before listing items for sale.",
         variant: "destructive",
         duration: 8000,
       });
       setTimeout(() => {
-        navigate('/stripe-connect');
+        navigate('/payment-setup');
       }, 2000);
     }
   }, [isAuthenticated, user, navigate]);
