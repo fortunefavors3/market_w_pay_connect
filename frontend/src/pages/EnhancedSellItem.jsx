@@ -61,12 +61,12 @@ const EnhancedSellItem = () => {
     }
 
     // Check if user has at least one payment processor connected
-    const hasPaymentProcessor = user?.stripeConnected || user?.squareConnected;
+    const hasPaymentProcessor = user?.stripeConnected || user?.squareConnected || user?.paypalConnected;
     
     if (!hasPaymentProcessor) {
       toast({
         title: "Payment processor required",
-        description: "You must connect a payment processor (Stripe or Square) before listing items for sale.",
+        description: "You must connect a payment processor (Stripe, Square, or PayPal) before listing items for sale.",
         variant: "destructive",
         duration: 8000,
       });
