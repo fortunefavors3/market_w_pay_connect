@@ -84,6 +84,76 @@ async def get_status_checks():
     
     return status_checks
 
+# User Endpoints
+@api_router.post("/users/stripe-account")
+async def update_user_stripe_account(data: UpdateStripeAccount):
+    """Update user's Stripe account ID after onboarding"""
+    result = await db.users.update_one(
+        {"id": data.user_id},
+        {
+            "$set": {
+                "stripe_account_id": data.stripe_account_id,
+                "updated_at": datetime.now(timezone.utc).isoformat()
+            }
+        },
+        upsert=True
+    )
+    return {"success": True, "modified": result.modified_count > 0}
+
+@api_router.get("/users/{user_id}/stripe-status")
+async def get_user_stripe_status(user_id: str):
+    """Get user's Stripe Connect status"""
+    user = await db.users.find_one({"id": user_id}, {"_id": 0})
+    if not user:
+        return {
+            "has_account": False,
+            "stripe_account_id": None,
+            "onboarding_complete": False,
+            "charges_enabled": False,
+            "payouts_enabled": False
+        }
+    
+    return {
+        "has_account": user.get("stripe_account_id") is not None,
+        "stripe_account_id": user.get("stripe_account_id"),
+        "onboarding_complete": user.get("stripe_onboarding_complete", False),
+        "charges_enabled": user.get("stripe_charges_enabled", False),
+        "payouts_enabled": user.get("stripe_payouts_enabled", False)
+    }
+
+@api_router.post("/users/{user_id}/stripe-status-update")
+async def update_user_stripe_status(user_id: str):
+    """Update user's Stripe status from Stripe API"""
+    from stripe_connect import stripe
+    
+    user = await db.users.find_one({"id": user_id}, {"_id": 0})
+    if not user or not user.get("stripe_account_id"):
+        return {"success": False, "error": "No Stripe account found"}
+    
+    try:
+        account = stripe.Account.retrieve(user["stripe_account_id"])
+        
+        await db.users.update_one(
+            {"id": user_id},
+            {
+                "$set": {
+                    "stripe_onboarding_complete": account.details_submitted,
+                    "stripe_charges_enabled": account.charges_enabled,
+                    "stripe_payouts_enabled": account.payouts_enabled,
+                    "updated_at": datetime.now(timezone.utc).isoformat()
+                }
+            }
+        )
+        
+        return {
+            "success": True,
+            "onboarding_complete": account.details_submitted,
+            "charges_enabled": account.charges_enabled,
+            "payouts_enabled": account.payouts_enabled
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
 # Import Stripe Connect router
 from stripe_connect import router as stripe_connect_router
 
