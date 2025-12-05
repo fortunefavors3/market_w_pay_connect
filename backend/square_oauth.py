@@ -12,7 +12,7 @@ router = APIRouter(prefix="/api/square-connect", tags=["square-connect"])
 
 # Initialize Square Client
 square_client = Square(
-    access_token=os.getenv("SQUARE_ACCESS_TOKEN"),
+    token=os.getenv("SQUARE_ACCESS_TOKEN"),
     environment=os.getenv("SQUARE_ENVIRONMENT", "sandbox")
 )
 
