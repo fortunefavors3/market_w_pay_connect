@@ -1,0 +1,249 @@
+from fastapi import APIRouter, HTTPException, Request
+from pydantic import BaseModel
+from typing import Optional
+import os
+from dotenv import load_dotenv
+from square.client import Client
+import uuid
+
+load_dotenv()
+
+router = APIRouter(prefix="/api/square-connect", tags=["square-connect"])
+
+# Initialize Square Client
+square_client = Client(
+    access_token=os.getenv("SQUARE_ACCESS_TOKEN"),
+    environment=os.getenv("SQUARE_ENVIRONMENT", "sandbox")
+)
+
+SQUARE_APPLICATION_ID = os.getenv("SQUARE_APPLICATION_ID")
+SQUARE_APPLICATION_SECRET = os.getenv("SQUARE_APPLICATION_SECRET")
+SQUARE_ENVIRONMENT = os.getenv("SQUARE_ENVIRONMENT", "sandbox")
+
+# OAuth URLs
+if SQUARE_ENVIRONMENT == "production":
+    SQUARE_OAUTH_URL = "https://connect.squareup.com/oauth2/authorize"
+    SQUARE_TOKEN_URL = "https://connect.squareup.com/oauth2/token"
+else:
+    SQUARE_OAUTH_URL = "https://connect.squareupsandbox.com/oauth2/authorize"
+    SQUARE_TOKEN_URL = "https://connect.squareupsandbox.com/oauth2/token"
+
+
+class InitiateOAuthRequest(BaseModel):
+    user_id: str
+    redirect_url: str
+
+
+class OAuthCallbackRequest(BaseModel):
+    code: str
+    state: str
+
+
+class MerchantStatusResponse(BaseModel):
+    merchant_id: str
+    business_name: Optional[str]
+    is_active: bool
+    has_access_token: bool
+
+
+@router.post("/initiate-oauth")
+async def initiate_oauth(request: InitiateOAuthRequest):
+    """
+    Generate Square OAuth authorization URL
+    """
+    try:
+        # Generate a unique state parameter for security
+        state = f"{request.user_id}_{uuid.uuid4().hex}"
+        
+        # Build authorization URL
+        permissions = [
+            "MERCHANT_PROFILE_READ",
+            "PAYMENTS_WRITE",
+            "PAYMENTS_READ",
+            "ORDERS_WRITE",
+            "ORDERS_READ",
+        ]
+        
+        auth_url = (
+            f"{SQUARE_OAUTH_URL}"
+            f"?client_id={SQUARE_APPLICATION_ID}"
+            f"&scope={'+'.join(permissions)}"
+            f"&session=false"
+            f"&state={state}"
+        )
+        
+        return {
+            "authorization_url": auth_url,
+            "state": state,
+            "success": True,
+        }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.post("/exchange-token")
+async def exchange_token(request: OAuthCallbackRequest):
+    """
+    Exchange authorization code for access token
+    """
+    try:
+        import httpx
+        
+        # Exchange code for access token
+        response = httpx.post(
+            SQUARE_TOKEN_URL,
+            json={
+                "client_id": SQUARE_APPLICATION_ID,
+                "client_secret": SQUARE_APPLICATION_SECRET,
+                "code": request.code,
+                "grant_type": "authorization_code",
+            },
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if response.status_code != 200:
+            raise HTTPException(
+                status_code=response.status_code,
+                detail=f"Failed to exchange token: {response.text}"
+            )
+        
+        data = response.json()
+        
+        return {
+            "access_token": data.get("access_token"),
+            "refresh_token": data.get("refresh_token"),
+            "expires_at": data.get("expires_at"),
+            "merchant_id": data.get("merchant_id"),
+            "success": True,
+        }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.get("/merchant-status/{merchant_id}")
+async def get_merchant_status(merchant_id: str, access_token: str):
+    """
+    Get merchant information using access token
+    """
+    try:
+        # Create a client with the merchant's access token
+        merchant_client = Client(
+            access_token=access_token,
+            environment=SQUARE_ENVIRONMENT
+        )
+        
+        # Get merchant information
+        result = merchant_client.merchants.retrieve_merchant(merchant_id=merchant_id)
+        
+        if result.is_success():
+            merchant = result.body.get("merchant", {})
+            return MerchantStatusResponse(
+                merchant_id=merchant_id,
+                business_name=merchant.get("business_name"),
+                is_active=merchant.get("status") == "ACTIVE",
+                has_access_token=True
+            )
+        else:
+            raise HTTPException(
+                status_code=400,
+                detail=result.errors
+            )
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.post("/refresh-token")
+async def refresh_access_token(refresh_token: str):
+    """
+    Refresh an expired access token
+    """
+    try:
+        import httpx
+        
+        response = httpx.post(
+            SQUARE_TOKEN_URL,
+            json={
+                "client_id": SQUARE_APPLICATION_ID,
+                "client_secret": SQUARE_APPLICATION_SECRET,
+                "refresh_token": refresh_token,
+                "grant_type": "refresh_token",
+            },
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if response.status_code != 200:
+            raise HTTPException(
+                status_code=response.status_code,
+                detail=f"Failed to refresh token: {response.text}"
+            )
+        
+        data = response.json()
+        
+        return {
+            "access_token": data.get("access_token"),
+            "expires_at": data.get("expires_at"),
+            "success": True,
+        }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.post("/revoke-token")
+async def revoke_access_token(access_token: str):
+    """
+    Revoke a merchant's access token (disconnect)
+    """
+    try:
+        import httpx
+        
+        revoke_url = (
+            "https://connect.squareupsandbox.com/oauth2/revoke"
+            if SQUARE_ENVIRONMENT == "sandbox"
+            else "https://connect.squareup.com/oauth2/revoke"
+        )
+        
+        response = httpx.post(
+            revoke_url,
+            json={
+                "client_id": SQUARE_APPLICATION_ID,
+                "access_token": access_token,
+            },
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if response.status_code == 200:
+            return {"success": True, "revoked": True}
+        else:
+            raise HTTPException(
+                status_code=response.status_code,
+                detail=f"Failed to revoke token: {response.text}"
+            )
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.get("/test-connection")
+async def test_square_connection():
+    """
+    Test Square API connection with configured credentials
+    """
+    try:
+        # Test the connection by listing locations
+        result = square_client.locations.list_locations()
+        
+        if result.is_success():
+            locations = result.body.get("locations", [])
+            return {
+                "success": True,
+                "environment": SQUARE_ENVIRONMENT,
+                "locations_count": len(locations),
+                "message": "Square API connection successful"
+            }
+        else:
+            return {
+                "success": False,
+                "errors": result.errors,
+                "message": "Failed to connect to Square API"
+            }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
