@@ -234,21 +234,13 @@ async def test_square_connection():
     """
     try:
         # Test the connection by listing locations
-        result = square_client.locations.list_locations()
+        result = square_client.locations.list()
         
-        if result.is_success():
-            locations = result.body.get("locations", [])
-            return {
-                "success": True,
-                "environment": SQUARE_ENVIRONMENT,
-                "locations_count": len(locations),
-                "message": "Square API connection successful"
-            }
-        else:
-            return {
-                "success": False,
-                "errors": result.errors,
-                "message": "Failed to connect to Square API"
-            }
+        return {
+            "success": True,
+            "environment": SQUARE_ENV_STR,
+            "message": "Square API connection successful",
+            "locations": result.locations if hasattr(result, 'locations') else []
+        }
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
