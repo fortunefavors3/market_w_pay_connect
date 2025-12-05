@@ -374,20 +374,36 @@ const PaymentProcessors = () => {
         <p className="text-gray-600">Configure and manage your payment processors</p>
       </div>
 
-      {/* Transaction Fee Notice */}
-      <Card className="mb-6 bg-amber-50 border-amber-200">
-        <CardContent className="pt-6">
-          <div className="flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-amber-600 mt-0.5" />
-            <div>
-              <p className="font-semibold text-amber-900 mb-1">Transaction Fees</p>
-              <p className="text-sm text-amber-800">
-                BayMarket charges a 5.5% transaction fee for use of our checkout system, in addition to the payment processor's fees shown below.
-              </p>
+      {/* Important Notices */}
+      <div className="space-y-4 mb-6">
+        <Card className="bg-blue-50 border-blue-200">
+          <CardContent className="pt-6">
+            <div className="flex items-start gap-3">
+              <ShieldCheck className="w-5 h-5 text-blue-600 mt-0.5" />
+              <div>
+                <p className="font-semibold text-blue-900 mb-1">Required for Selling</p>
+                <p className="text-sm text-blue-800">
+                  You must configure and enable at least one payment processor before you can list items for sale. This ensures buyers can complete purchases securely.
+                </p>
+              </div>
             </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-amber-50 border-amber-200">
+          <CardContent className="pt-6">
+            <div className="flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-amber-600 mt-0.5" />
+              <div>
+                <p className="font-semibold text-amber-900 mb-1">Transaction Fees</p>
+                <p className="text-sm text-amber-800">
+                  BayMarket charges a 5.5% transaction fee for use of our checkout system, in addition to the payment processor's fees shown below.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
       {/* Processor Cards */}
       <div className="grid md:grid-cols-2 gap-6 mb-8">
