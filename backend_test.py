@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Comprehensive Backend Test Suite for Stripe Connect Integration
-Tests all Stripe Connect endpoints and user management functionality
+Comprehensive Backend Test Suite for Payment Processor Integration
+Tests Stripe Connect, Square OAuth, and PayPal OAuth endpoints and user management functionality
 """
 
 import requests
@@ -13,12 +13,16 @@ from datetime import datetime
 BASE_URL = "https://seller-payments.preview.emergentagent.com/api"
 TEST_USER_ID = f"test_user_{uuid.uuid4().hex[:8]}"
 TEST_USER_ID_2 = f"test_user_{uuid.uuid4().hex[:8]}"
+TEST_USER_ID_3 = f"test_user_{uuid.uuid4().hex[:8]}"
 TEST_EMAIL = f"seller_{uuid.uuid4().hex[:8]}@testmarketplace.com"
 TEST_EMAIL_2 = f"seller_{uuid.uuid4().hex[:8]}@testmarketplace.com"
+TEST_EMAIL_3 = f"seller_{uuid.uuid4().hex[:8]}@testmarketplace.com"
 
 # Global variables to store test data
 created_account_id = None
 created_account_id_2 = None
+square_oauth_state = None
+paypal_oauth_state = None
 
 def log_test(test_name, status, details=""):
     """Log test results with timestamp"""
