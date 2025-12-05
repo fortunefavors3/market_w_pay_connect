@@ -247,11 +247,39 @@ const ProductDetail = () => {
         </TabsContent>
       </Tabs>
 
-      {/* Related Products */}
-      <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Similar Products</h2>
+      {/* More From this Seller */}
+      <div className="mb-12">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-gray-900">More From this Seller</h2>
+          <Button variant="link" className="text-blue-600" onClick={() => navigate(`/seller/${product.seller.id}`)}>
+            View More
+          </Button>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {mockProducts.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4).map((p) => (
+          {mockProducts.filter(p => p.seller.id === product.seller.id && p.id !== product.id).slice(0, 8).map((p) => (
+            <Card key={p.id} className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => navigate(`/product/${p.id}`)}>
+              <div className="aspect-square overflow-hidden">
+                <img src={p.images[0]} alt={p.title} className="w-full h-full object-cover" />
+              </div>
+              <CardContent className="p-4">
+                <h3 className="font-semibold text-gray-900 line-clamp-2 mb-2">{p.title}</h3>
+                <p className="text-xl font-bold text-gray-900">${p.price.toFixed(2)}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+
+      {/* Similar Products */}
+      <div>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-gray-900">Similar Products</h2>
+          <Button variant="link" className="text-blue-600" onClick={() => navigate(`/search?category=${product.category}`)}>
+            View More
+          </Button>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {mockProducts.filter(p => p.category === product.category && p.id !== product.id).slice(0, 8).map((p) => (
             <Card key={p.id} className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => navigate(`/product/${p.id}`)}>
               <div className="aspect-square overflow-hidden">
                 <img src={p.images[0]} alt={p.title} className="w-full h-full object-cover" />
