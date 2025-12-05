@@ -76,6 +76,12 @@ function App() {
               <Route path="/messages" element={<Messages />} />
               <Route path="/orders/:id" element={<OrderTracking />} />
               <Route path="/watchlist" element={<SearchResults />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/help" element={<Help />} />
+              <Route path="/cookies" element={<Cookies />} />
             </Routes>
           </main>
           <Footer />
