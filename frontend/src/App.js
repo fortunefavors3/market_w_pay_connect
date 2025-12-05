@@ -57,6 +57,7 @@ function App() {
               <Route path="/payment-setup" element={<PaymentSetup />} />
               <Route path="/stripe-connect" element={<StripeConnect />} />
               <Route path="/square-connect" element={<SquareConnect />} />
+              <Route path="/paypal-connect" element={<PayPalConnect />} />
               <Route path="/seller-page-editor" element={<SellerPageEditor />} />
               <Route path="/customize/:id" element={<ProductCustomizer />} />
               <Route path="/seller/:id" element={<SellerProfile />} />
