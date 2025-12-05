@@ -145,7 +145,17 @@ const Cart = () => {
                   <span className="text-lg font-bold text-gray-900">${total.toFixed(2)}</span>
                 </div>
               </div>
-              <Button className="w-full bg-blue-600 hover:bg-blue-700 mb-3" size="lg" onClick={() => navigate('/checkout')}>
+              <Button 
+                className="w-full bg-blue-600 hover:bg-blue-700 mb-3" 
+                size="lg" 
+                onClick={() => {
+                  if (isAuthenticated) {
+                    navigate('/checkout');
+                  } else {
+                    navigate('/auth', { state: { from: { pathname: '/checkout' } } });
+                  }
+                }}
+              >
                 Proceed to Checkout
               </Button>
               <Button variant="outline" className="w-full" onClick={() => navigate('/')}>
