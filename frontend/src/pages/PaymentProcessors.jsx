@@ -53,7 +53,7 @@ const PaymentProcessors = () => {
   const processorInfo = {
     stripe: {
       name: 'Stripe',
-      logo: '💳',
+      logo: 'https://images.stripeassets.com/fzn2n1nzq965/HTTOloNPhisV9P4hlMPNA/cacf1bb88b9fc492dfad34378d844280/Stripe_icon_-_square.svg?q=80&w=1082',
       description: 'Accept payments with Stripe\'s powerful API',
       transactionFee: '2.9% + $0.30 per transaction',
       setupSteps: [
@@ -67,7 +67,7 @@ const PaymentProcessors = () => {
     },
     square: {
       name: 'Square',
-      logo: '⬛',
+      logo: '//images.ctfassets.net/2d5q1td6cyxq/1LpHrPquGhe2CwCoko9pRk/48f66db2df053eed8ae4be115d633c38/PD04488_-_black_logo_on_white.png?w=553&h=283&fm=jpg&q=85&bg=rgb%3Affffff&fit=scale&fl=progressive, //images.ctfassets.net/2d5q1td6cyxq/1LpHrPquGhe2CwCoko9pRk/48f66db2df053eed8ae4be115d633c38/PD04488_-_black_logo_on_white.png?w=553&h=283&fm=jpg&q=85&bg=rgb%3Affffff&fit=scale&fl=progressive 2x',
       description: 'Accept payments with Square\'s easy-to-use platform',
       transactionFee: '2.6% + $0.10 per transaction',
       setupSteps: [

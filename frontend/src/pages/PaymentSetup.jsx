@@ -57,7 +57,7 @@ const PaymentSetup = () => {
     {
       id: 'stripe',
       name: 'Stripe Connect',
-      logo: '💳',
+      logoUrl: 'https://images.stripeassets.com/fzn2n1nzq965/HTTOloNPhisV9P4hlMPNA/cacf1bb88b9fc492dfad34378d844280/Stripe_icon_-_square.svg?q=80&w=1082',
       description: 'Industry-leading payment processing',
       connected: paymentStatus.stripe_connected,
       fee: '2.9% + $0.30',
@@ -73,7 +73,7 @@ const PaymentSetup = () => {
     {
       id: 'square',
       name: 'Square',
-      logo: '⬛',
+      logoUrl: 'https://images.ctfassets.net/2d5q1td6cyxq/aXlc4MSO8ZGKTDIsPuIeW/c2b899a80016ca75b88086647cdd61f7/PD04490_-_white_logo_on_black.png?w=553&h=283&fm=jpg&q=85&bg=rgb%3Affffff&fit=scale&fl=progressive',
       description: 'Simple and powerful payment solution',
       connected: paymentStatus.square_connected,
       fee: '2.6% + $0.10',
@@ -89,7 +89,7 @@ const PaymentSetup = () => {
     {
       id: 'paypal',
       name: 'PayPal',
-      logo: '💙',
+      logoUrl: 'https://www.paypalobjects.com/marketing/web/logos/paypal-mark-color.svg',
       description: 'Trusted worldwide payment platform',
       connected: paymentStatus.paypal_connected,
       fee: '2.99%',
