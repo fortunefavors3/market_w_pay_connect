@@ -35,6 +35,12 @@ import AuthPage from './pages/AuthPage';
 import OrderSuccess from './pages/OrderSuccess';
 import Messages from './pages/Messages';
 import OrderTracking from './pages/OrderTracking';
+import About from './pages/About';
+import Contact from './pages/Contact';
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
+import Help from './pages/Help';
+import Cookies from './pages/Cookies';
 import './App.css';
 
 function App() {
