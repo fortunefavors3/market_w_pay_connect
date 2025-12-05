@@ -225,12 +225,14 @@ async def get_user_payment_status(user_id: str):
         "square_merchant_id": user.get("square_merchant_id")
     }
 
-# Import Stripe Connect router
+# Import routers
 from stripe_connect import router as stripe_connect_router
+from square_oauth import router as square_oauth_router
 
-# Include the router in the main app
+# Include the routers in the main app
 app.include_router(api_router)
 app.include_router(stripe_connect_router)
+app.include_router(square_oauth_router)
 
 app.add_middleware(
     CORSMiddleware,
