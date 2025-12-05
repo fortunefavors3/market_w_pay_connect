@@ -69,8 +69,8 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Stripe Connect Alert */}
-      {!user?.stripeConnected && (
+      {/* Payment Setup Alert */}
+      {(!user?.stripeConnected && !user?.squareConnected) && (
         <Card className="mb-6 bg-amber-50 border-amber-500">
           <CardContent className="pt-6">
             <div className="flex items-start gap-3">
@@ -78,17 +78,17 @@ const Dashboard = () => {
                 <CreditCard className="w-5 h-5 text-amber-600" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-amber-900 mb-1">Action Required: Connect Stripe Account</h3>
+                <h3 className="font-semibold text-amber-900 mb-1">Action Required: Connect Payment Processor</h3>
                 <p className="text-sm text-amber-800 mb-3">
-                  Connect your Stripe account to start receiving payments from buyers. 
+                  Connect Stripe or Square to start receiving payments from buyers. 
                   This is required before you can list items for sale.
                 </p>
                 <Button 
-                  onClick={() => navigate('/stripe-connect')}
+                  onClick={() => navigate('/payment-setup')}
                   className="bg-amber-600 hover:bg-amber-700"
                   size="sm"
                 >
-                  Connect Now
+                  Set Up Payments
                 </Button>
               </div>
             </div>
