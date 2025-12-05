@@ -19,7 +19,7 @@ const SearchResults = () => {
     maxPrice: '',
     condition: [],
     categories: [],
-    sortBy: 'relevance',
+    sortBy: 'most_relevant',
   });
 
   // Filter products based on search query and filters
