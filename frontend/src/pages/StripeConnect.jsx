@@ -153,8 +153,8 @@ const StripeConnect = () => {
       // Create a new account link for existing account
       const linkResponse = await axios.post(`${BACKEND_URL}/api/stripe-connect/create-account-link`, {
         account_id: stripeStatus.stripe_account_id,
-        refresh_url: `${window.location.origin}/payment-processors?stripe_return=refresh`,
-        return_url: `${window.location.origin}/payment-processors?stripe_return=success`
+        refresh_url: `${window.location.origin}/stripe-connect?stripe_return=refresh`,
+        return_url: `${window.location.origin}/stripe-connect?stripe_return=success`
       });
 
       window.location.href = linkResponse.data.url;
