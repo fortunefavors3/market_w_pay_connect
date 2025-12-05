@@ -186,11 +186,11 @@ backend:
 frontend:
   - task: "Stripe Connect Page"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/frontend/src/pages/StripeConnect.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
@@ -198,6 +198,9 @@ frontend:
       - working: "NA"
         agent: "main"
         comment: "Ready for frontend testing - need to verify UI loads, buttons work, API calls succeed, status displays correctly"
+      - working: true
+        agent: "testing"
+        comment: "TESTED: Stripe Connect page working correctly after fixing authentication redirect issue. Fixed hardcoded '/payment-processors' URLs to '/stripe-connect'. All UI elements present: Back to Dashboard button, Payment Setup heading, status alert, Stripe Connect card with gradient logo, 4 status badges (Account Status: Not Connected, Onboarding: Pending, Accept Payments: Disabled, Receive Payouts: Disabled), How Stripe Connect Works info section with 5 bullet points, Connect with Stripe button with gradient styling. Connect button triggers API calls to create-account endpoint. Authentication flow works correctly."
 
   - task: "Dashboard Stripe Integration"
     implemented: true
