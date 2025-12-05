@@ -168,7 +168,7 @@ const PaymentSetup = () => {
       </Card>
 
       {/* Processor Cards */}
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid md:grid-cols-3 gap-6">
         {processors.map((processor) => (
           <Card key={processor.id} className="hover:shadow-lg transition-shadow">
             <CardHeader>
