@@ -263,34 +263,116 @@ export const pageElements = [
   { id: 'cta', type: 'cta', label: 'Call to Action', icon: 'MousePointer' },
 ];
 
-export const defaultPageLayout = [
+export const pageTemplates = [
   {
-    id: 'element1',
-    type: 'hero',
-    content: {
-      title: 'Premium Product',
-      subtitle: 'High quality and affordable',
-      image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1200',
-    },
-    style: {
-      backgroundColor: '#f8f9fa',
-      textColor: '#000000',
-      fontSize: '32px',
-      fontFamily: 'Arial',
-    },
+    id: 'modern',
+    name: 'Modern Minimalist',
+    thumbnail: 'https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?w=400',
+    layout: [
+      {
+        id: 'element1',
+        type: 'hero',
+        content: { title: 'Premium Product', subtitle: 'High quality and affordable', image: '' },
+        style: { backgroundColor: '#ffffff', textColor: '#000000', fontSize: '48px', fontFamily: 'Poppins' },
+      },
+      {
+        id: 'element2',
+        type: 'images',
+        content: { images: [] },
+        style: { backgroundColor: '#f8f9fa', textColor: '#333333' },
+      },
+      {
+        id: 'element3',
+        type: 'text',
+        content: { title: 'Description', text: 'Product details...' },
+        style: { backgroundColor: '#ffffff', textColor: '#333333', fontSize: '16px', fontFamily: 'Poppins' },
+      },
+    ],
   },
   {
-    id: 'element2',
-    type: 'text',
-    content: {
-      title: 'Product Description',
-      text: 'This is an amazing product with great features...',
-    },
-    style: {
-      backgroundColor: '#ffffff',
-      textColor: '#333333',
-      fontSize: '16px',
-      fontFamily: 'Arial',
-    },
+    id: 'classic',
+    name: 'Classic Store',
+    thumbnail: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400',
+    layout: [
+      {
+        id: 'element1',
+        type: 'text',
+        content: { title: 'About This Item', text: 'Product information...' },
+        style: { backgroundColor: '#f5f5f5', textColor: '#2c3e50', fontSize: '18px', fontFamily: 'Georgia' },
+      },
+      {
+        id: 'element2',
+        type: 'features',
+        content: { features: ['Feature 1', 'Feature 2', 'Feature 3'] },
+        style: { backgroundColor: '#ffffff', textColor: '#2c3e50', fontSize: '16px', fontFamily: 'Georgia' },
+      },
+      {
+        id: 'element3',
+        type: 'reviews',
+        content: {},
+        style: { backgroundColor: '#f5f5f5', textColor: '#2c3e50' },
+      },
+    ],
+  },
+  {
+    id: 'bold',
+    name: 'Bold & Colorful',
+    thumbnail: 'https://images.unsplash.com/photo-1557821552-17105176677c?w=400',
+    layout: [
+      {
+        id: 'element1',
+        type: 'hero',
+        content: { title: 'Amazing Product!', subtitle: 'Limited Time Offer', image: '' },
+        style: { backgroundColor: '#667eea', textColor: '#ffffff', fontSize: '56px', fontFamily: 'Montserrat' },
+      },
+      {
+        id: 'element2',
+        type: 'cta',
+        content: { buttonText: 'Buy Now!', description: 'Get it before it\'s gone!' },
+        style: { backgroundColor: '#764ba2', textColor: '#ffffff', fontSize: '20px', fontFamily: 'Montserrat' },
+      },
+      {
+        id: 'element3',
+        type: 'images',
+        content: { images: [] },
+        style: { backgroundColor: '#f093fb', textColor: '#000000' },
+      },
+    ],
+  },
+  {
+    id: 'elegant',
+    name: 'Elegant Luxury',
+    thumbnail: 'https://images.unsplash.com/photo-1595341888016-a392ef81b7de?w=400',
+    layout: [
+      {
+        id: 'element1',
+        type: 'hero',
+        content: { title: 'Luxury Collection', subtitle: 'Timeless Elegance', image: '' },
+        style: { backgroundColor: '#1a1a1a', textColor: '#d4af37', fontSize: '44px', fontFamily: 'Playfair Display' },
+      },
+      {
+        id: 'element2',
+        type: 'text',
+        content: { title: 'Craftsmanship', text: 'Made with attention to detail...' },
+        style: { backgroundColor: '#2c2c2c', textColor: '#e8e8e8', fontSize: '18px', fontFamily: 'Playfair Display' },
+      },
+      {
+        id: 'element3',
+        type: 'cta',
+        content: { buttonText: 'Explore', description: 'Discover the collection' },
+        style: { backgroundColor: '#d4af37', textColor: '#1a1a1a', fontSize: '18px', fontFamily: 'Playfair Display' },
+      },
+    ],
   },
 ];
+
+export const googleFonts = [
+  'Roboto', 'Open Sans', 'Lato', 'Montserrat', 'Oswald', 'Source Sans Pro',
+  'Raleway', 'Poppins', 'Merriweather', 'Ubuntu', 'Playfair Display',
+  'Nunito', 'Rubik', 'Work Sans', 'Inter', 'PT Sans', 'Noto Sans',
+  'Crimson Text', 'Bebas Neue', 'Dancing Script', 'Pacifico', 'Lobster',
+  'Indie Flower', 'Permanent Marker', 'Georgia', 'Arial', 'Times New Roman',
+  'Courier New', 'Verdana', 'Comic Sans MS',
+];
+
+export const defaultPageLayout = pageTemplates[0].layout;
