@@ -1,8 +1,17 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { Toaster } from './components/ui/toaster';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+
+// Conditional Navbar component
+const ConditionalNavbar = () => {
+  const location = useLocation();
+  const hideNavbarRoutes = ['/checkout'];
+  const shouldShowNavbar = !hideNavbarRoutes.includes(location.pathname);
+  
+  return shouldShowNavbar ? <Navbar /> : null;
+};
 import Home from './pages/Home';
 import ProductDetail from './pages/ProductDetail';
 import SearchResults from './pages/SearchResults';
