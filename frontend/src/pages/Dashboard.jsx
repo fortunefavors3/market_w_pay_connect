@@ -70,7 +70,7 @@ const Dashboard = () => {
       </div>
 
       {/* Payment Setup Alert */}
-      {(!user?.stripeConnected && !user?.squareConnected) && (
+      {(!user?.stripeConnected && !user?.squareConnected && !user?.paypalConnected) && (
         <Card className="mb-6 bg-amber-50 border-amber-500">
           <CardContent className="pt-6">
             <div className="flex items-start gap-3">
@@ -80,7 +80,7 @@ const Dashboard = () => {
               <div className="flex-1">
                 <h3 className="font-semibold text-amber-900 mb-1">Action Required: Connect Payment Processor</h3>
                 <p className="text-sm text-amber-800 mb-3">
-                  Connect Stripe or Square to start receiving payments from buyers. 
+                  Connect Stripe, Square, or PayPal to start receiving payments from buyers. 
                   This is required before you can list items for sale.
                 </p>
                 <Button 
