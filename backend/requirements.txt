@@ -63,6 +63,7 @@ starlette==0.37.2
 stripe==14.0.1
 squareup==43.2.0.20251016
 paypalrestsdk==1.13.1
+httpx>=0.24.0
 typer==0.20.0
 typing-inspection==0.4.2
 typing_extensions==4.15.0
