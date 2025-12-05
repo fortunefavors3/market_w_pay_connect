@@ -37,6 +37,24 @@ class StatusCheck(BaseModel):
 class StatusCheckCreate(BaseModel):
     client_name: str
 
+# User Models
+class User(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    email: str
+    phone: str
+    stripe_account_id: str | None = None
+    stripe_onboarding_complete: bool = False
+    stripe_charges_enabled: bool = False
+    stripe_payouts_enabled: bool = False
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class UpdateStripeAccount(BaseModel):
+    user_id: str
+    stripe_account_id: str
+
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
 async def root():
