@@ -11,7 +11,14 @@ import { toast } from '../hooks/use-toast';
 
 const PersonalDetails = () => {
   const navigate = useNavigate();
-  const { user, updateUser } = useAuth();
+  const { user, isAuthenticated, updateUser } = useAuth();
+
+  // Redirect to auth if not logged in
+  React.useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/auth', { state: { from: { pathname: '/personal-details' } } });
+    }
+  }, [isAuthenticated, navigate]);
   const [isEditing, setIsEditing] = useState(false);
   const [showVerification, setShowVerification] = useState(false);
   const [verificationType, setVerificationType] = useState(''); // 'email' or 'phone'
