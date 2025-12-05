@@ -6,6 +6,7 @@ import { Card, CardContent } from '../components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { Star, Heart, Share2, MapPin, Truck, ShieldCheck, MessageSquare, Eye } from 'lucide-react';
 import { mockProducts } from '../mock';
+import { useAuth } from '../context/AuthContext';
 import { toast } from '../hooks/use-toast';
 
 const ProductDetail = () => {
