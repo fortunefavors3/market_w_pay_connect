@@ -46,7 +46,8 @@ const EnhancedCheckout = () => {
     if (user?.shippingAddress) {
       setFormData(prev => ({ ...prev, ...user.shippingAddress }));
       
-      // Skip to step 2 for returning users with saved info
+      // Skip to step 2 ONLY for returning users with saved info
+      // This happens automatically because they have shipping saved
       if (user?.paymentMethods?.length > 0) {
         setStep(2);
       }
