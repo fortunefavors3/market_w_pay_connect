@@ -11,6 +11,7 @@ import { toast } from '../hooks/use-toast';
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [activeListings] = useState(mockMyListings.filter(l => l.status === 'active'));
   const [soldListings] = useState(mockMyListings.filter(l => l.status === 'sold'));
 
