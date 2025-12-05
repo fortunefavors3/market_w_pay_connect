@@ -66,8 +66,12 @@ async def get_status_checks():
     
     return status_checks
 
+# Import Stripe Connect router
+from stripe_connect import router as stripe_connect_router
+
 # Include the router in the main app
 app.include_router(api_router)
+app.include_router(stripe_connect_router)
 
 app.add_middleware(
     CORSMiddleware,
