@@ -197,13 +197,6 @@ const EnhancedCheckout = () => {
         ))}
       </div>
 
-      {/* Cart UUID Badge */}
-      <div className="mb-6 text-center">
-        <span className="inline-block bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-mono">
-          Cart ID: {cartUUID}
-        </span>
-      </div>
-
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Form Section */}
         <div className="lg:col-span-2">
