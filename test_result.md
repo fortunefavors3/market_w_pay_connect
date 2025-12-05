@@ -340,11 +340,6 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Square OAuth Endpoints"
-    - "Square User Management Endpoints"
-    - "PayPal OAuth Endpoints"
-    - "PayPal User Management Endpoints"
-    - "Combined Payment Status Endpoint"
     - "Square Connect Page"
     - "PayPal Connect Page"
   stuck_tasks: []
