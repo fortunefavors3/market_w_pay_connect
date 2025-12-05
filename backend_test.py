@@ -481,7 +481,7 @@ def test_square_revoke_token():
     response = make_request("POST", "/square-connect/revoke-token", test_data)
     
     # This should fail with 400 since we're using a fake token
-    if response and response.status_code == 400:
+    if response is not None and response.status_code == 400:
         log_test("Square Revoke Token", "PASS", 
                 "Correctly returned 400 for invalid access token (expected)")
         return True
