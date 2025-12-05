@@ -226,7 +226,7 @@ async def revoke_access_token(request: RevokeTokenRequest):
             revoke_url,
             json={
                 "client_id": SQUARE_APPLICATION_ID,
-                "access_token": access_token,
+                "access_token": request.access_token,
             },
             headers={"Content-Type": "application/json"}
         )
