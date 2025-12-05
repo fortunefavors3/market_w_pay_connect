@@ -102,6 +102,21 @@ const IntegrationGuides = () => {
       ]
     },
     {
+      id: 'wordpress',
+      name: 'WordPress',
+      logoUrl: 'https://s.w.org/style/images/about/WordPress-logotype-wmark.png',
+      description: 'Popular content management system',
+      gradient: 'from-blue-700 to-cyan-500',
+      difficulty: 'Easy',
+      time: '15 minutes',
+      features: [
+        'Simple plugin installation',
+        'Shortcode embedding',
+        'Custom post types',
+        'Widget support'
+      ]
+    },
+    {
       id: 'bigcommerce',
       name: 'BigCommerce',
       logoUrl: 'https://storage.googleapis.com/bigcommerce-production-dev-center/images/logo-bigcommerce.svg',
