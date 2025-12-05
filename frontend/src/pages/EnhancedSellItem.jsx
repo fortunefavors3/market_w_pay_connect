@@ -52,6 +52,31 @@ const EnhancedSellItem = () => {
   const [previewMedia, setPreviewMedia] = useState([]);
   const [newVariant, setNewVariant] = useState({ name: '', values: '' });
 
+  // Check authentication and payment processor setup
+  React.useEffect(() => {
+    // First check if user is logged in
+    if (!isAuthenticated) {
+      navigate('/auth', { state: { from: { pathname: '/sell' } } });
+      return;
+    }
+
+    // Check if user has at least one payment processor configured
+    const hasConfiguredProcessor = user?.paymentProcessors && 
+      Object.values(user.paymentProcessors).some(processor => processor?.configured === true);
+
+    if (!hasConfiguredProcessor) {
+      toast({
+        title: "Payment processor required",
+        description: "You must set up at least one payment processor before listing items.",
+        variant: "destructive",
+        duration: 8000,
+      });
+      setTimeout(() => {
+        navigate('/payment-processors');
+      }, 2000);
+    }
+  }, [isAuthenticated, user, navigate]);
+
   const handleMediaUpload = (e, type) => {
     const files = Array.from(e.target.files);
     const newMedia = files.map(file => ({
