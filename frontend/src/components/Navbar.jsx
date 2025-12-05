@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, ShoppingCart, User, Menu, X, ChevronDown } from 'lucide-react';
+import { Search, ShoppingCart, User, Menu, X, ChevronDown, LogOut } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import {
@@ -8,8 +8,10 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from './ui/dropdown-menu';
-import { mockCategories, mockUser, mockCart } from '../mock';
+import { mockCategories, mockCart } from '../mock';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState('');
