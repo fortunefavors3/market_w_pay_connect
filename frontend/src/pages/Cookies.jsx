@@ -72,7 +72,7 @@ const Cookies = () => {
             <h1 className="text-4xl font-bold">Cookie Policy</h1>
           </div>
           <p className="text-xl text-blue-100">
-            Learn about how we use cookies and similar technologies on BayMarket.
+            Learn about how we use cookies and similar technologies on CheqMart.
           </p>
           <p className="text-sm text-blue-200 mt-4">
             Last Updated: December 5, 2025
@@ -92,7 +92,7 @@ const Cookies = () => {
                 understanding how you use our site.
               </p>
               <p>
-                We use both first-party cookies (set by BayMarket) and third-party cookies (set by our partners and 
+                We use both first-party cookies (set by CheqMart) and third-party cookies (set by our partners and 
                 service providers) to enhance your experience and improve our services.
               </p>
             </div>
@@ -212,7 +212,7 @@ const Cookies = () => {
                 <p className="text-sm">
                   Most web browsers allow you to control cookies through their settings. You can typically 
                   find these settings in the "Options" or "Preferences" menu of your browser. Note that 
-                  blocking cookies may impact your experience on BayMarket.
+                  blocking cookies may impact your experience on CheqMart.
                 </p>
               </div>
               <div>

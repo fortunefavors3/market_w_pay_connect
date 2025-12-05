@@ -12,7 +12,7 @@ const Help = () => {
   const categories = [
     {
       icon: ShoppingBag,
-      title: 'Buying on BayMarket',
+      title: 'Buying on CheqMart',
       description: 'Learn how to find, purchase, and track items',
       articles: [
         'How to search for items',
@@ -25,7 +25,7 @@ const Help = () => {
     },
     {
       icon: CreditCard,
-      title: 'Selling on BayMarket',
+      title: 'Selling on CheqMart',
       description: 'Start selling and manage your listings',
       articles: [
         'Creating your first listing',
@@ -127,7 +127,7 @@ const Help = () => {
             <h1 className="text-4xl font-bold">Help Center</h1>
           </div>
           <p className="text-xl text-blue-100 mb-8">
-            Find answers to your questions and learn how to use BayMarket
+            Find answers to your questions and learn how to use CheqMart
           </p>
           
           {/* Search Bar */}

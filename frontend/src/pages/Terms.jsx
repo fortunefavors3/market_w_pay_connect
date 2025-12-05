@@ -18,7 +18,7 @@ const Terms = () => {
           </Button>
           <h1 className="text-4xl font-bold mb-4">Terms of Service</h1>
           <p className="text-xl text-blue-100">
-            Please read these terms carefully before using BayMarket.
+            Please read these terms carefully before using CheqMart.
           </p>
           <p className="text-sm text-blue-200 mt-4">
             Last Updated: December 5, 2025 | Effective Date: January 1, 2025
@@ -35,7 +35,7 @@ const Terms = () => {
               <div>
                 <h2 className="text-xl font-bold text-gray-900 mb-2">Agreement to Terms</h2>
                 <p className="text-gray-700">
-                  By accessing or using BayMarket, you agree to be bound by these Terms of Service and all applicable 
+                  By accessing or using CheqMart, you agree to be bound by these Terms of Service and all applicable 
                   laws and regulations. If you do not agree with any part of these terms, you may not use our Services.
                 </p>
               </div>
@@ -56,7 +56,7 @@ const Terms = () => {
               <div>
                 <h3 className="font-semibold mb-2">Eligibility</h3>
                 <ul className="space-y-2">
-                  <li>• You must be at least 18 years old to use BayMarket</li>
+                  <li>• You must be at least 18 years old to use CheqMart</li>
                   <li>• You must provide accurate and complete registration information</li>
                   <li>• You are responsible for maintaining the security of your account</li>
                   <li>• One person or legal entity may maintain only one account</li>
@@ -154,14 +154,14 @@ const Terms = () => {
               <div>
                 <h3 className="font-semibold mb-2">Platform Content</h3>
                 <p>
-                  The BayMarket platform, including all content, features, and functionality, is owned by BayMarket, Inc. 
+                  The CheqMart platform, including all content, features, and functionality, is owned by CheqMart, Inc. 
                   and is protected by copyright, trademark, and other intellectual property laws.
                 </p>
               </div>
               <div>
                 <h3 className="font-semibold mb-2">User Content</h3>
                 <p>
-                  You retain ownership of content you post on BayMarket. However, by posting content, you grant us a 
+                  You retain ownership of content you post on CheqMart. However, by posting content, you grant us a 
                   worldwide, non-exclusive, royalty-free license to use, reproduce, modify, and display your content 
                   in connection with operating and promoting the platform.
                 </p>
@@ -169,7 +169,7 @@ const Terms = () => {
               <div>
                 <h3 className="font-semibold mb-2">Reporting Infringement</h3>
                 <p>
-                  If you believe content on BayMarket infringes your intellectual property rights, please contact us at 
+                  If you believe content on CheqMart infringes your intellectual property rights, please contact us at 
                   legal@baymarket.com with detailed information about the alleged infringement.
                 </p>
               </div>
@@ -190,14 +190,14 @@ const Terms = () => {
               <div>
                 <h3 className="font-semibold mb-2">"As Is" Service</h3>
                 <p>
-                  BayMarket is provided "as is" and "as available" without warranties of any kind, either express or implied. 
+                  CheqMart is provided "as is" and "as available" without warranties of any kind, either express or implied. 
                   We do not guarantee that the service will be uninterrupted, secure, or error-free.
                 </p>
               </div>
               <div>
                 <h3 className="font-semibold mb-2">Third-Party Transactions</h3>
                 <p>
-                  BayMarket is a marketplace platform. We are not a party to transactions between buyers and sellers. 
+                  CheqMart is a marketplace platform. We are not a party to transactions between buyers and sellers. 
                   We do not guarantee the quality, safety, or legality of items listed, the accuracy of listings, 
                   or the ability of sellers to complete sales.
                 </p>
@@ -205,7 +205,7 @@ const Terms = () => {
               <div>
                 <h3 className="font-semibold mb-2">Limitation of Liability</h3>
                 <p>
-                  To the maximum extent permitted by law, BayMarket shall not be liable for any indirect, incidental, 
+                  To the maximum extent permitted by law, CheqMart shall not be liable for any indirect, incidental, 
                   special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred 
                   directly or indirectly.
                 </p>
@@ -295,7 +295,7 @@ const Terms = () => {
                 <li>• Displaying prominent notice on the platform</li>
               </ul>
               <p>
-                Your continued use of BayMarket after changes become effective constitutes acceptance of the revised Terms.
+                Your continued use of CheqMart after changes become effective constitutes acceptance of the revised Terms.
               </p>
             </div>
           </CardContent>
@@ -312,7 +312,7 @@ const Terms = () => {
               <div className="space-y-2">
                 <p><strong>Email:</strong> legal@baymarket.com</p>
                 <p><strong>Phone:</strong> 1-800-BAYMARKET (229-6275)</p>
-                <p><strong>Mail:</strong> BayMarket Legal Team, 123 Market Street, San Francisco, CA 94103</p>
+                <p><strong>Mail:</strong> CheqMart Legal Team, 123 Market Street, San Francisco, CA 94103</p>
               </div>
               <Button onClick={() => navigate('/contact')} className="mt-4">
                 Contact Legal Team

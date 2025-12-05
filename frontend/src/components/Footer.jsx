@@ -53,7 +53,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="text-sm">
-            <p>&copy; 2025 BayMarket. All rights reserved.</p>
+            <p>&copy; 2025 CheqMart. All rights reserved.</p>
           </div>
           <div className="flex gap-6">
             <Link to="/privacy" className="text-sm hover:text-white transition-colors">Privacy Policy</Link>

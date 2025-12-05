@@ -154,7 +154,7 @@ const AuthPage = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl text-center">Welcome to BayMarket</CardTitle>
+          <CardTitle className="text-2xl text-center">Welcome to CheqMart</CardTitle>
           <CardDescription className="text-center">
             Sign in to your account or create a new one
           </CardDescription>

@@ -323,7 +323,7 @@ const StripeConnect = () => {
               </li>
               <li className="flex gap-2">
                 <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                <span>BayMarket platform fee: 5.5% per transaction</span>
+                <span>CheqMart platform fee: 5.5% per transaction</span>
               </li>
               <li className="flex gap-2">
                 <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />

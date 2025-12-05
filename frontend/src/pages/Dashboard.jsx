@@ -107,7 +107,7 @@ const Dashboard = () => {
               <h3 className="font-semibold text-gray-900 mb-1">Integrate with Your Platform</h3>
               <p className="text-sm text-gray-700 mb-3">
                 Already have a store on Shopify, Wix, WooCommerce, Etsy, or BigCommerce? 
-                Get step-by-step instructions to integrate BayMarket checkout.
+                Get step-by-step instructions to integrate CheqMart checkout.
               </p>
               <Button 
                 onClick={() => navigate('/integration-guides')}

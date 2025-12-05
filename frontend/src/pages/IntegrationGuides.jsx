@@ -136,22 +136,22 @@ const IntegrationGuides = () => {
   const integrationSteps = {
     shopify: [
       {
-        title: 'Install the BayMarket App',
+        title: 'Install the CheqMart App',
         description: 'Add our app from the Shopify App Store',
         code: null,
         instructions: [
           'Visit the Shopify App Store',
-          'Search for "BayMarket Checkout"',
+          'Search for "CheqMart Checkout"',
           'Click "Add app" and authorize the installation',
           'You\'ll be redirected to the setup page'
         ]
       },
       {
-        title: 'Connect Your BayMarket Account',
+        title: 'Connect Your CheqMart Account',
         description: 'Link your seller account',
         code: null,
         instructions: [
-          'Log in to your BayMarket seller account',
+          'Log in to your CheqMart seller account',
           'Copy your API key from the Dashboard',
           'Paste it in the Shopify app settings',
           'Click "Connect Account"'
@@ -164,7 +164,7 @@ const IntegrationGuides = () => {
         instructions: [
           'Go to Settings > Checkout',
           'Enable "Custom Checkout" option',
-          'Select products to use BayMarket checkout',
+          'Select products to use CheqMart checkout',
           'Configure payment processor preferences',
           'Save changes'
         ]
@@ -175,7 +175,7 @@ const IntegrationGuides = () => {
         code: `<div id="baymarket-checkout" data-product-id="{{product.id}}"></div>
 <script src="https://checkout.baymarket.com/embed.js"></script>
 <script>
-  BayMarket.init({
+  CheqMart.init({
     apiKey: 'YOUR_API_KEY',
     productId: '{{product.id}}',
     theme: 'auto'
@@ -195,7 +195,7 @@ const IntegrationGuides = () => {
         code: null,
         instructions: [
           'Visit your store and select a product',
-          'Click the BayMarket checkout button',
+          'Click the CheqMart checkout button',
           'Complete a test purchase',
           'Verify order appears in both systems',
           'Check webhook notifications'
@@ -215,15 +215,15 @@ const IntegrationGuides = () => {
         ]
       },
       {
-        title: 'Add BayMarket SDK',
+        title: 'Add CheqMart SDK',
         description: 'Install the checkout library',
         code: `import { fetch } from 'wix-fetch';
 
-// Initialize BayMarket
+// Initialize CheqMart
 const BAYMARKET_API_KEY = 'YOUR_API_KEY';
 const BAYMARKET_API_URL = 'https://api.baymarket.com';
 
-export async function initBayMarketCheckout(productId) {
+export async function initCheqMartCheckout(productId) {
   const response = await fetch(\`\${BAYMARKET_API_URL}/checkout/init\`, {
     method: 'POST',
     headers: {
@@ -237,21 +237,21 @@ export async function initBayMarketCheckout(productId) {
         instructions: [
           'In the code panel, create a new file: backend/baymarket.jsw',
           'Paste the code snippet above',
-          'Replace YOUR_API_KEY with your BayMarket API key',
+          'Replace YOUR_API_KEY with your CheqMart API key',
           'Save the file'
         ]
       },
       {
         title: 'Create Custom Checkout Button',
         description: 'Add button to product pages',
-        code: `import { initBayMarketCheckout } from 'backend/baymarket';
+        code: `import { initCheqMartCheckout } from 'backend/baymarket';
 
 $w.onReady(function () {
   $w('#buyNowButton').onClick(async () => {
     const productId = $w('#productPage').getCurrentItem()._id;
     
     try {
-      const checkout = await initBayMarketCheckout(productId);
+      const checkout = await initCheqMartCheckout(productId);
       $w('#checkoutFrame').src = checkout.checkoutUrl;
       $w('#checkoutFrame').show();
     } catch (error) {
@@ -291,7 +291,7 @@ export async function handleCheckoutComplete(checkoutData) {
         instructions: [
           'Create a new backend file: backend/orders.jsw',
           'Paste the order handling code',
-          'Set up webhook endpoint in BayMarket dashboard',
+          'Set up webhook endpoint in CheqMart dashboard',
           'Point webhook to: yoursite.com/_functions/handleCheckout',
           'Test with a sample order'
         ]
@@ -305,17 +305,17 @@ export async function handleCheckoutComplete(checkoutData) {
           'Visit your live product page',
           'Click the checkout button',
           'Complete a test transaction',
-          'Verify order in both Wix and BayMarket dashboards'
+          'Verify order in both Wix and CheqMart dashboards'
         ]
       }
     ],
     woocommerce: [
       {
-        title: 'Install BayMarket Plugin',
+        title: 'Install CheqMart Plugin',
         description: 'Add the WordPress plugin',
         code: null,
         instructions: [
-          'Download the BayMarket WooCommerce plugin',
+          'Download the CheqMart WooCommerce plugin',
           'Go to WordPress Admin > Plugins > Add New',
           'Click "Upload Plugin" and select the .zip file',
           'Click "Install Now" then "Activate"'
@@ -326,8 +326,8 @@ export async function handleCheckoutComplete(checkoutData) {
         description: 'Set up your API credentials',
         code: null,
         instructions: [
-          'Go to WooCommerce > Settings > BayMarket',
-          'Enter your BayMarket API Key',
+          'Go to WooCommerce > Settings > CheqMart',
+          'Enter your CheqMart API Key',
           'Select enabled payment processors',
           'Configure webhook URL',
           'Save changes'
@@ -335,7 +335,7 @@ export async function handleCheckoutComplete(checkoutData) {
       },
       {
         title: 'Enable Custom Checkout',
-        description: 'Activate BayMarket checkout for products',
+        description: 'Activate CheqMart checkout for products',
         code: `// Add to functions.php
 add_filter('woocommerce_product_add_to_cart_url', 'baymarket_custom_checkout_url', 10, 2);
 
@@ -350,7 +350,7 @@ function baymarket_custom_checkout_url($url, $product) {
 }`,
         instructions: [
           'Edit individual products in WooCommerce',
-          'In Product Data, check "Enable BayMarket Checkout"',
+          'In Product Data, check "Enable CheqMart Checkout"',
           'Or add the code snippet to enable programmatically',
           'Products will now use custom checkout'
         ]
@@ -372,7 +372,7 @@ $api_key = get_option('baymarket_api_key');
 
 <script src="https://checkout.baymarket.com/embed.js"></script>
 <script>
-  BayMarket.init({
+  CheqMart.init({
     apiKey: '<?php echo esc_js($api_key); ?>',
     productId: '<?php echo $product_id; ?>',
     onComplete: function(order) {
@@ -417,7 +417,7 @@ function baymarket_handle_webhook($request) {
         instructions: [
           'Add webhook handler code to functions.php',
           'Copy your webhook URL',
-          'Add it to BayMarket dashboard webhooks',
+          'Add it to CheqMart dashboard webhooks',
           'Test with a sample transaction'
         ]
       }
@@ -435,14 +435,14 @@ function baymarket_handle_webhook($request) {
         ]
       },
       {
-        title: 'Connect BayMarket to Etsy',
+        title: 'Connect CheqMart to Etsy',
         description: 'Link your Etsy shop',
         code: null,
         instructions: [
-          'Go to BayMarket Dashboard > Integrations',
+          'Go to CheqMart Dashboard > Integrations',
           'Click "Connect Etsy Shop"',
           'Enter your Etsy API credentials',
-          'Authorize BayMarket to access your shop',
+          'Authorize CheqMart to access your shop',
           'Select which listings to sync'
         ]
       },
@@ -467,11 +467,11 @@ const syncEtsyListings = async () => {
   console.log(\`Synced \${result.count} listings\`);
 };`,
         instructions: [
-          'In BayMarket dashboard, click "Sync Etsy Products"',
+          'In CheqMart dashboard, click "Sync Etsy Products"',
           'Select sync mode (all, active, or draft)',
           'Wait for sync to complete',
           'Review imported products',
-          'Enable BayMarket checkout for selected items'
+          'Enable CheqMart checkout for selected items'
         ]
       },
       {
@@ -480,8 +480,8 @@ const syncEtsyListings = async () => {
         code: null,
         instructions: [
           'Edit your Etsy listing descriptions',
-          'Add: "Buy directly with faster checkout: [Your BayMarket Link]"',
-          'Get your product link from BayMarket dashboard',
+          'Add: "Buy directly with faster checkout: [Your CheqMart Link]"',
+          'Get your product link from CheqMart dashboard',
           'Etsy will display this link in the listing',
           'Customers can choose either checkout method'
         ]
@@ -512,7 +512,7 @@ app.post('/webhooks/baymarket-order', async (req, res) => {
   res.json({ success: true });
 });`,
         instructions: [
-          'Set up webhook in BayMarket for order events',
+          'Set up webhook in CheqMart for order events',
           'Configure inventory auto-sync',
           'Enable shipping notifications to Etsy',
           'Test with a sample order',
@@ -522,24 +522,24 @@ app.post('/webhooks/baymarket-order', async (req, res) => {
     ],
     bigcommerce: [
       {
-        title: 'Install BayMarket App',
+        title: 'Install CheqMart App',
         description: 'Add from BigCommerce marketplace',
         code: null,
         instructions: [
           'Log in to your BigCommerce store',
           'Go to Apps > Marketplace',
-          'Search for "BayMarket Checkout"',
+          'Search for "CheqMart Checkout"',
           'Click "Install" and follow prompts',
           'Authorize app access to your store'
         ]
       },
       {
         title: 'Configure API Credentials',
-        description: 'Connect your BayMarket account',
+        description: 'Connect your CheqMart account',
         code: null,
         instructions: [
-          'In BigCommerce, go to Apps > My Apps > BayMarket',
-          'Copy your BayMarket API Key',
+          'In BigCommerce, go to Apps > My Apps > CheqMart',
+          'Copy your CheqMart API Key',
           'Paste into the app settings',
           'Select your preferred payment processors',
           'Save configuration'
@@ -568,7 +568,7 @@ const initCheckout = async (cartId) => {
 };`,
         instructions: [
           'Enable Checkout API in BigCommerce settings',
-          'Configure redirect URL to BayMarket',
+          'Configure redirect URL to CheqMart',
           'Add checkout button to product pages',
           'Implement the API call shown above'
         ]
@@ -581,14 +581,14 @@ const initCheckout = async (cartId) => {
   <button 
     class="button button--primary baymarket-checkout-btn"
     data-product-id="{{product.id}}"
-    onclick="openBayMarketCheckout({{product.id}})">
-    Buy with BayMarket Checkout
+    onclick="openCheqMartCheckout({{product.id}})">
+    Buy with CheqMart Checkout
   </button>
 </div>
 
 <script>
-function openBayMarketCheckout(productId) {
-  BayMarketCheckout.open({
+function openCheqMartCheckout(productId) {
+  CheqMartCheckout.open({
     productId: productId,
     apiKey: '{{settings.baymarket_api_key}}',
     onSuccess: function(order) {
@@ -604,7 +604,7 @@ function openBayMarketCheckout(productId) {
           'Access your Stencil theme files',
           'Edit product template files',
           'Add the checkout button code',
-          'Include BayMarket SDK in theme',
+          'Include CheqMart SDK in theme',
           'Upload and apply theme changes'
         ]
       },
@@ -616,7 +616,7 @@ function openBayMarketCheckout(productId) {
   "destination": "https://api.baymarket.com/webhooks/bigcommerce/order",
   "is_active": true,
   "headers": {
-    "X-BayMarket-Key": "YOUR_API_KEY"
+    "X-CheqMart-Key": "YOUR_API_KEY"
   }
 }`,
         instructions: [
@@ -630,11 +630,11 @@ function openBayMarketCheckout(productId) {
     ],
     wordpress: [
       {
-        title: 'Install BayMarket Plugin',
+        title: 'Install CheqMart Plugin',
         description: 'Add the WordPress plugin to your site',
         code: null,
         instructions: [
-          'Download the BayMarket WordPress plugin from our website',
+          'Download the CheqMart WordPress plugin from our website',
           'Go to WordPress Admin > Plugins > Add New',
           'Click "Upload Plugin" and select the .zip file',
           'Click "Install Now" and wait for installation',
@@ -643,11 +643,11 @@ function openBayMarketCheckout(productId) {
       },
       {
         title: 'Configure Plugin Settings',
-        description: 'Connect your BayMarket account',
+        description: 'Connect your CheqMart account',
         code: null,
         instructions: [
-          'Go to WordPress Admin > Settings > BayMarket',
-          'Enter your BayMarket API Key (from your seller dashboard)',
+          'Go to WordPress Admin > Settings > CheqMart',
+          'Enter your CheqMart API Key (from your seller dashboard)',
           'Enter your Seller ID',
           'Choose your preferred checkout style (popup or redirect)',
           'Select button styling options',
@@ -656,10 +656,10 @@ function openBayMarketCheckout(productId) {
       },
       {
         title: 'Add Products Using Custom Post Type',
-        description: 'Create BayMarket products in WordPress',
+        description: 'Create CheqMart products in WordPress',
         code: null,
         instructions: [
-          'Go to BayMarket Products > Add New in WordPress admin',
+          'Go to CheqMart Products > Add New in WordPress admin',
           'Enter product title and description',
           'Set product price and inventory',
           'Upload product images',
@@ -687,7 +687,7 @@ function openBayMarketCheckout(productId) {
         instructions: [
           'Edit any page or post in WordPress',
           'Add the shortcode where you want the checkout button',
-          'Replace product_id with your actual BayMarket product ID',
+          'Replace product_id with your actual CheqMart product ID',
           'Customize button text and styling as needed',
           'Preview and publish your page',
           'Shortcodes work in widgets and page builders too'
@@ -700,7 +700,7 @@ function openBayMarketCheckout(productId) {
         instructions: [
           'Open any page in the Block Editor (Gutenberg)',
           'Click the "+" button to add a new block',
-          'Search for "BayMarket Checkout"',
+          'Search for "CheqMart Checkout"',
           'Select your product from the dropdown',
           'Customize button appearance in the block settings',
           'Preview and publish'
@@ -712,7 +712,7 @@ function openBayMarketCheckout(productId) {
         code: null,
         instructions: [
           'Go to Appearance > Widgets',
-          'Find "BayMarket Product Widget"',
+          'Find "CheqMart Product Widget"',
           'Drag it to your desired widget area',
           'Select product or product category',
           'Configure display options (image, price, button)',
@@ -728,7 +728,7 @@ add_action('baymarket_order_completed', 'custom_baymarket_order_handler', 10, 1)
 function custom_baymarket_order_handler($order_data) {
     // Send custom email notification
     $to = get_option('admin_email');
-    $subject = 'New BayMarket Order: ' . $order_data['order_id'];
+    $subject = 'New CheqMart Order: ' . $order_data['order_id'];
     $message = 'Order details: ' . print_r($order_data, true);
     wp_mail($to, $subject, $message);
     
@@ -746,7 +746,7 @@ function custom_baymarket_order_handler($order_data) {
     do_action('my_custom_order_action', $order_data);
 }`,
         instructions: [
-          'Go to Settings > BayMarket > Notifications',
+          'Go to Settings > CheqMart > Notifications',
           'Enable email notifications for new orders',
           'Enter notification email addresses',
           'Customize email templates',
@@ -809,11 +809,11 @@ function custom_baymarket_order_handler($order_data) {
         description: 'Verify everything works correctly',
         code: null,
         instructions: [
-          'Create a test product in BayMarket',
+          'Create a test product in CheqMart',
           'Add the product to a WordPress page using shortcode',
           'Click the checkout button on the live page',
           'Complete a test purchase (use test card if available)',
-          'Verify order appears in BayMarket dashboard',
+          'Verify order appears in CheqMart dashboard',
           'Check that email notifications are received',
           'Test on mobile devices and different browsers'
         ]
@@ -903,7 +903,7 @@ function custom_baymarket_order_handler($order_data) {
                   {platform.name} Integration Guide
                 </CardTitle>
                 <CardDescription>
-                  Follow these steps to integrate BayMarket checkout
+                  Follow these steps to integrate CheqMart checkout
                 </CardDescription>
               </div>
               <Button
@@ -1012,7 +1012,7 @@ function custom_baymarket_order_handler($order_data) {
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Platform Integrations</h1>
         <p className="text-gray-600">
-          Integrate BayMarket checkout with your existing e-commerce platform
+          Integrate CheqMart checkout with your existing e-commerce platform
         </p>
       </div>
 
@@ -1044,7 +1044,7 @@ function custom_baymarket_order_handler($order_data) {
               <strong>API Documentation:</strong> Full API reference with examples for custom integrations
             </p>
             <p>
-              <strong>Developer Forum:</strong> Join our community of developers building on BayMarket
+              <strong>Developer Forum:</strong> Join our community of developers building on CheqMart
             </p>
             <p>
               <strong>Webhook Reference:</strong> Complete guide to handling real-time events

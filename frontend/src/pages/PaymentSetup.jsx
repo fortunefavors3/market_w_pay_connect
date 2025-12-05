@@ -130,7 +130,7 @@ const PaymentSetup = () => {
         <Alert className="border-blue-200 bg-blue-50">
           <ShieldCheck className="h-4 w-4 text-blue-600" />
           <AlertDescription className="text-blue-800">
-            <strong>Platform Fee:</strong> BayMarket charges 5.5% per transaction, in addition to the processor's fees shown below.
+            <strong>Platform Fee:</strong> CheqMart charges 5.5% per transaction, in addition to the processor's fees shown below.
           </AlertDescription>
         </Alert>
       </div>
