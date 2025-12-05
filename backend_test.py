@@ -428,7 +428,7 @@ def test_square_exchange_token():
     response = make_request("POST", "/square-connect/exchange-token", test_data)
     
     # This should fail with 400 since we're using a fake code
-    if response and response.status_code == 400:
+    if response is not None and response.status_code == 400:
         log_test("Square Exchange Token", "PASS", 
                 "Correctly returned 400 for invalid authorization code (expected)")
         return True
