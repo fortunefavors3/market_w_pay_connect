@@ -85,6 +85,22 @@ const PaymentSetup = () => {
         'In-person & online payments',
         'Free POS hardware'
       ]
+    },
+    {
+      id: 'paypal',
+      name: 'PayPal',
+      logo: '💙',
+      description: 'Trusted worldwide payment platform',
+      connected: paymentStatus.paypal_connected,
+      fee: '2.99%',
+      route: '/paypal-connect',
+      gradient: 'from-blue-600 to-blue-400',
+      features: [
+        'OAuth integration',
+        'PayPal & credit card payments',
+        'Buyer & seller protection',
+        'Recognized worldwide'
+      ]
     }
   ];
 
