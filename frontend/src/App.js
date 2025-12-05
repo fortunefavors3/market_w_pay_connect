@@ -21,6 +21,7 @@ import ListingPreview from './pages/ListingPreview';
 import Dashboard from './pages/Dashboard';
 import PersonalDetails from './pages/PersonalDetails';
 import PaymentProcessors from './pages/PaymentProcessors';
+import StripeConnect from './pages/StripeConnect';
 import SellerPageEditor from './pages/SellerPageEditor';
 import ProductCustomizer from './pages/ProductCustomizer';
 import SellerProfile from './pages/SellerProfile';
