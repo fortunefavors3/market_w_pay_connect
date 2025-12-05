@@ -3,7 +3,8 @@ from pydantic import BaseModel
 from typing import Optional
 import os
 from dotenv import load_dotenv
-from square import Square, SquareEnvironment
+from square import Square
+from square.client import SquareEnvironment
 import uuid
 
 load_dotenv()
