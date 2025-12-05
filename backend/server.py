@@ -164,6 +164,67 @@ async def update_user_stripe_status(user_id: str):
     except Exception as e:
         return {"success": False, "error": str(e)}
 
+# Square Endpoints
+@api_router.post("/users/square-account")
+async def update_user_square_account(data: UpdateSquareAccount):
+    """Update user's Square account details after OAuth"""
+    result = await db.users.update_one(
+        {"id": data.user_id},
+        {
+            "$set": {
+                "square_merchant_id": data.merchant_id,
+                "square_access_token": data.access_token,
+                "square_refresh_token": data.refresh_token,
+                "square_connected": True,
+                "updated_at": datetime.now(timezone.utc).isoformat()
+            }
+        },
+        upsert=True
+    )
+    return {"success": True, "modified": result.modified_count > 0}
+
+@api_router.get("/users/{user_id}/square-status")
+async def get_user_square_status(user_id: str):
+    """Get user's Square connection status"""
+    user = await db.users.find_one({"id": user_id}, {"_id": 0})
+    if not user:
+        return {
+            "connected": False,
+            "merchant_id": None,
+            "has_access_token": False
+        }
+    
+    return {
+        "connected": user.get("square_connected", False),
+        "merchant_id": user.get("square_merchant_id"),
+        "has_access_token": user.get("square_access_token") is not None
+    }
+
+@api_router.get("/users/{user_id}/payment-status")
+async def get_user_payment_status(user_id: str):
+    """Get user's overall payment processor status (Stripe + Square)"""
+    user = await db.users.find_one({"id": user_id}, {"_id": 0})
+    if not user:
+        return {
+            "has_any_processor": False,
+            "stripe_connected": False,
+            "square_connected": False
+        }
+    
+    stripe_ready = (
+        user.get("stripe_charges_enabled", False) and 
+        user.get("stripe_payouts_enabled", False)
+    )
+    square_ready = user.get("square_connected", False)
+    
+    return {
+        "has_any_processor": stripe_ready or square_ready,
+        "stripe_connected": stripe_ready,
+        "square_connected": square_ready,
+        "stripe_account_id": user.get("stripe_account_id"),
+        "square_merchant_id": user.get("square_merchant_id")
+    }
+
 # Import Stripe Connect router
 from stripe_connect import router as stripe_connect_router
 
