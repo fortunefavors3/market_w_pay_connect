@@ -565,6 +565,88 @@ agent_communication:
       - PayPal: Using sandbox mode with test credentials from .env
       - Both SDKs installed: squareup==43.2.0.20251016, paypalrestsdk==1.13.1
 
+  - agent: "main"
+    message: |
+      PREPARING FOR SQUARE AND PAYPAL FRONTEND TESTING
+      
+      BACKEND TESTING COMPLETED: ✅ All 34 tests passed (100% success rate)
+      
+      FRONTEND PAGES TO TEST:
+      
+      1. SQUARE CONNECT PAGE (/square-connect):
+         - Page loads correctly with all UI elements
+         - Back to Payment Setup button navigates correctly
+         - Page title: "Square Payment Setup"
+         - Status alert shows connection state (blue when not connected, green when connected)
+         - Square logo displays in black rounded card
+         - Status badges: Account Status (Connected/Not Connected), Merchant ID
+         - Refresh button works and updates status
+         - "How Square Payments Work" info section with 5 bullet points
+         - Connect with Square button (gradient gray styling) triggers OAuth flow
+         - OAuth flow: Click connect -> Redirect to Square OAuth -> Return with code/state -> Exchange token -> Save to DB -> Update UI
+         - View Square Dashboard button (when connected) opens squareup.com/dashboard
+         - Disconnect button (when connected) disconnects account with confirmation
+         - Loading states: "Connecting..." during API calls, spinner icon
+         - Toast notifications for success/error states
+         - Authentication redirect for non-logged users
+      
+      2. PAYPAL CONNECT PAGE (/paypal-connect):
+         - Page loads correctly with all UI elements
+         - Back to Payment Setup button navigates correctly
+         - Page title: "PayPal Payment Setup"
+         - Status alert shows connection state (blue when not connected, green when connected)
+         - PayPal logo displays (colored PayPal mark)
+         - Status badges: Account Status (Connected/Not Connected), Payer ID, Email, Verified status
+         - Refresh button works and updates status
+         - "How PayPal Payments Work" info section with 5 bullet points
+         - Connect with PayPal button (gradient blue styling) triggers OAuth flow
+         - OAuth flow: Click connect -> Redirect to PayPal OAuth -> Return with code/state -> Exchange token -> Save to DB -> Update UI
+         - View PayPal Dashboard button (when connected) opens paypal.com
+         - Disconnect button (when connected) disconnects account with confirmation
+         - Loading states: "Connecting..." during API calls, spinner icon
+         - Toast notifications for success/error states
+         - Authentication redirect for non-logged users
+      
+      3. PAYMENT SETUP HUB PAGE (/payment-setup):
+         - Page loads correctly with all UI elements
+         - Back to Dashboard button navigates correctly
+         - Page title: "Payment Setup"
+         - Amber alert shows when no processor connected: "Action Required: Connect at least one payment processor"
+         - Blue alert shows platform fee info: "BayMarket charges 5.5% per transaction"
+         - Overall status card shows "Ready to Sell" or "Setup Required"
+         - Status badge shows "Active" (green) or "Inactive" (gray)
+         - Three processor cards displayed: Stripe, Square, PayPal
+         - Each card shows: Logo in gradient box, name, description, connection badge, fee info, 4 features
+         - Stripe card: Purple-to-blue gradient, fee "2.9% + $0.30", 4 features listed
+         - Square card: Gray gradient, fee "2.6% + $0.10", 4 features listed
+         - PayPal card: Blue gradient, fee "2.99%", 4 features listed
+         - Connect buttons route to individual processor pages
+         - Manage Connection button shows for connected processors
+         - Help section at bottom: "Need Help Choosing?" with processor recommendations
+         - Fetches combined status from /api/users/{user_id}/payment-status
+         - Real-time status updates when navigating back from processor pages
+      
+      CRITICAL TESTING REQUIREMENTS:
+      - Test authentication flow (redirect to /auth when not logged in)
+      - Test API integration (status fetching, OAuth initiation)
+      - Test navigation between pages (hub -> processor -> hub)
+      - Test status persistence (MongoDB data reflected in UI)
+      - Test all button clicks and interactions
+      - Test loading states and spinners
+      - Test toast notifications
+      - Verify logos display correctly
+      - Verify all text content and styling
+      - Test responsive layout
+      - Simulate OAuth callback flow (with mock code/state params)
+      
+      TESTING APPROACH:
+      - Use Playwright automation to navigate and interact with pages
+      - Test each page independently first, then test navigation flows
+      - Verify backend API calls are made correctly
+      - Check for console errors
+      - Verify UI updates after API responses
+      - Test edge cases (missing user, network errors, etc.)
+
   - agent: "testing"
     message: |
       COMPREHENSIVE SQUARE AND PAYPAL BACKEND TESTING COMPLETED - ALL FUNCTIONALITY WORKING ✅
