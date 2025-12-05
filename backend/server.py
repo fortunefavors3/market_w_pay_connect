@@ -283,11 +283,13 @@ async def get_user_paypal_status(user_id: str):
 # Import routers
 from stripe_connect import router as stripe_connect_router
 from square_oauth import router as square_oauth_router
+from paypal_oauth import router as paypal_oauth_router
 
 # Include the routers in the main app
 app.include_router(api_router)
 app.include_router(stripe_connect_router)
 app.include_router(square_oauth_router)
+app.include_router(paypal_oauth_router)
 
 app.add_middleware(
     CORSMiddleware,
