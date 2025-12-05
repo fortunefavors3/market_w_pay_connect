@@ -37,7 +37,7 @@ class AccountStatusResponse(BaseModel):
 @router.post("/create-account")
 async def create_connected_account(request: CreateAccountRequest):
     """
-    Create a Stripe Connect account for a seller
+    Create a Stripe Connect account for a seller and save to user profile
     """
     try:
         account = stripe.Account.create(
@@ -53,6 +53,7 @@ async def create_connected_account(request: CreateAccountRequest):
         
         return {
             "account_id": account.id,
+            "user_id": request.user_id,
             "success": True,
         }
     except stripe.error.StripeError as e:
