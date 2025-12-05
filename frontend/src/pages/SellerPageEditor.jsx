@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { Switch } from '../components/ui/switch';
+import { Separator } from '../components/ui/separator';
 import { ArrowLeft, Eye, Save, Palette, Type, Music, Image as ImageIcon, Layout, Code } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { googleFonts } from '../mock';
