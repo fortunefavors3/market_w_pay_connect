@@ -32,30 +32,34 @@ import './App.css';
 function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen flex flex-col bg-white">
-        <ConditionalNavbar />
-        <main className="flex-1">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/product/:id" element={<ProductDetail />} />
-            <Route path="/search" element={<SearchResults />} />
-            <Route path="/category/:category" element={<SearchResults />} />
-            <Route path="/category/:category/:subcategory" element={<SearchResults />} />
-            <Route path="/sell" element={<EnhancedSellItem />} />
-            <Route path="/listing-preview" element={<ListingPreview />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/customize/:id" element={<ProductCustomizer />} />
-            <Route path="/seller/:id" element={<SellerProfile />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/messages" element={<Messages />} />
-            <Route path="/orders/:id" element={<OrderTracking />} />
-            <Route path="/watchlist" element={<SearchResults />} />
-          </Routes>
-        </main>
-        <Footer />
-        <Toaster />
-      </div>
+      <AuthProvider>
+        <div className="min-h-screen flex flex-col bg-white">
+          <ConditionalNavbar />
+          <main className="flex-1">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
+              <Route path="/search" element={<SearchResults />} />
+              <Route path="/category/:category" element={<SearchResults />} />
+              <Route path="/category/:category/:subcategory" element={<SearchResults />} />
+              <Route path="/sell" element={<EnhancedSellItem />} />
+              <Route path="/listing-preview" element={<ListingPreview />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/customize/:id" element={<ProductCustomizer />} />
+              <Route path="/seller/:id" element={<SellerProfile />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/checkout" element={<EnhancedCheckout />} />
+              <Route path="/auth" element={<AuthPage />} />
+              <Route path="/order-success" element={<OrderSuccess />} />
+              <Route path="/messages" element={<Messages />} />
+              <Route path="/orders/:id" element={<OrderTracking />} />
+              <Route path="/watchlist" element={<SearchResults />} />
+            </Routes>
+          </main>
+          <Footer />
+          <Toaster />
+        </div>
+      </AuthProvider>
     </BrowserRouter>
   );
 }
