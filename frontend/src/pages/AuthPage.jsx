@@ -85,6 +85,7 @@ const AuthPage = () => {
           title: "Account created!",
           description: "Your account has been successfully created.",
         });
+        // After registration, redirect to intended page or home
         const from = location.state?.from?.pathname || '/';
         navigate(from, { replace: true });
       }
