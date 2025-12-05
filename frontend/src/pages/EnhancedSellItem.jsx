@@ -10,6 +10,7 @@ import { Checkbox } from '../components/ui/checkbox';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { Upload, X, Plus, Palette, Type, Eye } from 'lucide-react';
 import { mockCategories, pageTemplates, googleFonts } from '../mock';
+import { useAuth } from '../context/AuthContext';
 import { toast } from '../hooks/use-toast';
 
 const EnhancedSellItem = () => {
