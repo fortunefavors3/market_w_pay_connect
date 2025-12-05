@@ -10,7 +10,7 @@ import uuid
 from datetime import datetime
 
 # Configuration
-BASE_URL = "https://shop-nexus-44.preview.emergentagent.com/api"
+BASE_URL = "https://seller-payments.preview.emergentagent.com/api"
 TEST_USER_ID = f"test_user_{uuid.uuid4().hex[:8]}"
 TEST_USER_ID_2 = f"test_user_{uuid.uuid4().hex[:8]}"
 TEST_EMAIL = f"seller_{uuid.uuid4().hex[:8]}@testmarketplace.com"
