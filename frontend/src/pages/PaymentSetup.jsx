@@ -24,7 +24,8 @@ const PaymentSetup = () => {
   const [paymentStatus, setPaymentStatus] = useState({
     has_any_processor: false,
     stripe_connected: false,
-    square_connected: false
+    square_connected: false,
+    paypal_connected: false
   });
 
   // Redirect to auth if not logged in
