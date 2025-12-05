@@ -19,7 +19,7 @@ const AuthPage = () => {
   const [pendingUserData, setPendingUserData] = useState(null);
 
   const [loginData, setLoginData] = useState({
-    email: '',
+    phone: '',
     password: '',
   });
 
