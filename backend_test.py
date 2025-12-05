@@ -445,7 +445,7 @@ def test_square_merchant_status():
     response = make_request("GET", f"/square-connect/merchant-status/{fake_merchant_id}?access_token={fake_access_token}")
     
     # This should fail with 400 since we're using fake credentials
-    if response and response.status_code == 400:
+    if response is not None and response.status_code == 400:
         log_test("Square Merchant Status", "PASS", 
                 "Correctly returned 400 for invalid merchant credentials (expected)")
         return True
