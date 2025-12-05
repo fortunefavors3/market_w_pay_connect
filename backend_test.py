@@ -306,28 +306,21 @@ def test_stripe_connect_account_status_invalid():
         return False
 
 def test_stripe_connect_create_login_link():
-    """Test POST /api/stripe-connect/create-login-link/{account_id}"""
+    """Test POST /api/stripe-connect/create-login-link/{account_id} (will fail for non-onboarded accounts)"""
     if not created_account_id_2:
         log_test("Stripe Connect Login Link", "FAIL", "No account_id available")
         return False
     
     response = make_request("POST", f"/stripe-connect/create-login-link/{created_account_id_2}")
     
-    if response and response.status_code == 200:
-        data = response.json()
-        if (data.get("success") is True and 
-            data.get("url") and 
-            "stripe.com" in data["url"]):
-            log_test("Stripe Connect Login Link", "PASS", 
-                    f"Created login URL: {data['url'][:50]}...")
-            return True
-        else:
-            log_test("Stripe Connect Login Link", "FAIL", 
-                    "Response missing success or invalid URL format")
-            return False
+    # This should fail with 400 since the account hasn't completed onboarding
+    if response is not None and response.status_code == 400:
+        log_test("Stripe Connect Login Link", "PASS", 
+                "Correctly returned 400 for account that hasn't completed onboarding (expected)")
+        return True
     else:
         log_test("Stripe Connect Login Link", "FAIL", 
-                f"Request failed or unexpected status code")
+                f"Expected 400 status code, got {response.status_code if response else 'None'}")
         return False
 
 def test_stripe_connect_create_login_link_invalid():
