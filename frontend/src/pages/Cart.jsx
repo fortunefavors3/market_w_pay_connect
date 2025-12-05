@@ -10,6 +10,7 @@ import { toast } from '../hooks/use-toast';
 
 const Cart = () => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [cartItems, setCartItems] = useState(mockCart);
 
   const updateQuantity = (id, newQuantity) => {
