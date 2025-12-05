@@ -128,8 +128,8 @@ const StripeConnect = () => {
       // Step 3: Create onboarding link
       const linkResponse = await axios.post(`${BACKEND_URL}/api/stripe-connect/create-account-link`, {
         account_id: accountId,
-        refresh_url: `${window.location.origin}/payment-processors?stripe_return=refresh`,
-        return_url: `${window.location.origin}/payment-processors?stripe_return=success`
+        refresh_url: `${window.location.origin}/stripe-connect?stripe_return=refresh`,
+        return_url: `${window.location.origin}/stripe-connect?stripe_return=success`
       });
 
       // Step 4: Redirect to Stripe onboarding
