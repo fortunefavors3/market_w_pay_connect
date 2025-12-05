@@ -52,12 +52,12 @@ const Dashboard = () => {
             </Button>
             <Button 
               variant="outline" 
-              onClick={() => navigate('/stripe-connect')}
-              className={!user?.stripeConnected ? 'border-amber-500 text-amber-700' : ''}
+              onClick={() => navigate('/payment-setup')}
+              className={(!user?.stripeConnected && !user?.squareConnected) ? 'border-amber-500 text-amber-700' : ''}
             >
               <CreditCard className="w-4 h-4 mr-2" />
               Payment Setup
-              {!user?.stripeConnected && (
+              {(!user?.stripeConnected && !user?.squareConnected) && (
                 <Badge className="ml-2 bg-amber-500 hover:bg-amber-600">Required</Badge>
               )}
             </Button>
