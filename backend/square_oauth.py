@@ -166,8 +166,11 @@ async def get_merchant_status(merchant_id: str, access_token: str):
         raise HTTPException(status_code=400, detail=str(e))
 
 
+class RefreshTokenRequest(BaseModel):
+    refresh_token: str
+
 @router.post("/refresh-token")
-async def refresh_access_token(refresh_token: str):
+async def refresh_access_token(request: RefreshTokenRequest):
     """
     Refresh an expired access token
     """
