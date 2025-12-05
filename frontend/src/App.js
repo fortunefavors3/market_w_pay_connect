@@ -47,6 +47,8 @@ function App() {
               <Route path="/sell" element={<EnhancedSellItem />} />
               <Route path="/listing-preview" element={<ListingPreview />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/personal-details" element={<PersonalDetails />} />
+              <Route path="/payment-processors" element={<PaymentProcessors />} />
               <Route path="/customize/:id" element={<ProductCustomizer />} />
               <Route path="/seller/:id" element={<SellerProfile />} />
               <Route path="/cart" element={<Cart />} />
