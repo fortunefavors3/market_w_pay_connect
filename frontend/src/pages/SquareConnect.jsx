@@ -247,8 +247,12 @@ const SquareConnect = () => {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-gradient-to-br from-gray-800 to-gray-600 rounded-lg flex items-center justify-center">
-                <span className="text-2xl">⬛</span>
+              <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center p-2">
+                <img 
+                  src="https://images.ctfassets.net/2d5q1td6cyxq/aXlc4MSO8ZGKTDIsPuIeW/c2b899a80016ca75b88086647cdd61f7/PD04490_-_white_logo_on_black.png?w=553&h=283&fm=jpg&q=85&bg=rgb%3Affffff&fit=scale&fl=progressive"
+                  alt="Square logo"
+                  className="w-full h-full object-contain"
+                />
               </div>
               <div>
                 <CardTitle className="text-xl">Square</CardTitle>
