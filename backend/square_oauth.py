@@ -128,7 +128,7 @@ async def get_merchant_status(merchant_id: str, access_token: str):
     try:
         # Create a client with the merchant's access token
         merchant_client = Square(
-            access_token=access_token,
+            token=access_token,
             environment=SQUARE_ENVIRONMENT
         )
         
