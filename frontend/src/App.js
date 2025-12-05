@@ -24,6 +24,7 @@ import PaymentProcessors from './pages/PaymentProcessors';
 import PaymentSetup from './pages/PaymentSetup';
 import StripeConnect from './pages/StripeConnect';
 import SquareConnect from './pages/SquareConnect';
+import PayPalConnect from './pages/PayPalConnect';
 import SellerPageEditor from './pages/SellerPageEditor';
 import ProductCustomizer from './pages/ProductCustomizer';
 import SellerProfile from './pages/SellerProfile';
