@@ -64,9 +64,11 @@ const Navbar = () => {
         <div className="flex items-center justify-between gap-4">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 flex-shrink-0">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">E</span>
-            </div>
+            <img 
+              src="https://customer-assets.emergentagent.com/job_d5504b06-2603-41d4-bd91-1b5586e00e8a/artifacts/8ef2uzh5_ChatGPT%20Image%20Dec%205%2C%202025%2C%2011_16_20%20AM.png" 
+              alt="CheqMart Logo" 
+              className="h-10 w-auto"
+            />
             <span className="text-2xl font-bold text-gray-900 hidden sm:block">CheqMart</span>
           </Link>
 
