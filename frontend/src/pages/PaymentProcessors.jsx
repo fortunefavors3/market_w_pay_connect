@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../co
 import { Switch } from '../components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { Badge } from '../components/ui/badge';
-import { ArrowLeft, CreditCard, CheckCircle, AlertCircle, ExternalLink } from 'lucide-react';
+import { ArrowLeft, CreditCard, CheckCircle, AlertCircle, ExternalLink, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { toast } from '../hooks/use-toast';
 
