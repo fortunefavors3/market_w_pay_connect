@@ -9,11 +9,11 @@ const Home = () => {
   const navigate = useNavigate();
   const featuredProducts = mockProducts.slice(0, 6);
   
-  // Create 60 featured products (repeating the mock data)
-  const extendedFeaturedProducts = Array(10).fill(mockProducts).flat().slice(0, 60);
+  // Create 24 featured products (repeating the mock data)
+  const extendedFeaturedProducts = Array(4).fill(mockProducts).flat().slice(0, 24);
   
-  // Most recent products (reverse order to simulate recent)
-  const recentProducts = [...extendedFeaturedProducts].reverse().slice(0, 60);
+  // Newest products (reverse order to simulate recent)
+  const newestProducts = [...extendedFeaturedProducts].reverse().slice(0, 24);
 
   return (
     <div>
