@@ -38,7 +38,7 @@ const AuthPage = () => {
         title: "Welcome back!",
         description: "You've successfully logged in.",
       });
-      const from = location.state?.from?.pathname || '/checkout';
+      const from = location.state?.from?.pathname || '/';
       navigate(from, { replace: true });
     } else {
       toast({
