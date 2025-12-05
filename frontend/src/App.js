@@ -28,9 +28,10 @@ function App() {
             <Route path="/search" element={<SearchResults />} />
             <Route path="/category/:category" element={<SearchResults />} />
             <Route path="/category/:category/:subcategory" element={<SearchResults />} />
-            <Route path="/sell" element={<SellItem />} />
+            <Route path="/sell" element={<EnhancedSellItem />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/customize/:id" element={<ProductCustomizer />} />
+            <Route path="/seller/:id" element={<SellerProfile />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/messages" element={<Messages />} />
