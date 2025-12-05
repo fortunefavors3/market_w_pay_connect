@@ -69,6 +69,33 @@ const Dashboard = () => {
         </div>
       </div>
 
+      {/* Payment Processor Alert */}
+      {(!user?.paymentProcessors || !Object.values(user.paymentProcessors).some(p => p?.configured)) && (
+        <Card className="mb-6 bg-amber-50 border-amber-500">
+          <CardContent className="pt-6">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0">
+                <CreditCard className="w-5 h-5 text-amber-600" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-amber-900 mb-1">Action Required: Set Up Payment Processor</h3>
+                <p className="text-sm text-amber-800 mb-3">
+                  You need to configure at least one payment processor before you can list items for sale. 
+                  This allows buyers to complete purchases securely.
+                </p>
+                <Button 
+                  onClick={() => navigate('/payment-processors')}
+                  className="bg-amber-600 hover:bg-amber-700"
+                  size="sm"
+                >
+                  Set Up Now
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Quick Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <Card>
