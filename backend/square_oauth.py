@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from typing import Optional
 import os
 from dotenv import load_dotenv
-from square.client import Client
+from square import Square
 import uuid
 
 load_dotenv()
@@ -11,7 +11,7 @@ load_dotenv()
 router = APIRouter(prefix="/api/square-connect", tags=["square-connect"])
 
 # Initialize Square Client
-square_client = Client(
+square_client = Square(
     access_token=os.getenv("SQUARE_ACCESS_TOKEN"),
     environment=os.getenv("SQUARE_ENVIRONMENT", "sandbox")
 )
