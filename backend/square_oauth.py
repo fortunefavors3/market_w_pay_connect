@@ -182,7 +182,7 @@ async def refresh_access_token(request: RefreshTokenRequest):
             json={
                 "client_id": SQUARE_APPLICATION_ID,
                 "client_secret": SQUARE_APPLICATION_SECRET,
-                "refresh_token": refresh_token,
+                "refresh_token": request.refresh_token,
                 "grant_type": "refresh_token",
             },
             headers={"Content-Type": "application/json"}
