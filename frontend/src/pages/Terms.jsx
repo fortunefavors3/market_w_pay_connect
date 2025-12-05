@@ -311,7 +311,7 @@ const Terms = () => {
               </p>
               <div className="space-y-2">
                 <p><strong>Email:</strong> legal@cheqmart.com</p>
-                <p><strong>Phone:</strong> 1-800-BAYMARKET (229-6275)</p>
+                <p><strong>Phone:</strong> 1-800-CHEQMART (229-6275)</p>
                 <p><strong>Mail:</strong> CheqMart Legal Team, 123 Market Street, San Francisco, CA 94103</p>
               </div>
               <Button onClick={() => navigate('/contact')} className="mt-4">

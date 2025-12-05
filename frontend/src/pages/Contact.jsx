@@ -44,7 +44,7 @@ const Contact = () => {
     {
       icon: Phone,
       title: 'Call Us',
-      description: '1-800-BAYMARKET',
+      description: '1-800-CHEQMART',
       detail: 'Mon-Fri 9AM-6PM EST',
       action: 'tel:1-800-229-6275'
     },

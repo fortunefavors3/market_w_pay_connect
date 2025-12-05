@@ -220,14 +220,14 @@ const IntegrationGuides = () => {
         code: `import { fetch } from 'wix-fetch';
 
 // Initialize CheqMart
-const BAYMARKET_API_KEY = 'YOUR_API_KEY';
-const BAYMARKET_API_URL = 'https://api.cheqmart.com';
+const CHEQMART_API_KEY = 'YOUR_API_KEY';
+const CHEQMART_API_URL = 'https://api.cheqmart.com';
 
 export async function initCheqMartCheckout(productId) {
-  const response = await fetch(\`\${BAYMARKET_API_URL}/checkout/init\`, {
+  const response = await fetch(\`\${CHEQMART_API_URL}/checkout/init\`, {
     method: 'POST',
     headers: {
-      'Authorization': \`Bearer \${BAYMARKET_API_KEY}\`,
+      'Authorization': \`Bearer \${CHEQMART_API_KEY}\`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ productId })
