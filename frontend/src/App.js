@@ -51,6 +51,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/personal-details" element={<PersonalDetails />} />
               <Route path="/payment-processors" element={<PaymentProcessors />} />
+              <Route path="/stripe-connect" element={<StripeConnect />} />
               <Route path="/seller-page-editor" element={<SellerPageEditor />} />
               <Route path="/customize/:id" element={<ProductCustomizer />} />
               <Route path="/seller/:id" element={<SellerProfile />} />
