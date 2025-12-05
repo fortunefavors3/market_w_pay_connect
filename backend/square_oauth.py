@@ -138,7 +138,7 @@ async def get_merchant_status(merchant_id: str, access_token: str):
         )
         
         # Get merchant information
-        result = merchant_client.merchants.retrieve_merchant(merchant_id=merchant_id)
+        result = merchant_client.merchants.list_merchants()
         
         if result.is_success():
             merchant = result.body.get("merchant", {})
