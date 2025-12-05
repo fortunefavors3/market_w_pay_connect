@@ -37,8 +37,15 @@ const SearchResults = () => {
     filteredProducts.sort((a, b) => a.price - b.price);
   } else if (filters.sortBy === 'price_high') {
     filteredProducts.sort((a, b) => b.price - a.price);
-  } else if (filters.sortBy === 'newest') {
-    // Mock sorting by newest
+  } else if (filters.sortBy === 'most_recent') {
+    // Mock sorting by newest (would use createdAt date in real app)
+    filteredProducts.reverse();
+  } else if (filters.sortBy === 'most_popular') {
+    filteredProducts.sort((a, b) => b.views - a.views);
+  } else if (filters.sortBy === 'highest_rated') {
+    filteredProducts.sort((a, b) => b.seller.rating - a.seller.rating);
+  } else if (filters.sortBy === 'alphabetical') {
+    filteredProducts.sort((a, b) => a.title.localeCompare(b.title));
   }
 
   const handleConditionChange = (condition, checked) => {
