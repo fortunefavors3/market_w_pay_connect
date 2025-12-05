@@ -627,6 +627,197 @@ function openBayMarketCheckout(productId) {
           'Test webhook delivery'
         ]
       }
+    ],
+    wordpress: [
+      {
+        title: 'Install BayMarket Plugin',
+        description: 'Add the WordPress plugin to your site',
+        code: null,
+        instructions: [
+          'Download the BayMarket WordPress plugin from our website',
+          'Go to WordPress Admin > Plugins > Add New',
+          'Click "Upload Plugin" and select the .zip file',
+          'Click "Install Now" and wait for installation',
+          'Click "Activate Plugin" to enable it'
+        ]
+      },
+      {
+        title: 'Configure Plugin Settings',
+        description: 'Connect your BayMarket account',
+        code: null,
+        instructions: [
+          'Go to WordPress Admin > Settings > BayMarket',
+          'Enter your BayMarket API Key (from your seller dashboard)',
+          'Enter your Seller ID',
+          'Choose your preferred checkout style (popup or redirect)',
+          'Select button styling options',
+          'Click "Save Changes"'
+        ]
+      },
+      {
+        title: 'Add Products Using Custom Post Type',
+        description: 'Create BayMarket products in WordPress',
+        code: null,
+        instructions: [
+          'Go to BayMarket Products > Add New in WordPress admin',
+          'Enter product title and description',
+          'Set product price and inventory',
+          'Upload product images',
+          'Add product categories and tags',
+          'Publish the product'
+        ]
+      },
+      {
+        title: 'Embed Checkout with Shortcode',
+        description: 'Add checkout buttons to pages and posts',
+        code: `<!-- Single Product Checkout -->
+[baymarket_checkout product_id="12345" button_text="Buy Now"]
+
+<!-- Product with Custom Styling -->
+[baymarket_checkout product_id="12345" button_color="#4F46E5" button_size="large"]
+
+<!-- Multiple Products -->
+[baymarket_checkout product_id="12345,67890,11223" layout="grid"]
+
+<!-- Product Gallery -->
+[baymarket_products category="electronics" limit="8" columns="4"]
+
+<!-- Buy Button with Quantity -->
+[baymarket_checkout product_id="12345" show_quantity="true" min="1" max="10"]`,
+        instructions: [
+          'Edit any page or post in WordPress',
+          'Add the shortcode where you want the checkout button',
+          'Replace product_id with your actual BayMarket product ID',
+          'Customize button text and styling as needed',
+          'Preview and publish your page',
+          'Shortcodes work in widgets and page builders too'
+        ]
+      },
+      {
+        title: 'Use the Gutenberg Block',
+        description: 'Add checkout using block editor',
+        code: null,
+        instructions: [
+          'Open any page in the Block Editor (Gutenberg)',
+          'Click the "+" button to add a new block',
+          'Search for "BayMarket Checkout"',
+          'Select your product from the dropdown',
+          'Customize button appearance in the block settings',
+          'Preview and publish'
+        ]
+      },
+      {
+        title: 'Add Widget to Sidebar',
+        description: 'Display products in sidebars and footer',
+        code: null,
+        instructions: [
+          'Go to Appearance > Widgets',
+          'Find "BayMarket Product Widget"',
+          'Drag it to your desired widget area',
+          'Select product or product category',
+          'Configure display options (image, price, button)',
+          'Save widget settings'
+        ]
+      },
+      {
+        title: 'Configure Order Notifications',
+        description: 'Set up email notifications for orders',
+        code: `// Add to functions.php for custom order handling
+add_action('baymarket_order_completed', 'custom_baymarket_order_handler', 10, 1);
+
+function custom_baymarket_order_handler($order_data) {
+    // Send custom email notification
+    $to = get_option('admin_email');
+    $subject = 'New BayMarket Order: ' . $order_data['order_id'];
+    $message = 'Order details: ' . print_r($order_data, true);
+    wp_mail($to, $subject, $message);
+    
+    // Log to custom database table
+    global $wpdb;
+    $wpdb->insert('wp_baymarket_orders', [
+        'order_id' => $order_data['order_id'],
+        'customer_email' => $order_data['customer_email'],
+        'total' => $order_data['total'],
+        'status' => 'completed',
+        'created_at' => current_time('mysql')
+    ]);
+    
+    // Trigger custom actions
+    do_action('my_custom_order_action', $order_data);
+}`,
+        instructions: [
+          'Go to Settings > BayMarket > Notifications',
+          'Enable email notifications for new orders',
+          'Enter notification email addresses',
+          'Customize email templates',
+          'Set up webhook URL for external integrations',
+          'Add custom code to functions.php for advanced handling (optional)'
+        ]
+      },
+      {
+        title: 'Style and Customize',
+        description: 'Match your site design',
+        code: `/* Add to your theme's style.css or custom CSS */
+
+/* Customize Buy Button */
+.baymarket-checkout-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    transition: transform 0.2s;
+}
+
+.baymarket-checkout-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* Product Grid Layout */
+.baymarket-products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 24px;
+    margin: 32px 0;
+}
+
+/* Product Card Styling */
+.baymarket-product-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px;
+    transition: box-shadow 0.3s;
+}
+
+.baymarket-product-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}`,
+        instructions: [
+          'Go to Appearance > Customize > Additional CSS',
+          'Add custom CSS to style checkout buttons',
+          'Customize product grid layout',
+          'Match colors to your theme',
+          'Add hover effects and animations',
+          'Test on mobile devices for responsiveness'
+        ]
+      },
+      {
+        title: 'Test Your Integration',
+        description: 'Verify everything works correctly',
+        code: null,
+        instructions: [
+          'Create a test product in BayMarket',
+          'Add the product to a WordPress page using shortcode',
+          'Click the checkout button on the live page',
+          'Complete a test purchase (use test card if available)',
+          'Verify order appears in BayMarket dashboard',
+          'Check that email notifications are received',
+          'Test on mobile devices and different browsers'
+        ]
+      }
     ]
   };
 
