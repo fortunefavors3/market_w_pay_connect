@@ -37,7 +37,7 @@ const StripeConnect = () => {
   // Redirect to auth if not logged in
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate('/auth', { state: { from: { pathname: '/payment-processors' } } });
+      navigate('/auth', { state: { from: { pathname: '/stripe-connect' } } });
     }
   }, [isAuthenticated, navigate]);
 
