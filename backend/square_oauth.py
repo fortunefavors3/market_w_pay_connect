@@ -141,13 +141,22 @@ async def get_merchant_status(merchant_id: str, access_token: str):
         result = merchant_client.merchants.list_merchants()
         
         if result.is_success():
-            merchant = result.body.get("merchant", {})
-            return MerchantStatusResponse(
-                merchant_id=merchant_id,
-                business_name=merchant.get("business_name"),
-                is_active=merchant.get("status") == "ACTIVE",
-                has_access_token=True
-            )
+            merchants = result.body.get("merchant", [])
+            if merchants:
+                merchant = merchants[0] if isinstance(merchants, list) else merchants
+                return MerchantStatusResponse(
+                    merchant_id=merchant_id,
+                    business_name=merchant.get("business_name"),
+                    is_active=merchant.get("status") == "ACTIVE",
+                    has_access_token=True
+                )
+            else:
+                return MerchantStatusResponse(
+                    merchant_id=merchant_id,
+                    business_name=None,
+                    is_active=False,
+                    has_access_token=True
+                )
         else:
             raise HTTPException(
                 status_code=400,
