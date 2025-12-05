@@ -103,9 +103,10 @@
 #====================================================================================================
 
 user_problem_statement: |
-  Complete Stripe Connect integration for the eBay-style marketplace application.
-  Sellers need to connect their Stripe accounts to receive payments from buyers.
-  Full onboarding flow with status tracking and enforcement before listing items.
+  Complete payment processor integration for the eBay-style marketplace application.
+  Implemented Stripe Connect and Square OAuth for seller payment processing.
+  Sellers can choose Stripe, Square, or both to receive payments from buyers.
+  Full onboarding flows with status tracking and enforcement before listing items.
 
 backend:
   - task: "User Management Endpoints"
