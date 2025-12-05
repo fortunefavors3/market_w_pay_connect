@@ -249,7 +249,10 @@ const PaymentSetup = () => {
             <strong>Square</strong> is perfect if you already use Square for in-person sales or prefer their all-in-one ecosystem.
           </p>
           <p>
-            <strong>Both?</strong> You can connect multiple processors and choose per transaction, giving your buyers more options.
+            <strong>PayPal</strong> is ideal if your buyers prefer PayPal's trusted platform or you want to accept PayPal balance payments.
+          </p>
+          <p>
+            <strong>Multiple?</strong> You can connect all three processors and choose per transaction, giving your buyers maximum flexibility.
           </p>
         </CardContent>
       </Card>
