@@ -11,9 +11,16 @@ import { toast } from '../hooks/use-toast';
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const [activeListings] = useState(mockMyListings.filter(l => l.status === 'active'));
   const [soldListings] = useState(mockMyListings.filter(l => l.status === 'sold'));
+
+  // Redirect to auth if not logged in
+  React.useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/auth', { state: { from: { pathname: '/dashboard' } } });
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleDeleteListing = (id) => {
     toast({
