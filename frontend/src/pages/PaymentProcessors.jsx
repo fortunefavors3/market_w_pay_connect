@@ -13,7 +13,14 @@ import { toast } from '../hooks/use-toast';
 
 const PaymentProcessors = () => {
   const navigate = useNavigate();
-  const { user, updateUser } = useAuth();
+  const { user, isAuthenticated, updateUser } = useAuth();
+
+  // Redirect to auth if not logged in
+  React.useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/auth', { state: { from: { pathname: '/payment-processors' } } });
+    }
+  }, [isAuthenticated, navigate]);
   
   const [processors, setProcessors] = useState({
     stripe: {
