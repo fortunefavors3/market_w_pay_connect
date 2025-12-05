@@ -184,6 +184,66 @@ backend:
         agent: "testing"
         comment: "TESTED: POST /api/stripe-connect/create-login-link/{account_id} working correctly. Properly returns 400 error for accounts that haven't completed onboarding (expected Stripe behavior). Error handling works correctly for invalid account IDs. Implementation is correct - login links can only be created after onboarding completion."
 
+  - task: "Square OAuth Endpoints"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/square_oauth.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented Square OAuth integration with 6 endpoints: POST /api/square-connect/initiate-oauth (generate OAuth URL), POST /api/square-connect/exchange-token (exchange code for tokens), GET /api/square-connect/merchant-status/{merchant_id} (get merchant info), POST /api/square-connect/refresh-token (refresh expired token), POST /api/square-connect/revoke-token (disconnect merchant), GET /api/square-connect/test-connection (test API connection)"
+
+  - task: "Square User Management Endpoints"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added User model with Square fields (square_merchant_id, square_access_token, square_refresh_token, square_connected). Created endpoints: POST /api/users/square-account (save Square merchant details), GET /api/users/{user_id}/square-status (get user's Square connection status)"
+
+  - task: "PayPal OAuth Endpoints"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/paypal_oauth.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented PayPal OAuth integration with 5 endpoints: POST /api/paypal-connect/initiate-oauth (generate OAuth URL), POST /api/paypal-connect/exchange-token (exchange code for tokens and get user info), GET /api/paypal-connect/merchant-status/{payer_id} (get merchant info), POST /api/paypal-connect/refresh-token (refresh expired token), GET /api/paypal-connect/test-connection (test API connection)"
+
+  - task: "PayPal User Management Endpoints"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added User model with PayPal fields (paypal_payer_id, paypal_email, paypal_access_token, paypal_refresh_token, paypal_connected). Created endpoints: POST /api/users/paypal-account (save PayPal account details), GET /api/users/{user_id}/paypal-status (get user's PayPal connection status)"
+
+  - task: "Combined Payment Status Endpoint"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created GET /api/users/{user_id}/payment-status endpoint that returns overall payment processor status across all three processors (Stripe, Square, PayPal). Returns has_any_processor flag and individual processor statuses with account IDs."
+
 frontend:
   - task: "Stripe Connect Page"
     implemented: true
