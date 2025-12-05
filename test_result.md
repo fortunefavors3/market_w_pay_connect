@@ -195,6 +195,9 @@ frontend:
       - working: "NA"
         agent: "main"
         comment: "Created comprehensive StripeConnect page with: Connect button, onboarding flow, status display (4 badges: Account Status, Onboarding, Accept Payments, Receive Payouts), continue onboarding button for incomplete setup, refresh status button, view Stripe dashboard button, handles return from Stripe onboarding with URL params"
+      - working: "NA"
+        agent: "main"
+        comment: "Ready for frontend testing - need to verify UI loads, buttons work, API calls succeed, status displays correctly"
 
   - task: "Dashboard Stripe Integration"
     implemented: true
@@ -207,6 +210,9 @@ frontend:
       - working: "NA"
         agent: "main"
         comment: "Updated Dashboard to check user.stripeConnected instead of paymentProcessors. Shows amber alert card if Stripe not connected. Payment Setup button (was Payment Processors) now links to /stripe-connect with Required badge if not connected"
+      - working: "NA"
+        agent: "main"
+        comment: "Ready for frontend testing - need to verify alert displays, button links correctly, badge shows when required"
 
   - task: "Sell Item Stripe Enforcement"
     implemented: true
@@ -219,6 +225,9 @@ frontend:
       - working: "NA"
         agent: "main"
         comment: "Updated EnhancedSellItem to check user.stripeConnected before allowing item listing. Shows toast notification and redirects to /stripe-connect if not connected"
+      - working: "NA"
+        agent: "main"
+        comment: "Ready for frontend testing - need to verify redirect happens, toast shows, access blocked without Stripe"
 
   - task: "App Routing"
     implemented: true
@@ -231,6 +240,9 @@ frontend:
       - working: "NA"
         agent: "main"
         comment: "Added /stripe-connect route with StripeConnect component"
+      - working: "NA"
+        agent: "main"
+        comment: "Ready for frontend testing - need to verify route works and page loads"
 
 metadata:
   created_by: "main_agent"
