@@ -4,8 +4,9 @@ import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { Badge } from '../components/ui/badge';
-import { Package, ShoppingBag, MessageSquare, Heart, Settings, Plus, Edit, Trash2, Eye } from 'lucide-react';
-import { mockOrders, mockMyListings, mockMessages, mockUser } from '../mock';
+import { Package, ShoppingBag, MessageSquare, Heart, Settings, Plus, Edit, Trash2, Eye, User, CreditCard } from 'lucide-react';
+import { mockOrders, mockMyListings, mockMessages } from '../mock';
+import { useAuth } from '../context/AuthContext';
 import { toast } from '../hooks/use-toast';
 
 const Dashboard = () => {
