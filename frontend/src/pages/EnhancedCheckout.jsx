@@ -45,11 +45,11 @@ const EnhancedCheckout = () => {
   useEffect(() => {
     if (user?.shippingAddress) {
       setFormData(prev => ({ ...prev, ...user.shippingAddress }));
-    }
-    
-    // Skip to step 2 for returning users
-    if (user?.shippingAddress && user?.paymentMethods?.length > 0) {
-      setStep(2);
+      
+      // Skip to step 2 for returning users with saved info
+      if (user?.paymentMethods?.length > 0) {
+        setStep(2);
+      }
     }
   }, [user]);
 
