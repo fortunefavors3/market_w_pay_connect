@@ -74,7 +74,7 @@ const PaymentSetup = () => {
       id: 'square',
       name: 'Square',
       logoUrl: 'https://images.ctfassets.net/2d5q1td6cyxq/aXlc4MSO8ZGKTDIsPuIeW/c2b899a80016ca75b88086647cdd61f7/PD04490_-_white_logo_on_black.png?w=553&h=283&fm=jpg&q=85&bg=rgb%3Affffff&fit=scale&fl=progressive',
-      description: 'Simple and powerful payment solution',
+      description: 'Simple & Powerful payment solution',
       connected: paymentStatus.square_connected,
       fee: '2.6% + $0.10',
       route: '/square-connect',
