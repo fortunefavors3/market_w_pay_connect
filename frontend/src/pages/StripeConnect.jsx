@@ -258,8 +258,12 @@ const StripeConnect = () => {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-500 rounded-lg flex items-center justify-center">
-                <CreditCard className="w-6 h-6 text-white" />
+              <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-500 rounded-lg flex items-center justify-center p-2">
+                <img 
+                  src="https://images.stripeassets.com/fzn2n1nzq965/HTTOloNPhisV9P4hlMPNA/cacf1bb88b9fc492dfad34378d844280/Stripe_icon_-_square.svg?q=80&w=1082"
+                  alt="Stripe logo"
+                  className="w-full h-full object-contain"
+                />
               </div>
               <div>
                 <CardTitle className="text-xl">Stripe Connect</CardTitle>
