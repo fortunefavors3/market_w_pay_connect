@@ -466,3 +466,54 @@ agent_communication:
       - User Experience: ✅ Smooth and intuitive
       
       ALL STRIPE CONNECT FEATURES READY FOR PRODUCTION USE
+
+  - agent: "main"
+    message: |
+      PREPARING FOR SQUARE AND PAYPAL BACKEND TESTING
+      
+      IMPLEMENTED SQUARE INTEGRATION:
+      Backend Endpoints (6 total):
+      1. POST /api/square-connect/initiate-oauth - Generate OAuth authorization URL
+      2. POST /api/square-connect/exchange-token - Exchange authorization code for access/refresh tokens
+      3. GET /api/square-connect/merchant-status/{merchant_id} - Get merchant information
+      4. POST /api/square-connect/refresh-token - Refresh expired access token
+      5. POST /api/square-connect/revoke-token - Revoke/disconnect merchant access
+      6. GET /api/square-connect/test-connection - Test Square API connection
+      
+      User Management Endpoints (2 total):
+      1. POST /api/users/square-account - Save Square merchant details (merchant_id, access_token, refresh_token)
+      2. GET /api/users/{user_id}/square-status - Get user's Square connection status
+      
+      IMPLEMENTED PAYPAL INTEGRATION:
+      Backend Endpoints (5 total):
+      1. POST /api/paypal-connect/initiate-oauth - Generate OAuth authorization URL
+      2. POST /api/paypal-connect/exchange-token - Exchange code for tokens + get user info
+      3. GET /api/paypal-connect/merchant-status/{payer_id} - Get merchant information
+      4. POST /api/paypal-connect/refresh-token - Refresh expired access token
+      5. GET /api/paypal-connect/test-connection - Test PayPal API connection
+      
+      User Management Endpoints (2 total):
+      1. POST /api/users/paypal-account - Save PayPal account details (payer_id, email, tokens)
+      2. GET /api/users/{user_id}/paypal-status - Get user's PayPal connection status
+      
+      COMBINED ENDPOINT:
+      1. GET /api/users/{user_id}/payment-status - Get overall status across all 3 processors
+      
+      DATABASE SCHEMA:
+      Square Fields: square_merchant_id, square_access_token, square_refresh_token, square_connected
+      PayPal Fields: paypal_payer_id, paypal_email, paypal_access_token, paypal_refresh_token, paypal_connected
+      
+      TESTING REQUIREMENTS:
+      - Test all Square OAuth endpoints with sandbox credentials
+      - Test all PayPal OAuth endpoints with sandbox credentials  
+      - Test user management endpoints for both processors
+      - Test combined payment status endpoint
+      - Verify MongoDB data persistence
+      - Test error handling for invalid inputs
+      - Test token refresh mechanisms
+      - Test connection test endpoints
+      
+      ENVIRONMENT:
+      - Square: Using sandbox environment with test credentials from .env
+      - PayPal: Using sandbox mode with test credentials from .env
+      - Both SDKs installed: squareup==43.2.0.20251016, paypalrestsdk==1.13.1
