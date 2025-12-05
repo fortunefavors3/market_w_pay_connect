@@ -240,10 +240,6 @@ metadata:
 
 test_plan:
   current_focus:
-    - "User Management Endpoints"
-    - "Stripe Connect Account Creation"
-    - "Stripe Account Onboarding Flow"
-    - "Stripe Account Status Checking"
     - "Stripe Connect Page"
     - "Dashboard Stripe Integration"
     - "Sell Item Stripe Enforcement"
