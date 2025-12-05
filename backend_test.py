@@ -662,7 +662,7 @@ def test_paypal_exchange_token():
     response = make_request("POST", "/paypal-connect/exchange-token?redirect_url=https://example.com/paypal-callback", test_data)
     
     # This should fail with 400 since we're using a fake code
-    if response and response.status_code == 400:
+    if response is not None and response.status_code == 400:
         log_test("PayPal Exchange Token", "PASS", 
                 "Correctly returned 400 for invalid authorization code (expected)")
         return True
