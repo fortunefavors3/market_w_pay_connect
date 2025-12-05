@@ -14,6 +14,7 @@ stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 
 
 class CreateAccountRequest(BaseModel):
+    user_id: str
     email: str
     business_type: str = "individual"  # or "company"
     country: str = "US"
