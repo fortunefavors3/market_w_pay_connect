@@ -45,7 +45,7 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             <Button variant="outline" onClick={() => navigate('/personal-details')}>
               <User className="w-4 h-4 mr-2" />
               Personal Details
