@@ -1202,6 +1202,14 @@ def run_all_tests():
     
     # Test sequence as specified in requirements
     tests = [
+        # PLATFORM FEE COLLECTION PAYMENT TESTS (NEW - HIGH PRIORITY)
+        test_fee_calculation_endpoint,
+        test_stripe_payment_intent_creation,
+        test_square_payment_creation,
+        test_paypal_order_creation,
+        test_unified_payment_process_endpoint,
+        test_payment_history_endpoint,
+        
         # STRIPE CONNECT TESTS (existing)
         test_stripe_connect_create_account,
         test_stripe_connect_create_account_second,
