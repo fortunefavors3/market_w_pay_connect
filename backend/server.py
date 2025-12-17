@@ -351,6 +351,9 @@ app.include_router(stripe_connect_router)
 app.include_router(square_oauth_router)
 app.include_router(paypal_oauth_router)
 
+# Mount static files for serving uploaded avatars
+app.mount("/api/uploads", StaticFiles(directory=str(UPLOADS_DIR)), name="uploads")
+
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
