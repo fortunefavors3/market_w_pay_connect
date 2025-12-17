@@ -891,6 +891,300 @@ def test_payment_status_with_processors():
                 f"Request failed or unexpected status code")
         return False
 
+# ============================================================================
+# PLATFORM FEE COLLECTION PAYMENT TESTS
+# ============================================================================
+
+def test_fee_calculation_endpoint():
+    """Test POST /api/payments/calculate-fees for different amounts"""
+    test_amounts = [100, 50, 200, 99.99]
+    expected_results = [
+        {"total": 100, "platform_fee": 5.5, "seller_amount": 94.5, "fee_rate": 0.055},
+        {"total": 50, "platform_fee": 2.75, "seller_amount": 47.25, "fee_rate": 0.055},
+        {"total": 200, "platform_fee": 11.0, "seller_amount": 189.0, "fee_rate": 0.055},
+        {"total": 99.99, "platform_fee": 5.5, "seller_amount": 94.49, "fee_rate": 0.055}
+    ]
+    
+    all_passed = True
+    for i, amount in enumerate(test_amounts):
+        response = make_request("POST", f"/payments/calculate-fees?amount={amount}")
+        
+        if response and response.status_code == 200:
+            data = response.json()
+            expected = expected_results[i]
+            
+            # Check all required fields exist
+            required_fields = ["total", "platform_fee", "seller_amount", "fee_rate"]
+            if not all(field in data for field in required_fields):
+                log_test(f"Fee Calculation ${amount}", "FAIL", 
+                        f"Missing required fields: {[f for f in required_fields if f not in data]}")
+                all_passed = False
+                continue
+            
+            # Check fee rate is correct (5.5%)
+            if data["fee_rate"] != 0.055:
+                log_test(f"Fee Calculation ${amount}", "FAIL", 
+                        f"Expected fee_rate: 0.055, got: {data['fee_rate']}")
+                all_passed = False
+                continue
+            
+            # Check total amount matches
+            if data["total"] != amount:
+                log_test(f"Fee Calculation ${amount}", "FAIL", 
+                        f"Expected total: {amount}, got: {data['total']}")
+                all_passed = False
+                continue
+            
+            # Check platform fee calculation (5.5% of amount)
+            expected_fee = round(amount * 0.055, 2)
+            if abs(data["platform_fee"] - expected_fee) > 0.01:
+                log_test(f"Fee Calculation ${amount}", "FAIL", 
+                        f"Expected platform_fee: {expected_fee}, got: {data['platform_fee']}")
+                all_passed = False
+                continue
+            
+            # Check seller amount calculation
+            expected_seller = round(amount - expected_fee, 2)
+            if abs(data["seller_amount"] - expected_seller) > 0.01:
+                log_test(f"Fee Calculation ${amount}", "FAIL", 
+                        f"Expected seller_amount: {expected_seller}, got: {data['seller_amount']}")
+                all_passed = False
+                continue
+            
+            log_test(f"Fee Calculation ${amount}", "PASS", 
+                    f"Correct calculation: ${amount} -> fee: ${data['platform_fee']}, seller: ${data['seller_amount']}")
+        else:
+            log_test(f"Fee Calculation ${amount}", "FAIL", 
+                    f"Request failed or unexpected status code")
+            all_passed = False
+    
+    return all_passed
+
+def test_stripe_payment_intent_creation():
+    """Test POST /api/payments/stripe/create-payment-intent"""
+    test_data = {
+        "seller_id": "test_seller_123",
+        "amount": 100,
+        "currency": "USD"
+    }
+    
+    response = make_request("POST", "/payments/stripe/create-payment-intent", test_data)
+    
+    # This will likely fail without a real seller with Stripe account, but test the endpoint exists
+    if response is not None:
+        if response.status_code == 400:
+            data = response.json()
+            if "does not have a connected Stripe account" in data.get("detail", ""):
+                log_test("Stripe Payment Intent Creation", "PASS", 
+                        "Endpoint exists and returns appropriate error for missing seller (expected)")
+                return True
+            else:
+                log_test("Stripe Payment Intent Creation", "FAIL", 
+                        f"Unexpected error message: {data.get('detail')}")
+                return False
+        elif response.status_code == 200:
+            # If it somehow succeeds, check the response structure
+            data = response.json()
+            required_fields = ["success", "amount", "platform_fee", "seller_amount", "processor"]
+            if all(field in data for field in required_fields):
+                log_test("Stripe Payment Intent Creation", "PASS", 
+                        "Endpoint working and returns proper response structure")
+                return True
+            else:
+                log_test("Stripe Payment Intent Creation", "FAIL", 
+                        f"Missing required fields in response")
+                return False
+        else:
+            log_test("Stripe Payment Intent Creation", "FAIL", 
+                    f"Unexpected status code: {response.status_code}")
+            return False
+    else:
+        log_test("Stripe Payment Intent Creation", "FAIL", 
+                "Request failed completely")
+        return False
+
+def test_square_payment_creation():
+    """Test POST /api/payments/square/create-payment"""
+    test_data = {
+        "seller_id": "test_seller_123",
+        "buyer_id": "test_buyer_456",
+        "amount": 100,
+        "processor": "square"
+    }
+    
+    response = make_request("POST", "/payments/square/create-payment", test_data)
+    
+    # This will likely fail without a real seller with Square account, but test the endpoint exists
+    if response is not None:
+        if response.status_code == 400:
+            data = response.json()
+            if "does not have a connected Square account" in data.get("detail", ""):
+                log_test("Square Payment Creation", "PASS", 
+                        "Endpoint exists and returns appropriate error for missing seller (expected)")
+                return True
+            else:
+                log_test("Square Payment Creation", "FAIL", 
+                        f"Unexpected error message: {data.get('detail')}")
+                return False
+        elif response.status_code == 200:
+            # If it somehow succeeds, check the response structure
+            data = response.json()
+            required_fields = ["success", "amount", "platform_fee", "seller_amount", "processor"]
+            if all(field in data for field in required_fields):
+                log_test("Square Payment Creation", "PASS", 
+                        "Endpoint working and returns proper response structure")
+                return True
+            else:
+                log_test("Square Payment Creation", "FAIL", 
+                        f"Missing required fields in response")
+                return False
+        else:
+            log_test("Square Payment Creation", "FAIL", 
+                    f"Unexpected status code: {response.status_code}")
+            return False
+    else:
+        log_test("Square Payment Creation", "FAIL", 
+                "Request failed completely")
+        return False
+
+def test_paypal_order_creation():
+    """Test POST /api/payments/paypal/create-order"""
+    test_data = {
+        "seller_id": "test_seller_123",
+        "buyer_id": "test_buyer_456",
+        "amount": 100,
+        "processor": "paypal"
+    }
+    
+    response = make_request("POST", "/payments/paypal/create-order", test_data)
+    
+    # This will likely fail without a real seller with PayPal account, but test the endpoint exists
+    if response is not None:
+        if response.status_code == 400:
+            data = response.json()
+            if "does not have a connected PayPal account" in data.get("detail", ""):
+                log_test("PayPal Order Creation", "PASS", 
+                        "Endpoint exists and returns appropriate error for missing seller (expected)")
+                return True
+            else:
+                log_test("PayPal Order Creation", "FAIL", 
+                        f"Unexpected error message: {data.get('detail')}")
+                return False
+        elif response.status_code == 200:
+            # If it somehow succeeds, check the response structure
+            data = response.json()
+            required_fields = ["success", "amount", "platform_fee", "seller_amount", "processor"]
+            if all(field in data for field in required_fields):
+                log_test("PayPal Order Creation", "PASS", 
+                        "Endpoint working and returns proper response structure")
+                return True
+            else:
+                log_test("PayPal Order Creation", "FAIL", 
+                        f"Missing required fields in response")
+                return False
+        else:
+            log_test("PayPal Order Creation", "FAIL", 
+                    f"Unexpected status code: {response.status_code}")
+            return False
+    else:
+        log_test("PayPal Order Creation", "FAIL", 
+                "Request failed completely")
+        return False
+
+def test_unified_payment_process_endpoint():
+    """Test POST /api/payments/process with different processors"""
+    processors = ["stripe", "square", "paypal"]
+    
+    all_passed = True
+    for processor in processors:
+        test_data = {
+            "seller_id": "test_seller_123",
+            "buyer_id": "test_buyer_456",
+            "amount": 100,
+            "processor": processor,
+            "currency": "USD"
+        }
+        
+        response = make_request("POST", "/payments/process", test_data)
+        
+        if response is not None:
+            if response.status_code == 400:
+                data = response.json()
+                if "does not have a connected" in data.get("detail", ""):
+                    log_test(f"Unified Payment Process ({processor})", "PASS", 
+                            f"Endpoint routes to {processor} and returns appropriate error for missing seller (expected)")
+                else:
+                    log_test(f"Unified Payment Process ({processor})", "FAIL", 
+                            f"Unexpected error message: {data.get('detail')}")
+                    all_passed = False
+            elif response.status_code == 200:
+                # If it somehow succeeds, check the response structure
+                data = response.json()
+                if data.get("processor") == processor:
+                    log_test(f"Unified Payment Process ({processor})", "PASS", 
+                            f"Endpoint correctly routes to {processor} processor")
+                else:
+                    log_test(f"Unified Payment Process ({processor})", "FAIL", 
+                            f"Expected processor: {processor}, got: {data.get('processor')}")
+                    all_passed = False
+            else:
+                log_test(f"Unified Payment Process ({processor})", "FAIL", 
+                        f"Unexpected status code: {response.status_code}")
+                all_passed = False
+        else:
+            log_test(f"Unified Payment Process ({processor})", "FAIL", 
+                    "Request failed completely")
+            all_passed = False
+    
+    return all_passed
+
+def test_payment_history_endpoint():
+    """Test GET /api/payments/history/test_user?role=buyer"""
+    test_user_id = "test_user_history_123"
+    
+    # Test as buyer
+    response = make_request("GET", f"/payments/history/{test_user_id}?role=buyer")
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        required_fields = ["payments", "count"]
+        
+        if all(field in data for field in required_fields):
+            if isinstance(data["payments"], list) and isinstance(data["count"], int):
+                log_test("Payment History Endpoint (buyer)", "PASS", 
+                        f"Returns proper structure: {data['count']} payments found")
+                
+                # Test as seller
+                response_seller = make_request("GET", f"/payments/history/{test_user_id}?role=seller")
+                
+                if response_seller and response_seller.status_code == 200:
+                    data_seller = response_seller.json()
+                    if all(field in data_seller for field in required_fields):
+                        log_test("Payment History Endpoint (seller)", "PASS", 
+                                f"Returns proper structure: {data_seller['count']} payments found")
+                        return True
+                    else:
+                        log_test("Payment History Endpoint (seller)", "FAIL", 
+                                f"Missing required fields in seller response")
+                        return False
+                else:
+                    log_test("Payment History Endpoint (seller)", "FAIL", 
+                            "Seller role request failed")
+                    return False
+            else:
+                log_test("Payment History Endpoint (buyer)", "FAIL", 
+                        "Invalid data types in response")
+                return False
+        else:
+            missing_fields = [f for f in required_fields if f not in data]
+            log_test("Payment History Endpoint (buyer)", "FAIL", 
+                    f"Missing required fields: {missing_fields}")
+            return False
+    else:
+        log_test("Payment History Endpoint (buyer)", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
 def run_all_tests():
     """Run all tests in sequence"""
     print("=" * 80)
