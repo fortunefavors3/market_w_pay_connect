@@ -496,6 +496,13 @@ test_plan:
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
+  completed_testing:
+    - "Platform Fee Collection Payment APIs (5.5%)"
+    - "All Stripe Connect endpoints"
+    - "All Square OAuth endpoints" 
+    - "All PayPal OAuth endpoints"
+    - "User management for all processors"
+    - "Combined payment status endpoint"
 
 agent_communication:
   - agent: "main"
