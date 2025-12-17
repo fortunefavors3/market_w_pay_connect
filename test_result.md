@@ -703,6 +703,6 @@ agent_communication:
       - Square: sandbox environment confirmed, using connect.squareupsandbox.com
       - PayPal: sandbox mode confirmed, using sandbox.paypal.com
       - All endpoints use /api prefix for proper Kubernetes routing
-      - Backend URL correctly configured: https://seller-payments.preview.emergentagent.com/api
+      - Backend URL correctly configured: https://processor-connect.preview.emergentagent.com/api
       
       ALL SQUARE AND PAYPAL BACKEND FUNCTIONALITY READY FOR PRODUCTION USE
