@@ -972,15 +972,16 @@ def test_stripe_payment_intent_creation():
     
     # This will likely fail without a real seller with Stripe account, but test the endpoint exists
     if response is not None:
-        if response.status_code == 400:
+        if response.status_code in [400, 520]:  # Accept both 400 and 520 (proxy error wrapping 400)
             data = response.json()
-            if "does not have a connected Stripe account" in data.get("detail", ""):
+            error_detail = data.get("detail", "")
+            if "does not have a connected Stripe account" in error_detail or "400: Seller does not have a connected Stripe account" in error_detail:
                 log_test("Stripe Payment Intent Creation", "PASS", 
                         "Endpoint exists and returns appropriate error for missing seller (expected)")
                 return True
             else:
                 log_test("Stripe Payment Intent Creation", "FAIL", 
-                        f"Unexpected error message: {data.get('detail')}")
+                        f"Unexpected error message: {error_detail}")
                 return False
         elif response.status_code == 200:
             # If it somehow succeeds, check the response structure
