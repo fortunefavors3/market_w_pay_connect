@@ -776,3 +776,28 @@ agent_communication:
       - Backend URL correctly configured: https://processor-connect.preview.emergentagent.com/api
       
       ALL SQUARE AND PAYPAL BACKEND FUNCTIONALITY READY FOR PRODUCTION USE
+
+  - agent: "testing"
+    message: |
+      AVATAR UPLOAD FEATURE TESTING INITIATED
+      
+      TESTING SCOPE:
+      - New AvatarUpload component added to Dashboard (line 39)
+      - Avatar display in Dashboard header with camera icon overlay
+      - Avatar display in Navbar (top right corner) 
+      - Click functionality to trigger file upload
+      - Backend avatar upload endpoint at /api/users/avatar
+      
+      TEST SCENARIOS TO EXECUTE:
+      1. Sign up new user (avatartest@example.com, +1555123456, test1234)
+      2. Verify Dashboard avatar display with camera icon badge
+      3. Verify Navbar avatar display (circular image instead of initials)
+      4. Test avatar upload click functionality
+      5. Verify CheqMart branding (no BayMarket references)
+      
+      BACKEND ENDPOINTS AVAILABLE:
+      - POST /api/users/avatar (upload avatar with file validation)
+      - GET /api/users/{user_id}/avatar (get avatar URL with fallback to ui-avatars.com)
+      - Static file serving at /api/uploads/ for uploaded avatars
+      
+      READY TO BEGIN COMPREHENSIVE UI TESTING
