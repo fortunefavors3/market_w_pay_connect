@@ -42,19 +42,40 @@ const PaymentSetup = () => {
       clientId: '',
       clientSecret: '',
     },
+    authorizenet: {
+      enabled: false,
+      configured: false,
+      apiLoginId: '',
+      transactionKey: '',
+    },
+    braintree: {
+      enabled: false,
+      configured: false,
+      merchantId: '',
+      publicKey: '',
+      privateKey: '',
+    },
+    adyen: {
+      enabled: false,
+      configured: false,
+      apiKey: '',
+      merchantAccount: '',
+    },
   });
 
   const processorInfo = {
     stripe: {
       name: 'Stripe',
       logoUrl: 'https://images.stripeassets.com/fzn2n1nzq965/HTTOloNPhisV9P4hlMPNA/cacf1bb88b9fc492dfad34378d844280/Stripe_icon_-_square.svg?q=80&w=1082',
-      description: 'Accept payments with Stripe\'s powerful API',
-      transactionFee: '2.9% + $0.30 per transaction',
+      description: 'Industry-leading payment processing platform',
+      transactionFee: '2.9% + $0.30',
       features: [
         'Instant payouts',
-        'Global payments',
-        'Fraud protection',
-        'Advanced reporting'
+        'Global payments in 135+ currencies',
+        'Advanced fraud protection',
+        'Comprehensive reporting & analytics',
+        'Subscription billing support',
+        'Mobile-optimized checkout'
       ],
       setupSteps: [
         'Create a Stripe account at stripe.com',
@@ -68,20 +89,22 @@ const PaymentSetup = () => {
     square: {
       name: 'Square',
       logoUrl: 'https://images.ctfassets.net/2d5q1td6cyxq/aXlc4MSO8ZGKTDIsPuIeW/c2b899a80016ca75b88086647cdd61f7/PD04490_-_white_logo_on_black.png?w=553&h=283&fm=jpg&q=85&bg=rgb%3Affffff&fit=scale&fl=progressive',
-      description: 'Accept payments with Square\'s easy-to-use platform',
-      transactionFee: '2.6% + $0.10 per transaction',
+      description: 'Simple payment solution for businesses of all sizes',
+      transactionFee: '2.6% + $0.10',
       features: [
-        'Lower fees',
-        'Fast deposits',
-        'POS integration',
-        'Easy setup'
+        'Lower processing fees',
+        'Fast next-day deposits',
+        'Free POS hardware options',
+        'In-person & online payments',
+        'Inventory management tools',
+        'Built-in invoicing'
       ],
       setupSteps: [
         'Create a Square account at squareup.com',
-        'Go to Developer Dashboard',
+        'Go to Developer Dashboard at developer.squareup.com',
         'Create a new application',
         'Copy Application ID and Access Token',
-        'Get your Location ID from Locations',
+        'Get your Location ID from Locations tab',
         'Paste the credentials below',
       ],
       docs: 'https://developer.squareup.com',
@@ -89,23 +112,94 @@ const PaymentSetup = () => {
     paypal: {
       name: 'PayPal',
       logoUrl: 'https://www.paypalobjects.com/marketing/web/logos/paypal-mark-color.svg',
-      description: 'Accept payments with PayPal\'s trusted platform',
-      transactionFee: '2.99% per transaction',
+      description: 'Trusted worldwide payment platform',
+      transactionFee: '2.99%',
       features: [
-        'Buyer protection',
-        'No setup fees',
-        'Mobile payments',
-        'PayPal credit'
+        'Recognized by 400M+ users',
+        'Buyer & seller protection',
+        'No monthly or setup fees',
+        'PayPal Credit financing',
+        'Mobile-optimized checkout',
+        'International transactions'
       ],
       setupSteps: [
-        'Create a PayPal Business account',
-        'Go to developer.paypal.com',
+        'Create a PayPal Business account at paypal.com',
+        'Go to developer.paypal.com and log in',
+        'Navigate to My Apps & Credentials',
         'Create a new REST API app',
-        'Copy Client ID and Secret',
-        'Paste credentials below',
-        'Enable the integration',
+        'Copy Client ID and Secret from the app details',
+        'Paste credentials below and enable',
       ],
       docs: 'https://developer.paypal.com/docs',
+    },
+    authorizenet: {
+      name: 'Authorize.Net',
+      logoUrl: 'https://www.authorize.net/content/dam/anet-redesign/logos/auth-logo.svg',
+      description: 'Trusted payment gateway since 1996',
+      transactionFee: '2.9% + $0.30',
+      features: [
+        'PCI DSS Level 1 compliance',
+        'Advanced fraud detection',
+        'Recurring billing support',
+        'Virtual terminal included',
+        'Accept 8 payment types',
+        '24/7 merchant support'
+      ],
+      setupSteps: [
+        'Create an Authorize.Net account at authorize.net',
+        'Log in to the Merchant Interface',
+        'Go to Account > Settings > API Credentials & Keys',
+        'Generate new API Login ID and Transaction Key',
+        'Copy both credentials',
+        'Paste them below and save configuration',
+      ],
+      docs: 'https://www.authorize.net/support',
+    },
+    braintree: {
+      name: 'Braintree',
+      logoUrl: 'https://www.braintreepayments.com/images/braintree-logo-black.svg',
+      description: 'PayPal-owned platform for mobile & web',
+      transactionFee: '2.9% + $0.30',
+      features: [
+        'Optimized for mobile apps',
+        'Accept PayPal & Venmo',
+        'One-touch checkout',
+        'Advanced fraud tools',
+        'Supports 130+ currencies',
+        'Vault secure payment data'
+      ],
+      setupSteps: [
+        'Sign up at braintreepayments.com',
+        'Complete merchant verification',
+        'Navigate to Settings > API',
+        'Generate new API credentials',
+        'Copy Merchant ID, Public Key, and Private Key',
+        'Paste credentials below',
+      ],
+      docs: 'https://developer.paypal.com/braintree/docs',
+    },
+    adyen: {
+      name: 'Adyen',
+      logoUrl: 'https://www.adyen.com/images/adyen-logo.svg',
+      description: 'Enterprise payment platform for global commerce',
+      transactionFee: 'Custom pricing',
+      features: [
+        'Global payment methods',
+        'Smart payment routing',
+        'Revenue optimization',
+        'Unified commerce platform',
+        'Risk management tools',
+        'Real-time reporting'
+      ],
+      setupSteps: [
+        'Contact Adyen sales for merchant account',
+        'Complete onboarding process',
+        'Access Customer Area at ca-test.adyen.com',
+        'Go to Developers > API credentials',
+        'Generate new API key',
+        'Copy API Key and Merchant Account name',
+      ],
+      docs: 'https://docs.adyen.com',
     },
   };
 
@@ -316,6 +410,122 @@ const PaymentSetup = () => {
               </div>
             </>
           )}
+
+          {processorKey === 'authorizenet' && (
+            <>
+              <div>
+                <Label htmlFor="auth-login">API Login ID *</Label>
+                <Input
+                  id="auth-login"
+                  placeholder="Your API Login ID"
+                  value={processor.apiLoginId}
+                  onChange={(e) =>
+                    setProcessors({
+                      ...processors,
+                      authorizenet: { ...processor, apiLoginId: e.target.value },
+                    })
+                  }
+                />
+              </div>
+              <div>
+                <Label htmlFor="auth-key">Transaction Key *</Label>
+                <Input
+                  id="auth-key"
+                  type="password"
+                  placeholder="Your Transaction Key"
+                  value={processor.transactionKey}
+                  onChange={(e) =>
+                    setProcessors({
+                      ...processors,
+                      authorizenet: { ...processor, transactionKey: e.target.value },
+                    })
+                  }
+                />
+              </div>
+            </>
+          )}
+
+          {processorKey === 'braintree' && (
+            <>
+              <div>
+                <Label htmlFor="braintree-merchant">Merchant ID *</Label>
+                <Input
+                  id="braintree-merchant"
+                  placeholder="Your Merchant ID"
+                  value={processor.merchantId}
+                  onChange={(e) =>
+                    setProcessors({
+                      ...processors,
+                      braintree: { ...processor, merchantId: e.target.value },
+                    })
+                  }
+                />
+              </div>
+              <div>
+                <Label htmlFor="braintree-public">Public Key *</Label>
+                <Input
+                  id="braintree-public"
+                  placeholder="Your Public Key"
+                  value={processor.publicKey}
+                  onChange={(e) =>
+                    setProcessors({
+                      ...processors,
+                      braintree: { ...processor, publicKey: e.target.value },
+                    })
+                  }
+                />
+              </div>
+              <div>
+                <Label htmlFor="braintree-private">Private Key *</Label>
+                <Input
+                  id="braintree-private"
+                  type="password"
+                  placeholder="Your Private Key"
+                  value={processor.privateKey}
+                  onChange={(e) =>
+                    setProcessors({
+                      ...processors,
+                      braintree: { ...processor, privateKey: e.target.value },
+                    })
+                  }
+                />
+              </div>
+            </>
+          )}
+
+          {processorKey === 'adyen' && (
+            <>
+              <div>
+                <Label htmlFor="adyen-api">API Key *</Label>
+                <Input
+                  id="adyen-api"
+                  type="password"
+                  placeholder="Your API Key"
+                  value={processor.apiKey}
+                  onChange={(e) =>
+                    setProcessors({
+                      ...processors,
+                      adyen: { ...processor, apiKey: e.target.value },
+                    })
+                  }
+                />
+              </div>
+              <div>
+                <Label htmlFor="adyen-merchant">Merchant Account *</Label>
+                <Input
+                  id="adyen-merchant"
+                  placeholder="Your Merchant Account Name"
+                  value={processor.merchantAccount}
+                  onChange={(e) =>
+                    setProcessors({
+                      ...processors,
+                      adyen: { ...processor, merchantAccount: e.target.value },
+                    })
+                  }
+                />
+              </div>
+            </>
+          )}
         </div>
 
         <Button onClick={() => handleSaveConfig(processorKey)} className="w-full">
@@ -326,7 +536,7 @@ const PaymentSetup = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="max-w-7xl mx-auto px-4 py-8">
       <Button variant="ghost" onClick={() => navigate('/dashboard')} className="mb-6">
         <ArrowLeft className="w-4 h-4 mr-2" />
         Back to Dashboard
@@ -334,11 +544,11 @@ const PaymentSetup = () => {
 
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Payment Processors</h1>
-        <p className="text-gray-600">Configure and manage your payment processors</p>
+        <p className="text-gray-600">Configure and manage your payment processors to start accepting payments</p>
       </div>
 
       {/* Important Notices */}
-      <div className="space-y-4 mb-6">
+      <div className="space-y-4 mb-8">
         <Card className="bg-blue-50 border-blue-200">
           <CardContent className="pt-6">
             <div className="flex items-start gap-3">
@@ -360,7 +570,7 @@ const PaymentSetup = () => {
               <div>
                 <p className="font-semibold text-amber-900 mb-1">Transaction Fees</p>
                 <p className="text-sm text-amber-800">
-                  CheqMart charges a 5.5% transaction fee for use of our checkout system, in addition to the payment processor's fees shown below.
+                  CheqMart charges a 5.5% platform fee on each transaction, in addition to the payment processor fees shown below.
                 </p>
               </div>
             </div>
@@ -368,28 +578,26 @@ const PaymentSetup = () => {
         </Card>
       </div>
 
-      {/* Processor Cards */}
-      <div className="grid md:grid-cols-3 gap-6 mb-8">
+      {/* Processor Cards - 2 per row */}
+      <div className="grid md:grid-cols-2 gap-6 mb-8">
         {Object.entries(processorInfo).map(([key, info]) => (
           <Card key={key} className="hover:shadow-lg transition-shadow">
             <CardHeader>
               <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center justify-center h-16 w-full">
+                <div className="flex items-center justify-center h-16 flex-1">
                   <img 
                     src={info.logoUrl} 
                     alt={`${info.name} logo`}
-                    className="h-12 w-auto object-contain"
+                    className="h-12 w-auto object-contain max-w-[200px]"
                   />
                 </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-lg">{info.name}</CardTitle>
                 <Switch
                   checked={processors[key].enabled}
                   onCheckedChange={() => handleToggle(key)}
                 />
               </div>
-              <CardDescription>{info.description}</CardDescription>
+              <CardTitle className="text-xl">{info.name}</CardTitle>
+              <CardDescription className="min-h-[40px]">{info.description}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -411,11 +619,11 @@ const PaymentSetup = () => {
                 
                 {/* Features List */}
                 <div className="space-y-2 py-2">
-                  <p className="text-sm font-semibold text-gray-700">Features:</p>
+                  <p className="text-sm font-semibold text-gray-700">Key Features:</p>
                   {info.features.map((feature, idx) => (
-                    <div key={idx} className="flex items-center gap-2">
-                      <Check className="w-4 h-4 text-green-600 flex-shrink-0" />
-                      <span className="text-sm text-gray-700">{feature}</span>
+                    <div key={idx} className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
+                      <span className="text-xs text-gray-700">{feature}</span>
                     </div>
                   ))}
                 </div>
@@ -429,7 +637,7 @@ const PaymentSetup = () => {
                   }}
                 >
                   <CreditCard className="w-4 h-4 mr-2" />
-                  Configure
+                  Configure {info.name}
                 </Button>
               </div>
             </CardContent>
@@ -441,14 +649,17 @@ const PaymentSetup = () => {
       <Card>
         <CardHeader>
           <CardTitle>Processor Configuration</CardTitle>
-          <CardDescription>Set up your payment processor credentials</CardDescription>
+          <CardDescription>Set up your payment processor API credentials below</CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="stripe">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-3 lg:grid-cols-6">
               <TabsTrigger value="stripe" id="config-stripe">Stripe</TabsTrigger>
               <TabsTrigger value="square" id="config-square">Square</TabsTrigger>
               <TabsTrigger value="paypal" id="config-paypal">PayPal</TabsTrigger>
+              <TabsTrigger value="authorizenet" id="config-authorizenet">Authorize.Net</TabsTrigger>
+              <TabsTrigger value="braintree" id="config-braintree">Braintree</TabsTrigger>
+              <TabsTrigger value="adyen" id="config-adyen">Adyen</TabsTrigger>
             </TabsList>
             <TabsContent value="stripe" className="mt-6">
               {renderProcessorForm('stripe')}
@@ -458,6 +669,15 @@ const PaymentSetup = () => {
             </TabsContent>
             <TabsContent value="paypal" className="mt-6">
               {renderProcessorForm('paypal')}
+            </TabsContent>
+            <TabsContent value="authorizenet" className="mt-6">
+              {renderProcessorForm('authorizenet')}
+            </TabsContent>
+            <TabsContent value="braintree" className="mt-6">
+              {renderProcessorForm('braintree')}
+            </TabsContent>
+            <TabsContent value="adyen" className="mt-6">
+              {renderProcessorForm('adyen')}
             </TabsContent>
           </Tabs>
         </CardContent>
