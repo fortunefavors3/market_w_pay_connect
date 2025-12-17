@@ -409,6 +409,44 @@ agent_communication:
       - Verify processor status display correctly
       - Verify navigation between processor pages works
 
+  - agent: "testing"
+    message: |
+      PAYMENT SETUP PAGE COMPREHENSIVE TESTING COMPLETED ✅
+      
+      TESTING RESULTS SUMMARY (ALL SCENARIOS FROM REVIEW REQUEST PASSED):
+      
+      ✅ AUTHENTICATION FLOW:
+      - Correctly redirects to /auth when accessing /payment-setup without login
+      - Authentication page shows proper CheqMart branding (no BayMarket references)
+      - Successfully created new user account with credentials: phone +1234567890, password test1234
+      - Proper redirect back to /payment-setup after successful authentication
+      
+      ✅ PAYMENT SETUP PAGE UI VERIFICATION:
+      - Page title: "Payment Setup" ✅
+      - "Back to Dashboard" button present and functional ✅
+      - Amber alert: "Action Required: Connect at least one payment processor to start listing items for sale" ✅
+      - Blue alert: "CheqMart charges 5.5% per transaction, in addition to the processor's fees shown below" ✅
+      - Overall status card shows "Setup Required" when no processor connected ✅
+      
+      ✅ PROCESSOR CARDS VERIFICATION:
+      - Stripe Connect: Purple gradient, logo, "2.9% + $0.30" fee, 4 features, "Not Connected" badge ✅
+      - Square: Gray gradient, logo, "2.6% + $0.10" fee, 4 features, "Not Connected" badge ✅
+      - PayPal: Blue gradient, logo, "2.99%" fee, 4 features, "Not Connected" badge ✅
+      
+      ✅ NAVIGATION TESTING:
+      - "Connect Stripe" button → navigates to /stripe-connect ✅
+      - "Connect Square" button → navigates to /square-connect ✅
+      - "Connect PayPal" button → navigates to /paypal-connect ✅
+      
+      ✅ HELP SECTION:
+      - "Need Help Choosing?" section present with recommendations for all three processors ✅
+      
+      ✅ BRANDING CHECK:
+      - ZERO BayMarket references found throughout the application ✅
+      - Only CheqMart branding present (6 references found) ✅
+      
+      CONCLUSION: All test scenarios from the review request have been successfully verified. The Payment Setup page is fully functional with proper authentication, UI elements, navigation, and correct CheqMart branding throughout.
+
   - agent: "main"
     message: |
       Implemented complete Stripe Connect integration for marketplace:
