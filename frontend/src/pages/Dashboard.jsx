@@ -36,7 +36,7 @@ const Dashboard = () => {
       <div className="mb-8">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-4">
-            <img src={user?.avatar} alt={user?.name} className="w-20 h-20 rounded-full" />
+            <AvatarUpload size="lg" />
             <div>
               <h1 className="text-3xl font-bold text-gray-900">{user?.name}</h1>
               <p className="text-gray-600">Member since {new Date(user?.createdAt || Date.now()).getFullYear()}</p>
