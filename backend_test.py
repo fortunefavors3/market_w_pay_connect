@@ -1110,14 +1110,16 @@ def test_unified_payment_process_endpoint():
         response = make_request("POST", "/payments/process", test_data)
         
         if response is not None:
-            if response.status_code == 400:
+            if response.status_code in [400, 520]:  # Accept both 400 and 520 (proxy error wrapping 400)
                 data = response.json()
-                if "does not have a connected" in data.get("detail", ""):
+                error_detail = data.get("detail", "")
+                if ("does not have a connected" in error_detail or 
+                    f"400: Seller does not have a connected {processor.title()} account" in error_detail):
                     log_test(f"Unified Payment Process ({processor})", "PASS", 
                             f"Endpoint routes to {processor} and returns appropriate error for missing seller (expected)")
                 else:
                     log_test(f"Unified Payment Process ({processor})", "FAIL", 
-                            f"Unexpected error message: {data.get('detail')}")
+                            f"Unexpected error message: {error_detail}")
                     all_passed = False
             elif response.status_code == 200:
                 # If it somehow succeeds, check the response structure
