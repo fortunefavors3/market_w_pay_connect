@@ -286,6 +286,60 @@ async def get_user_paypal_status(user_id: str):
         "has_access_token": user.get("paypal_access_token") is not None
     }
 
+# Avatar Upload Endpoint
+@api_router.post("/users/avatar")
+async def upload_avatar(file: UploadFile = File(...), user_id: str = Form(...)):
+    """Upload and update user's avatar image"""
+    # Validate file type
+    allowed_types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+    if file.content_type not in allowed_types:
+        return {"success": False, "error": "Invalid file type. Allowed: JPEG, PNG, GIF, WebP"}
+    
+    # Generate unique filename
+    file_extension = file.filename.split('.')[-1] if '.' in file.filename else 'jpg'
+    unique_filename = f"avatar_{user_id}_{uuid.uuid4().hex[:8]}.{file_extension}"
+    file_path = UPLOADS_DIR / unique_filename
+    
+    try:
+        # Save the file
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+        
+        # Create the avatar URL (served from /api/uploads/)
+        avatar_url = f"/api/uploads/{unique_filename}"
+        
+        # Update user's avatar in database
+        await db.users.update_one(
+            {"id": user_id},
+            {
+                "$set": {
+                    "avatar": avatar_url,
+                    "updated_at": datetime.now(timezone.utc).isoformat()
+                }
+            },
+            upsert=True
+        )
+        
+        return {
+            "success": True,
+            "avatar_url": avatar_url,
+            "filename": unique_filename
+        }
+    except Exception as e:
+        logger.error(f"Avatar upload error: {str(e)}")
+        return {"success": False, "error": str(e)}
+
+@api_router.get("/users/{user_id}/avatar")
+async def get_user_avatar(user_id: str):
+    """Get user's avatar URL"""
+    user = await db.users.find_one({"id": user_id}, {"_id": 0})
+    if not user or not user.get("avatar"):
+        # Return default avatar
+        return {
+            "avatar_url": f"https://ui-avatars.com/api/?name={user_id}&background=667eea&color=fff"
+        }
+    return {"avatar_url": user.get("avatar")}
+
 # Import routers
 from stripe_connect import router as stripe_connect_router
 from square_oauth import router as square_oauth_router
