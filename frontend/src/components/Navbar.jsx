@@ -120,10 +120,12 @@ const Navbar = () => {
             {isAuthenticated ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
-                      {user?.email?.charAt(0).toUpperCase() || 'U'}
-                    </div>
+                  <Button variant="ghost" className="flex items-center gap-2 p-1">
+                    <img 
+                      src={user?.avatar || `https://ui-avatars.com/api/?name=${user?.name || 'U'}&background=667eea&color=fff`}
+                      alt={user?.name || 'User'}
+                      className="w-8 h-8 rounded-full object-cover border-2 border-indigo-200"
+                    />
                     <ChevronDown className="w-4 h-4" />
                   </Button>
                 </DropdownMenuTrigger>
