@@ -31,6 +31,7 @@ import ProductCustomizer from './pages/ProductCustomizer';
 import SellerProfile from './pages/SellerProfile';
 import Cart from './pages/Cart';
 import EnhancedCheckout from './pages/EnhancedCheckout';
+import MarketplaceCheckout from './pages/MarketplaceCheckout';
 import AuthPage from './pages/AuthPage';
 import OrderSuccess from './pages/OrderSuccess';
 import Messages from './pages/Messages';
