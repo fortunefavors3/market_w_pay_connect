@@ -27,6 +27,10 @@ app = FastAPI()
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
+# Create uploads directory if it doesn't exist
+UPLOADS_DIR = ROOT_DIR / "uploads"
+UPLOADS_DIR.mkdir(exist_ok=True)
+
 
 # Define Models
 class StatusCheck(BaseModel):
