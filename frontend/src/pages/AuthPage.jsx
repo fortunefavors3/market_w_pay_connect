@@ -61,18 +61,23 @@ const AuthPage = () => {
       return;
     }
 
-    // Generate 6-digit verification code
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
-    setGeneratedCode(code);
-    setPendingUserData(signupData);
-    setIsVerifying(true);
-
-    // Mock SMS send
-    toast({
-      title: "Verification code sent!",
-      description: `Code sent to ${signupData.phone}. (Mock: ${code})`,
-      duration: 10000,
-    });
+    // Register user directly without 2FA
+    const result = await register(signupData);
+    if (result.success) {
+      toast({
+        title: "Account created!",
+        description: "Welcome to CheqMart! Your account has been successfully created.",
+      });
+      // After registration, redirect to intended page or home
+      const from = location.state?.from?.pathname || '/';
+      navigate(from, { replace: true });
+    } else {
+      toast({
+        title: "Registration failed",
+        description: result.error || "Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleVerifyCode = async (e) => {
