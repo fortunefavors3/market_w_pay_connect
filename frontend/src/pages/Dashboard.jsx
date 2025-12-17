@@ -8,6 +8,7 @@ import { Package, ShoppingBag, MessageSquare, Heart, Settings, Plus, Edit, Trash
 import { mockOrders, mockMyListings, mockMessages } from '../mock';
 import { useAuth } from '../context/AuthContext';
 import { toast } from '../hooks/use-toast';
+import AvatarUpload from '../components/AvatarUpload';
 
 const Dashboard = () => {
   const navigate = useNavigate();
