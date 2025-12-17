@@ -106,7 +106,6 @@ const EnhancedCheckout = () => {
     // Generate 6-digit coupon code
     const couponCode = Math.floor(100000 + Math.random() * 900000).toString();
     setGeneratedCouponCode(couponCode);
-    setVerificationCode(couponCode); // Auto-fill the code
     
     // Set expiry to 1 hour from now
     const expiry = new Date();
@@ -116,28 +115,12 @@ const EnhancedCheckout = () => {
     // Mock SMS send
     toast({
       title: "Verification code sent!",
-      description: `Code sent to ${user.phone}. Processing payment...`,
-      duration: 3000,
+      description: `Code sent to ${user.phone}. Expires in 1 hour. (Mock: ${couponCode})`,
+      duration: 10000,
     });
     
-    // Auto-proceed to payment processing after showing the toast
-    setTimeout(() => {
-      // Mock payment processing
-      toast({
-        title: "Processing payment...",
-        description: "Please wait while we process your payment.",
-      });
-      
-      setTimeout(() => {
-        // Simulate successful payment
-        toast({
-          title: "Payment successful!",
-          description: `Your order has been confirmed. Order ID: ${cartUUID}`,
-        });
-        
-        navigate('/order-success', { state: { orderId: cartUUID, total } });
-      }, 2000);
-    }, 1000);
+    // Automatically move to step 3 (no need to click again)
+    setStep(3);
   };
 
   const handleConfirmPayment = async (e) => {
