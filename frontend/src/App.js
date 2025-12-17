@@ -72,6 +72,7 @@ function App() {
               <Route path="/seller/:id" element={<SellerProfile />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<EnhancedCheckout />} />
+              <Route path="/marketplace-checkout" element={<MarketplaceCheckout />} />
               <Route path="/auth" element={<AuthPage />} />
               <Route path="/order-success" element={<OrderSuccess />} />
               <Route path="/messages" element={<Messages />} />
