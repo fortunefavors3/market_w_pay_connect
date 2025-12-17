@@ -410,6 +410,35 @@ test_plan:
 agent_communication:
   - agent: "main"
     message: |
+      PLATFORM FEE COLLECTION IMPLEMENTATION (5.5%)
+      
+      IMPLEMENTED:
+      1. Backend payments.py module with:
+         - calculate_fees endpoint for fee calculation
+         - Stripe Connect payment with application_fee_amount
+         - Square payment with app_fee_money
+         - PayPal order with platform_fees
+         - Unified /api/payments/process endpoint
+         - Payment history tracking
+      
+      2. Frontend MarketplaceCheckout.jsx with:
+         - Multi-step checkout (Shipping -> Payment -> Confirm)
+         - Dynamic payment processor selection based on seller's connected accounts
+         - Fee breakdown display showing platform fee and seller amount
+         - Integration with all three processors
+      
+      TESTING NEEDED:
+      - Test fee calculation endpoint
+      - Test Stripe payment intent creation with application fee
+      - Test Square payment with app fee
+      - Test PayPal order with platform fees
+      - Test checkout flow UI
+      
+      Fee Rate: 5.5% (PLATFORM_FEE_RATE = 0.055)
+      Example: $100 purchase = $5.50 platform fee, $94.50 to seller
+
+  - agent: "main"
+    message: |
       FORK SESSION - Verifying PaymentSetup page OAuth flow
       
       CURRENT STATUS:
