@@ -85,8 +85,9 @@ const EnhancedCheckout = () => {
     setStep(2);
   };
 
-  const handlePaymentSubmit = (e) => {
+  const handlePaymentSubmit = async (e) => {
     e.preventDefault();
+    e.stopPropagation();
     
     // Only save payment method if it's a new card (not already saved)
     if (!user?.paymentMethods?.length) {
@@ -119,8 +120,10 @@ const EnhancedCheckout = () => {
       duration: 10000,
     });
     
-    // Automatically move to step 3 (no need to click again)
-    setStep(3);
+    // Use setTimeout to ensure state updates after toast
+    setTimeout(() => {
+      setStep(3);
+    }, 100);
   };
 
   const handleConfirmPayment = async (e) => {
