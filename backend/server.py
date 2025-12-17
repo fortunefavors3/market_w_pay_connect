@@ -344,12 +344,14 @@ async def get_user_avatar(user_id: str):
 from stripe_connect import router as stripe_connect_router
 from square_oauth import router as square_oauth_router
 from paypal_oauth import router as paypal_oauth_router
+from payments import router as payments_router
 
 # Include the routers in the main app
 app.include_router(api_router)
 app.include_router(stripe_connect_router)
 app.include_router(square_oauth_router)
 app.include_router(paypal_oauth_router)
+app.include_router(payments_router)
 
 # Mount static files for serving uploaded avatars
 app.mount("/api/uploads", StaticFiles(directory=str(UPLOADS_DIR)), name="uploads")
