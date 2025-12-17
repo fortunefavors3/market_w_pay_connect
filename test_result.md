@@ -260,6 +260,18 @@ backend:
         comment: "TESTED: Combined payment status endpoint working correctly. GET /api/users/{user_id}/payment-status returns comprehensive status across all three processors. For users with no processors: has_any_processor: false, all processor flags false. For users with connected processors: correctly shows individual processor statuses (stripe_connected, square_connected, paypal_connected) and includes account IDs (stripe_account_id, square_merchant_id, paypal_payer_id). Logic correctly determines has_any_processor based on actual processor readiness states."
 
 frontend:
+  - task: "Avatar Upload Feature"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/AvatarUpload.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented AvatarUpload component with camera icon overlay, file upload functionality, and integration with Dashboard and Navbar. Component includes hover effects, loading states, file validation (type and size), and backend API integration for avatar upload and storage."
+
   - task: "Stripe Connect Page"
     implemented: true
     working: true
