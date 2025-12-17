@@ -392,6 +392,22 @@ test_plan:
 agent_communication:
   - agent: "main"
     message: |
+      FORK SESSION - Verifying PaymentSetup page OAuth flow
+      
+      CURRENT STATUS:
+      - PaymentSetup.jsx already has OAuth-based design with 3 processor cards (Stripe, Square, PayPal)
+      - Branding already updated to "CheqMart" throughout
+      - No "BayMarket" references remain in codebase
+      - Homepage and auth page confirmed showing CheqMart branding
+      
+      VERIFICATION NEEDED:
+      - Test Payment Setup page renders correctly when authenticated
+      - Verify all 3 OAuth connection buttons work
+      - Verify processor status display correctly
+      - Verify navigation between processor pages works
+
+  - agent: "main"
+    message: |
       Implemented complete Stripe Connect integration for marketplace:
       
       BACKEND:
