@@ -235,16 +235,35 @@ const StripeConnect = () => {
   };
 
   const isFullyConnected = stripeStatus.charges_enabled && stripeStatus.payouts_enabled;
+  const [dashboardLoading, setDashboardLoading] = useState(false);
+
+  const openStripeDashboard = async () => {
+    try {
+      setDashboardLoading(true);
+      const response = await axios.post(`${BACKEND_URL}/api/stripe-connect/create-login-link/${stripeStatus.stripe_account_id}`);
+      
+      // Open in same tab for seamless experience
+      window.location.href = response.data.url;
+    } catch (error) {
+      console.error('Error accessing dashboard:', error);
+      toast({
+        title: "Dashboard Access Failed",
+        description: error.response?.data?.detail || "Unable to access Stripe dashboard. Please try again.",
+        variant: "destructive",
+      });
+      setDashboardLoading(false);
+    }
+  };
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <Button variant="ghost" onClick={() => navigate('/dashboard')} className="mb-6">
+      <Button variant="ghost" onClick={() => navigate('/payment-setup')} className="mb-6">
         <ArrowLeft className="w-4 h-4 mr-2" />
-        Back to Dashboard
+        Back to Payment Setup
       </Button>
 
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Payment Setup</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Stripe Payment Setup</h1>
         <p className="text-gray-600">Connect your Stripe account to receive payments</p>
       </div>
 
@@ -252,6 +271,50 @@ const StripeConnect = () => {
       <div className="mb-6">
         {renderConnectionStatus()}
       </div>
+
+      {/* Dashboard Access Card - Show prominently when connected */}
+      {isFullyConnected && (
+        <Card className="mb-6 bg-gradient-to-r from-purple-50 to-blue-50 border-purple-200">
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 bg-gradient-to-br from-purple-600 to-blue-500 rounded-xl flex items-center justify-center">
+                  <img 
+                    src="https://images.stripeassets.com/fzn2n1nzq965/HTTOloNPhisV9P4hlMPNA/cacf1bb88b9fc492dfad34378d844280/Stripe_icon_-_square.svg?q=80&w=1082"
+                    alt="Stripe"
+                    className="w-8 h-8"
+                  />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900">Stripe Dashboard</h3>
+                  <p className="text-sm text-gray-600">View transactions, payouts, and manage your account</p>
+                </div>
+              </div>
+              <Button 
+                onClick={openStripeDashboard}
+                disabled={dashboardLoading}
+                className="bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600"
+                size="lg"
+              >
+                {dashboardLoading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Opening...
+                  </>
+                ) : (
+                  <>
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    Open Dashboard
+                  </>
+                )}
+              </Button>
+            </div>
+            <p className="text-xs text-gray-500 mt-4">
+              You'll be automatically logged in to your Stripe Express Dashboard. No additional login required.
+            </p>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Main Card */}
       <Card>
