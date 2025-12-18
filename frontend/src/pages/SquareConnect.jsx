@@ -86,6 +86,7 @@ const SquareConnect = () => {
       setLoading(true);
 
       const redirectUrl = `${window.location.origin}/square-connect`;
+      console.log('Initiating Square OAuth with redirect URL:', redirectUrl);
 
       // Step 1: Get OAuth authorization URL
       const response = await axios.post(`${BACKEND_URL}/api/square-connect/initiate-oauth`, {
@@ -93,8 +94,15 @@ const SquareConnect = () => {
         redirect_url: redirectUrl
       });
 
-      // Step 2: Redirect to Square OAuth
-      window.location.href = response.data.authorization_url;
+      console.log('OAuth response:', response.data);
+
+      if (response.data.authorization_url) {
+        // Step 2: Redirect to Square OAuth
+        console.log('Redirecting to:', response.data.authorization_url);
+        window.location.href = response.data.authorization_url;
+      } else {
+        throw new Error('No authorization URL received');
+      }
 
     } catch (error) {
       console.error('Error connecting Square:', error);
