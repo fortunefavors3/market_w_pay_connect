@@ -247,7 +247,7 @@ const PaymentSetup = () => {
         </CardHeader>
         <CardContent className="space-y-3 text-sm text-gray-700">
           <p>
-            <strong>Stripe Connect</strong> is ideal if you want advanced features, global payments, and don't have an existing processor.
+            <strong>Stripe</strong> is ideal if you want advanced features, global payments, and don't have an existing processor.
           </p>
           <p>
             <strong>Square</strong> is perfect if you already use Square for in-person sales or prefer their all-in-one ecosystem.
