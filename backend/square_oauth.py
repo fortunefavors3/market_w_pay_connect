@@ -69,12 +69,17 @@ async def initiate_oauth(request: InitiateOAuthRequest):
             "ORDERS_READ",
         ]
         
+        # URL encode the redirect_uri
+        from urllib.parse import quote
+        encoded_redirect = quote(request.redirect_url, safe='')
+        
         auth_url = (
             f"{SQUARE_OAUTH_URL}"
             f"?client_id={SQUARE_APPLICATION_ID}"
             f"&scope={'+'.join(permissions)}"
             f"&session=false"
             f"&state={state}"
+            f"&redirect_uri={encoded_redirect}"
         )
         
         return {
