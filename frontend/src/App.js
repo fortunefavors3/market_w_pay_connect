@@ -53,38 +53,41 @@ function App() {
           <ConditionalNavbar />
           <main className="flex-1">
             <Routes>
+              {/* Public Routes */}
               <Route path="/" element={<Home />} />
               <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/search" element={<SearchResults />} />
               <Route path="/category/:category" element={<SearchResults />} />
               <Route path="/category/:category/:subcategory" element={<SearchResults />} />
-              <Route path="/sell" element={<EnhancedSellItem />} />
-              <Route path="/listing-preview" element={<ListingPreview />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/personal-details" element={<PersonalDetails />} />
-              <Route path="/payment-processors" element={<PaymentProcessors />} />
-              <Route path="/payment-setup" element={<PaymentSetup />} />
-              <Route path="/stripe-connect" element={<StripeConnect />} />
-              <Route path="/square-connect" element={<SquareConnect />} />
-              <Route path="/paypal-connect" element={<PayPalConnect />} />
-              <Route path="/integration-guides" element={<IntegrationGuides />} />
-              <Route path="/seller-page-editor" element={<SellerPageEditor />} />
-              <Route path="/customize/:id" element={<ProductCustomizer />} />
               <Route path="/seller/:id" element={<SellerProfile />} />
               <Route path="/cart" element={<Cart />} />
-              <Route path="/checkout" element={<EnhancedCheckout />} />
-              <Route path="/marketplace-checkout" element={<MarketplaceCheckout />} />
               <Route path="/auth" element={<AuthPage />} />
-              <Route path="/order-success" element={<OrderSuccess />} />
-              <Route path="/messages" element={<Messages />} />
-              <Route path="/orders/:id" element={<OrderTracking />} />
-              <Route path="/watchlist" element={<SearchResults />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/help" element={<Help />} />
               <Route path="/cookies" element={<Cookies />} />
+              
+              {/* Protected Routes - Require Authentication */}
+              <Route path="/sell" element={<ProtectedRoute><EnhancedSellItem /></ProtectedRoute>} />
+              <Route path="/listing-preview" element={<ProtectedRoute><ListingPreview /></ProtectedRoute>} />
+              <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+              <Route path="/personal-details" element={<ProtectedRoute><PersonalDetails /></ProtectedRoute>} />
+              <Route path="/payment-processors" element={<ProtectedRoute><PaymentProcessors /></ProtectedRoute>} />
+              <Route path="/payment-setup" element={<ProtectedRoute><PaymentSetup /></ProtectedRoute>} />
+              <Route path="/stripe-connect" element={<ProtectedRoute><StripeConnect /></ProtectedRoute>} />
+              <Route path="/square-connect" element={<ProtectedRoute><SquareConnect /></ProtectedRoute>} />
+              <Route path="/paypal-connect" element={<ProtectedRoute><PayPalConnect /></ProtectedRoute>} />
+              <Route path="/integration-guides" element={<ProtectedRoute><IntegrationGuides /></ProtectedRoute>} />
+              <Route path="/seller-page-editor" element={<ProtectedRoute><SellerPageEditor /></ProtectedRoute>} />
+              <Route path="/customize/:id" element={<ProtectedRoute><ProductCustomizer /></ProtectedRoute>} />
+              <Route path="/checkout" element={<ProtectedRoute><EnhancedCheckout /></ProtectedRoute>} />
+              <Route path="/marketplace-checkout" element={<ProtectedRoute><MarketplaceCheckout /></ProtectedRoute>} />
+              <Route path="/order-success" element={<ProtectedRoute><OrderSuccess /></ProtectedRoute>} />
+              <Route path="/messages" element={<ProtectedRoute><Messages /></ProtectedRoute>} />
+              <Route path="/orders/:id" element={<ProtectedRoute><OrderTracking /></ProtectedRoute>} />
+              <Route path="/watchlist" element={<ProtectedRoute><SearchResults /></ProtectedRoute>} />
             </Routes>
           </main>
           <Footer />
