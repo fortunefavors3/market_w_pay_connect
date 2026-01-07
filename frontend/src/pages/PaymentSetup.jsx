@@ -96,14 +96,37 @@ const PaymentSetup = () => {
       fee: '2.99%',
       route: '/paypal-connect',
       gradient: 'from-blue-600 to-blue-400',
+      feeType: 'automatic',
       features: [
         'OAuth integration',
         'PayPal & credit card payments',
         'Buyer & seller protection',
         'Recognized worldwide'
       ]
+    },
+    {
+      id: 'authorizenet',
+      name: 'Authorize.net',
+      logoUrl: null, // Will use icon
+      description: 'For high-risk & specialty merchants',
+      connected: paymentStatus.authorizenet_connected,
+      fee: '2.9% + $0.30',
+      route: '/authorizenet-connect',
+      gradient: 'from-blue-800 to-indigo-900',
+      feeType: 'manual',
+      isManualEntry: true,
+      features: [
+        'Manual credential entry',
+        'High-risk merchant friendly',
+        'Established & reliable',
+        'Works with existing accounts'
+      ]
     }
   ];
+
+  // Separate processors by fee collection type
+  const automaticProcessors = processors.filter(p => p.feeType === 'automatic');
+  const manualProcessors = processors.filter(p => p.feeType === 'manual');
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
