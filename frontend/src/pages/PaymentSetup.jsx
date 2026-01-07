@@ -193,77 +193,171 @@ const PaymentSetup = () => {
         </CardContent>
       </Card>
 
-      {/* Processor Cards */}
-      <div className="grid md:grid-cols-3 gap-6">
-        {processors.map((processor) => (
-          <Card key={processor.id} className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className={`w-16 h-16 bg-gradient-to-br ${processor.gradient} rounded-xl flex items-center justify-center p-3`}>
-                    <img 
-                      src={processor.logoUrl} 
-                      alt={`${processor.name} logo`}
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                  <div>
-                    <CardTitle className="text-xl">{processor.name}</CardTitle>
-                    <CardDescription>{processor.description}</CardDescription>
+      {/* Automatic Fee Collection Processors */}
+      <div className="mb-8">
+        <div className="flex items-center gap-2 mb-4">
+          <CheckCircle className="w-5 h-5 text-green-600" />
+          <h2 className="text-xl font-semibold text-gray-900">Automatic Fee Collection</h2>
+          <Badge className="bg-green-100 text-green-800">Recommended</Badge>
+        </div>
+        <p className="text-sm text-gray-600 mb-4">
+          These processors support OAuth integration with automatic 5.5% platform fee deduction per transaction.
+        </p>
+        <div className="grid md:grid-cols-3 gap-6">
+          {automaticProcessors.map((processor) => (
+            <Card key={processor.id} className="hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-16 h-16 bg-gradient-to-br ${processor.gradient} rounded-xl flex items-center justify-center p-3`}>
+                      <img 
+                        src={processor.logoUrl} 
+                        alt={`${processor.name} logo`}
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                    <div>
+                      <CardTitle className="text-xl">{processor.name}</CardTitle>
+                      <CardDescription>{processor.description}</CardDescription>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="flex items-center justify-between">
-                <Badge className={processor.connected ? 'bg-green-500' : 'bg-gray-400'}>
+                <div className="flex items-center justify-between">
+                  <Badge className={processor.connected ? 'bg-green-500' : 'bg-gray-400'}>
+                    {processor.connected ? (
+                      <>
+                        <CheckCircle className="w-3 h-3 mr-1" />
+                        Connected
+                      </>
+                    ) : (
+                      'Not Connected'
+                    )}
+                  </Badge>
+                  <span className="text-sm text-gray-600">Fee: {processor.fee}</span>
+                </div>
+              </CardHeader>
+
+              <CardContent className="space-y-4">
+                {/* Features */}
+                <div className="space-y-2">
+                  <p className="text-sm font-semibold text-gray-700">Features:</p>
+                  <ul className="space-y-1">
+                    {processor.features.map((feature, idx) => (
+                      <li key={idx} className="text-sm text-gray-600 flex items-start gap-2">
+                        <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Action Button */}
+                <Button 
+                  onClick={() => navigate(processor.route)}
+                  className={`w-full ${processor.connected ? '' : `bg-gradient-to-r ${processor.gradient} hover:opacity-90`}`}
+                  variant={processor.connected ? 'outline' : 'default'}
+                >
                   {processor.connected ? (
                     <>
-                      <CheckCircle className="w-3 h-3 mr-1" />
-                      Connected
+                      Manage Connection
+                      <ChevronRight className="w-4 h-4 ml-2" />
                     </>
                   ) : (
-                    'Not Connected'
+                    <>
+                      <CreditCard className="w-4 h-4 mr-2" />
+                      Connect {processor.name}
+                    </>
                   )}
-                </Badge>
-                <span className="text-sm text-gray-600">Fee: {processor.fee}</span>
-              </div>
-            </CardHeader>
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
 
-            <CardContent className="space-y-4">
-              {/* Features */}
-              <div className="space-y-2">
-                <p className="text-sm font-semibold text-gray-700">Features:</p>
-                <ul className="space-y-1">
-                  {processor.features.map((feature, idx) => (
-                    <li key={idx} className="text-sm text-gray-600 flex items-start gap-2">
-                      <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+      {/* Manual Entry Processors */}
+      <div className="mb-8">
+        <div className="flex items-center gap-2 mb-4">
+          <AlertCircle className="w-5 h-5 text-amber-600" />
+          <h2 className="text-xl font-semibold text-gray-900">Manual Credential Entry</h2>
+          <Badge className="bg-amber-100 text-amber-800">High-Risk Friendly</Badge>
+        </div>
+        <p className="text-sm text-gray-600 mb-4">
+          For merchants who can't use OAuth processors. Platform fees are invoiced monthly instead of automatic deduction.
+        </p>
+        <div className="grid md:grid-cols-3 gap-6">
+          {manualProcessors.map((processor) => (
+            <Card key={processor.id} className="hover:shadow-lg transition-shadow border-amber-200">
+              <CardHeader>
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-16 h-16 bg-gradient-to-br ${processor.gradient} rounded-xl flex items-center justify-center p-3`}>
+                      <CreditCard className="w-8 h-8 text-white" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-xl">{processor.name}</CardTitle>
+                      <CardDescription>{processor.description}</CardDescription>
+                    </div>
+                  </div>
+                </div>
 
-              {/* Action Button */}
-              <Button 
-                onClick={() => navigate(processor.route)}
-                className={`w-full ${processor.connected ? '' : `bg-gradient-to-r ${processor.gradient} hover:opacity-90`}`}
-                variant={processor.connected ? 'outline' : 'default'}
-              >
-                {processor.connected ? (
-                  <>
-                    Manage Connection
-                    <ChevronRight className="w-4 h-4 ml-2" />
-                  </>
-                ) : (
-                  <>
-                    <CreditCard className="w-4 h-4 mr-2" />
-                    Connect {processor.name}
-                  </>
-                )}
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
+                <div className="flex items-center justify-between">
+                  <Badge className={processor.connected ? 'bg-green-500' : 'bg-gray-400'}>
+                    {processor.connected ? (
+                      <>
+                        <CheckCircle className="w-3 h-3 mr-1" />
+                        Connected
+                      </>
+                    ) : (
+                      'Not Connected'
+                    )}
+                  </Badge>
+                  <span className="text-sm text-gray-600">Fee: {processor.fee}</span>
+                </div>
+              </CardHeader>
+
+              <CardContent className="space-y-4">
+                {/* Manual Entry Notice */}
+                <div className="p-2 bg-amber-50 rounded border border-amber-200 text-xs text-amber-800">
+                  ⚠️ Platform fee (5.5%) billed monthly via invoice
+                </div>
+
+                {/* Features */}
+                <div className="space-y-2">
+                  <p className="text-sm font-semibold text-gray-700">Features:</p>
+                  <ul className="space-y-1">
+                    {processor.features.map((feature, idx) => (
+                      <li key={idx} className="text-sm text-gray-600 flex items-start gap-2">
+                        <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Action Button */}
+                <Button 
+                  onClick={() => navigate(processor.route)}
+                  className={`w-full ${processor.connected ? '' : `bg-gradient-to-r ${processor.gradient} hover:opacity-90`}`}
+                  variant={processor.connected ? 'outline' : 'default'}
+                >
+                  {processor.connected ? (
+                    <>
+                      Manage Connection
+                      <ChevronRight className="w-4 h-4 ml-2" />
+                    </>
+                  ) : (
+                    <>
+                      <CreditCard className="w-4 h-4 mr-2" />
+                      Setup {processor.name}
+                    </>
+                  )}
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
 
       {/* Help Section */}
