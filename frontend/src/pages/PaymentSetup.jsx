@@ -64,6 +64,7 @@ const PaymentSetup = () => {
       fee: '2.9% + $0.30',
       route: '/stripe-connect',
       gradient: 'from-purple-600 to-blue-500',
+      feeType: 'automatic',
       features: [
         'Express Connected Accounts',
         'Automatic payouts',
@@ -80,6 +81,7 @@ const PaymentSetup = () => {
       fee: '2.6% + $0.10',
       route: '/square-connect',
       gradient: 'from-gray-800 to-gray-600',
+      feeType: 'automatic',
       features: [
         'OAuth integration',
         'Instant deposits available',
