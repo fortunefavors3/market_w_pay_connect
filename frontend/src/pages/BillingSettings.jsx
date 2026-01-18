@@ -422,7 +422,9 @@ const BillingSettingsContent = () => {
                 </div>
               </div>
               {!showAddCard && (
-                <Button onClick={() => setShowAddCard(true)} size="sm">
+                <Button onClick={() => setShowAddCard(true)} size="sm"
+                className="bg-blue-600 text-white hover:bg-blue-700"
+                >
                   <Plus className="w-4 h-4 mr-2" />
                   Add Card
                 </Button>
@@ -495,7 +497,9 @@ const BillingSettingsContent = () => {
               <div className="text-center py-8">
                 <CreditCard className="w-12 h-12 text-gray-300 mx-auto mb-3" />
                 <p className="text-gray-600 mb-4">No payment methods saved</p>
-                <Button onClick={() => setShowAddCard(true)}>
+                <Button onClick={() => setShowAddCard(true)}
+                  className="bg-blue-600 text-white hover:bg-blue-700"
+                  >
                   <Plus className="w-4 h-4 mr-2" />
                   Add Your First Card
                 </Button>
