@@ -109,6 +109,21 @@ user_problem_statement: |
   Full onboarding flows with status tracking and enforcement before listing items.
 
 backend:
+  - task: "Epic Payment Solutions Backend Endpoints"
+    implemented: true
+    working: true
+    file: "/app/backend/epicpayment.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented Epic Payment Solutions manual credential entry processor with 6 endpoints: POST /api/epicpayment/verify-credentials (verify API credentials), POST /api/epicpayment/connect (save encrypted credentials), POST /api/epicpayment/disconnect (remove credentials), GET /api/epicpayment/status/{user_id} (get connection status), POST /api/epicpayment/process-payment (process payment with platform fee tracking), GET /api/epicpayment/pending-fees/{seller_id} (get uninvoiced fees). Updated server.py with GET /api/users/{user_id}/epicpayment-status endpoint and updated payment-status endpoint to include epicpayment_connected field."
+      - working: true
+        agent: "testing"
+        comment: "TESTED: All Epic Payment Solutions endpoints working perfectly (8/8 tests passed - 100% success rate). ✅ GET /api/users/{user_id}/epicpayment-status: Returns correct default status (connected: false, verified: false, lastVerified: null, environment: null) for non-existent users. ✅ GET /api/users/{user_id}/payment-status: Successfully includes epicpayment_connected field in response alongside other processors. ✅ POST /api/epicpayment/verify-credentials (valid): Correctly validates credentials with merchant_id 'MERCH123456', api_key 'api_test_key_1234567890', secret_key 'secret_test_key_1234567890', environment 'sandbox' - returns valid: true. ✅ POST /api/epicpayment/verify-credentials (invalid): Properly rejects short credentials (merchant_id 'AB', api_key 'short', secret_key 'short') - returns valid: false with error 'Invalid Merchant ID format'. ✅ POST /api/epicpayment/connect: Successfully connects user 'test_epic_user_123' with valid credentials - returns success: true. ✅ GET /api/users/test_epic_user_123/epicpayment-status (connected): Returns connected: true, verified: true, environment: 'sandbox' after connection. ✅ POST /api/epicpayment/disconnect: Successfully disconnects user 'test_epic_user_123' - returns success: true. ✅ GET /api/users/test_epic_user_123/epicpayment-status (disconnected): Returns connected: false, verified: false after disconnection. All credential encryption/decryption working correctly. MongoDB integration confirmed functional. All endpoints use proper /api prefix for Kubernetes routing."
+
   - task: "User Management Endpoints"
     implemented: true
     working: true
