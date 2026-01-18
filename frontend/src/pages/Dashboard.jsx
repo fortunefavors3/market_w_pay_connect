@@ -202,6 +202,10 @@ const Dashboard = () => {
                 <Badge className="ml-2 bg-amber-500 hover:bg-amber-600">Required</Badge>
               )}
             </Button>
+            <Button variant="outline" onClick={() => navigate('/billing-settings')}>
+              <DollarSign className="w-4 h-4 mr-2" />
+              Billing Settings
+            </Button>
             <Button variant="outline" onClick={() => navigate('/seller-page-editor')}>
               <Edit className="w-4 h-4 mr-2" />
               Edit Seller Page
