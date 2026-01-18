@@ -425,7 +425,7 @@ const BillingSettingsContent = () => {
                 <Button onClick={() => setShowAddCard(true)} size="sm"
                 className="bg-blue-600 text-white hover:bg-blue-700"
                 >
-                  <Plus className="w-4 h-4 mr-2" />
+                  <Plus className="w-4 h-4 mr-2 " />
                   Add Card
                 </Button>
               )}
