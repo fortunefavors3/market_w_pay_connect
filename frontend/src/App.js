@@ -27,6 +27,7 @@ import StripeConnect from './pages/StripeConnect';
 import SquareConnect from './pages/SquareConnect';
 import PayPalConnect from './pages/PayPalConnect';
 import AuthorizeNetConnect from './pages/AuthorizeNetConnect';
+import EpicPaymentConnect from './pages/EpicPaymentConnect';
 import IntegrationGuides from './pages/IntegrationGuides';
 import SellerPageEditor from './pages/SellerPageEditor';
 import ProductCustomizer from './pages/ProductCustomizer';
