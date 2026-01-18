@@ -125,24 +125,7 @@ const PaymentSetup = () => {
         'Works with existing accounts'
       ]
     },
-    {
-      id: 'epicpayment',
-      name: 'Epic Payment Solutions',
-      logoUrl: 'https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/epic.jpg', // Will use icon
-      description: 'Flexible payment solutions for all merchants',
-      connected: paymentStatus.epicpayment_connected,
-      fee: '2.75% + $0.25',
-      route: '/epicpayment-connect',
-      gradient: 'from-gray-800 to-red-600',
-      feeType: 'manual',
-      isManualEntry: true,
-      features: [
-        'Manual credential entry',
-        'Competitive rates',
-        'Multiple currency support',
-        'Easy integration'
-      ]
-    },
+    
     // New OAuth processor
     {
       id: 'braintree',
@@ -271,6 +254,24 @@ const PaymentSetup = () => {
       ]
     },
     {
+      id: 'epicpayment',
+      name: 'Epic Payment Solutions',
+      logoUrl: 'https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/epic.jpg', // Will use icon
+      description: 'Flexible payment solutions for all merchants',
+      connected: paymentStatus.epicpayment_connected,
+      fee: '2.75% + $0.25',
+      route: '/epicpayment-connect',
+      gradient: 'from-gray-800 to-red-600',
+      feeType: 'manual',
+      isManualEntry: true,
+      features: [
+        'Manual credential entry',
+        'Competitive rates',
+        'Multiple currency support',
+        'Easy integration'
+      ]
+    },
+    {
       id: 'worldpay',
       name: 'WorldPay',
       logoUrl: 'https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/worldpay825476.png',
@@ -385,7 +386,7 @@ const PaymentSetup = () => {
         <p className="text-sm text-gray-600 mb-4">
           These processors support OAuth integration with automatic 5.5% platform fee deduction per transaction.
         </p>
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 gap-6">
           {automaticProcessors.map((processor) => (
             <Card key={processor.id} className="hover:shadow-lg transition-shadow">
               <CardHeader>
@@ -468,7 +469,7 @@ const PaymentSetup = () => {
         <p className="text-sm text-gray-600 mb-4">
           For merchants who can't use OAuth processors. Platform fees are invoiced monthly instead of automatic deduction.
         </p>
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 gap-6">
           {manualProcessors.map((processor) => (
             <Card key={processor.id} className="hover:shadow-lg transition-shadow border-amber-200">
               <CardHeader>
