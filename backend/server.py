@@ -220,14 +220,16 @@ async def get_user_square_status(user_id: str):
 
 @api_router.get("/users/{user_id}/payment-status")
 async def get_user_payment_status(user_id: str):
-    """Get user's overall payment processor status (Stripe + Square + PayPal)"""
+    """Get user's overall payment processor status (Stripe + Square + PayPal + Authorize.net + Epic Payment)"""
     user = await db.users.find_one({"id": user_id}, {"_id": 0})
     if not user:
         return {
             "has_any_processor": False,
             "stripe_connected": False,
             "square_connected": False,
-            "paypal_connected": False
+            "paypal_connected": False,
+            "authorizenet_connected": False,
+            "epicpayment_connected": False
         }
     
     stripe_ready = (
@@ -236,12 +238,16 @@ async def get_user_payment_status(user_id: str):
     )
     square_ready = user.get("square_connected", False)
     paypal_ready = user.get("paypal_connected", False)
+    authorizenet_ready = user.get("authorizenet_connected", False)
+    epicpayment_ready = user.get("epicpayment_connected", False)
     
     return {
-        "has_any_processor": stripe_ready or square_ready or paypal_ready,
+        "has_any_processor": stripe_ready or square_ready or paypal_ready or authorizenet_ready or epicpayment_ready,
         "stripe_connected": stripe_ready,
         "square_connected": square_ready,
         "paypal_connected": paypal_ready,
+        "authorizenet_connected": authorizenet_ready,
+        "epicpayment_connected": epicpayment_ready,
         "stripe_account_id": user.get("stripe_account_id"),
         "square_merchant_id": user.get("square_merchant_id"),
         "paypal_payer_id": user.get("paypal_payer_id")
