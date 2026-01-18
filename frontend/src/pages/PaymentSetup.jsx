@@ -142,6 +142,169 @@ const PaymentSetup = () => {
         'Multiple currency support',
         'Easy integration'
       ]
+    },
+    // New OAuth processor
+    {
+      id: 'braintree',
+      name: 'Braintree',
+      logoUrl: null,
+      description: 'PayPal-owned payment platform',
+      connected: paymentStatus.braintree_connected,
+      fee: '2.59% + $0.49',
+      route: '/braintree-connect',
+      gradient: 'from-blue-700 to-purple-700',
+      feeType: 'automatic',
+      features: [
+        'OAuth integration',
+        'PayPal & Venmo support',
+        'Advanced fraud protection',
+        'Drop-in UI components'
+      ]
+    },
+    // New manual entry processors
+    {
+      id: 'nmi',
+      name: 'NMI',
+      logoUrl: null,
+      description: 'Network Merchants Inc - Popular gateway',
+      connected: paymentStatus.nmi_connected,
+      fee: 'Varies',
+      route: '/nmi-connect',
+      gradient: 'from-orange-600 to-red-600',
+      feeType: 'manual',
+      isManualEntry: true,
+      features: [
+        'Supports 100+ processors',
+        'High-risk friendly',
+        'Flexible integration',
+        'Virtual terminal included'
+      ]
+    },
+    {
+      id: 'usaepay',
+      name: 'USAePay',
+      logoUrl: null,
+      description: 'High-volume payment processing',
+      connected: paymentStatus.usaepay_connected,
+      fee: 'Varies',
+      route: '/usaepay-connect',
+      gradient: 'from-green-600 to-teal-600',
+      feeType: 'manual',
+      isManualEntry: true,
+      features: [
+        'High-volume friendly',
+        'Level 3 processing',
+        'Recurring billing',
+        'Mobile payments'
+      ]
+    },
+    {
+      id: 'paykickstart',
+      name: 'PayKickstart',
+      logoUrl: null,
+      description: 'Shopping cart & subscription platform',
+      connected: paymentStatus.paykickstart_connected,
+      fee: 'Varies',
+      route: '/paykickstart-connect',
+      gradient: 'from-pink-600 to-rose-600',
+      feeType: 'manual',
+      isManualEntry: true,
+      features: [
+        'Digital goods support',
+        'Subscription management',
+        'Affiliate tracking',
+        'One-click upsells'
+      ]
+    },
+    {
+      id: 'durango',
+      name: 'Durango',
+      logoUrl: null,
+      description: 'High-risk merchant specialist',
+      connected: paymentStatus.durango_connected,
+      fee: 'Varies',
+      route: '/durango-connect',
+      gradient: 'from-amber-600 to-orange-700',
+      feeType: 'manual',
+      isManualEntry: true,
+      features: [
+        'High-risk industries',
+        'CBD & cannabis friendly',
+        'Adult merchants welcome',
+        'Nutraceuticals support'
+      ]
+    },
+    {
+      id: 'hostmerchant',
+      name: 'Host Merchant',
+      logoUrl: null,
+      description: 'Competitive rates for all businesses',
+      connected: paymentStatus.hostmerchant_connected,
+      fee: 'Interchange+',
+      route: '/hostmerchant-connect',
+      gradient: 'from-cyan-600 to-blue-700',
+      feeType: 'manual',
+      isManualEntry: true,
+      features: [
+        'Low interchange+ pricing',
+        'No long-term contracts',
+        'Free terminal equipment',
+        'Same-day funding available'
+      ]
+    },
+    {
+      id: 'adyen',
+      name: 'Adyen',
+      logoUrl: null,
+      description: 'Enterprise - Used by Uber, Spotify',
+      connected: paymentStatus.adyen_connected,
+      fee: 'Custom',
+      route: '/adyen-connect',
+      gradient: 'from-green-500 to-emerald-600',
+      feeType: 'manual',
+      isManualEntry: true,
+      features: [
+        'Enterprise-grade',
+        'Global payment methods',
+        'Real-time analytics',
+        'Unified commerce platform'
+      ]
+    },
+    {
+      id: 'worldpay',
+      name: 'WorldPay',
+      logoUrl: null,
+      description: 'Global payment processing leader',
+      connected: paymentStatus.worldpay_connected,
+      fee: 'Custom',
+      route: '/worldpay-connect',
+      gradient: 'from-red-600 to-red-800',
+      feeType: 'manual',
+      isManualEntry: true,
+      features: [
+        'Global coverage',
+        '120+ currencies',
+        'PCI DSS certified',
+        'Industry leader'
+      ]
+    },
+    {
+      id: 'checkoutcom',
+      name: 'Checkout.com',
+      logoUrl: null,
+      description: 'Modern payment infrastructure',
+      connected: paymentStatus.checkoutcom_connected,
+      fee: 'Custom',
+      route: '/checkoutcom-connect',
+      gradient: 'from-indigo-600 to-violet-700',
+      feeType: 'manual',
+      isManualEntry: true,
+      features: [
+        'High-growth companies',
+        'Fast onboarding',
+        'Intelligent acceptance',
+        'Real-time reporting'
+      ]
     }
   ];
 
