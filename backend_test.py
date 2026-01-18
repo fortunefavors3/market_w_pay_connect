@@ -1407,6 +1407,16 @@ def run_all_tests():
     
     # Test sequence as specified in requirements
     tests = [
+        # EPIC PAYMENT SOLUTIONS TESTS (NEW - HIGH PRIORITY)
+        test_epic_payment_status_nonexistent_user,
+        test_payment_status_includes_epicpayment,
+        test_epic_payment_verify_credentials_valid,
+        test_epic_payment_verify_credentials_invalid,
+        test_epic_payment_connect,
+        test_epic_payment_status_connected_user,
+        test_epic_payment_disconnect,
+        test_epic_payment_status_disconnected_user,
+        
         # PLATFORM FEE COLLECTION PAYMENT TESTS (NEW - HIGH PRIORITY)
         test_fee_calculation_endpoint,
         test_stripe_payment_intent_creation,
