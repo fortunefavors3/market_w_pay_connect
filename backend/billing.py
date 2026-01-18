@@ -187,7 +187,10 @@ async def save_payment_method(request: SavePaymentMethodRequest):
     """
     Save a payment method to the user's account after Setup Intent confirmation.
     Called after Stripe Elements confirms the Setup Intent on frontend.
+    Includes fraud prevention check for blocked cards.
     """
+    from fraud_prevention import create_card_fingerprint, is_identifier_blocked
+    
     try:
         user = await db.users.find_one({"id": request.user_id}, {"_id": 0})
         customer_id = user.get("billing_stripe_customer_id") if user else None
@@ -195,8 +198,28 @@ async def save_payment_method(request: SavePaymentMethodRequest):
         if not customer_id:
             raise HTTPException(status_code=400, detail="No billing customer found. Please try again.")
         
-        # Verify the payment method belongs to this customer
+        # Retrieve the payment method to get card details
         payment_method = stripe.PaymentMethod.retrieve(request.payment_method_id)
+        
+        # Check if this card is blocked (fraud prevention)
+        card_fingerprint = create_card_fingerprint(
+            payment_method.card.last4,
+            payment_method.card.exp_month,
+            payment_method.card.exp_year,
+            payment_method.card.brand
+        )
+        
+        block_check = await is_identifier_blocked("card_fingerprint", card_fingerprint)
+        if block_check["blocked"]:
+            # Detach the payment method since we can't use it
+            try:
+                stripe.PaymentMethod.detach(request.payment_method_id)
+            except:
+                pass
+            raise HTTPException(
+                status_code=403, 
+                detail="This payment card is associated with an account that has unpaid platform fees. Please use a different card or resolve the outstanding balance on the original account."
+            )
         
         if payment_method.customer != customer_id:
             # Attach to customer if not already attached
