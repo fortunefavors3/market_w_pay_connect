@@ -26,7 +26,8 @@ const PaymentSetup = () => {
     stripe_connected: false,
     square_connected: false,
     paypal_connected: false,
-    authorizenet_connected: false
+    authorizenet_connected: false,
+    epicpayment_connected: false
   });
 
   // Redirect to auth if not logged in
