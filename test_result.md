@@ -520,6 +520,18 @@ test_plan:
     - "User management for all processors"
     - "Combined payment status endpoint"
 
+  - task: "Dashboard Sales Stats and Fee Management Endpoints"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "TESTED: All dashboard sales stats and fee management endpoints working perfectly (6/6 tests passed - 100% success rate). ✅ GET /api/users/{user_id}/sales-stats: Returns correct all-time and last 30 days sales statistics with zeros for users with no transactions (total_sales: 0, total_orders: 0, total_platform_fees: 0). ✅ GET /api/users/{user_id}/pending-fees: Returns correct default values for users without manual processors (has_manual_processor: false, pending_fees: [], total_due: 0, past_due_amount: 0, is_suspended: false). ✅ GET /api/users/{user_id}/suspension-status: Returns correct default suspension status (is_suspended: false, suspension_reason: null, can_list_items: true). ✅ POST /api/users/pay-fees: Returns appropriate message for users with no fees due ('No fees due at this time.'). ✅ Epic Payment Connection for Fee Testing: Successfully connected user 'fee_test_user' with Epic Payment credentials (merchant_id: MERCH123456, environment: sandbox). ✅ GET /api/users/fee_test_user/pending-fees: Correctly shows has_manual_processor: true for users with Epic Payment connected, confirming manual processor detection logic. All endpoints use proper /api prefix for Kubernetes routing. MongoDB integration confirmed functional for fee tracking and user suspension management."
+
 agent_communication:
   - agent: "main"
     message: |
