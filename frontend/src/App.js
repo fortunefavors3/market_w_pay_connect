@@ -29,6 +29,7 @@ import PayPalConnect from './pages/PayPalConnect';
 import AuthorizeNetConnect from './pages/AuthorizeNetConnect';
 import EpicPaymentConnect from './pages/EpicPaymentConnect';
 import IntegrationGuides from './pages/IntegrationGuides';
+import BillingSettings from './pages/BillingSettings';
 import SellerPageEditor from './pages/SellerPageEditor';
 import ProductCustomizer from './pages/ProductCustomizer';
 import SellerProfile from './pages/SellerProfile';
