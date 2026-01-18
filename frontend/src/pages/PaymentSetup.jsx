@@ -123,6 +123,24 @@ const PaymentSetup = () => {
         'Established & reliable',
         'Works with existing accounts'
       ]
+    },
+    {
+      id: 'epicpayment',
+      name: 'Epic Payment Solutions',
+      logoUrl: null, // Will use icon
+      description: 'Flexible payment solutions for all merchants',
+      connected: paymentStatus.epicpayment_connected,
+      fee: '2.75% + $0.25',
+      route: '/epicpayment-connect',
+      gradient: 'from-emerald-700 to-teal-600',
+      feeType: 'manual',
+      isManualEntry: true,
+      features: [
+        'Manual credential entry',
+        'Competitive rates',
+        'Multiple currency support',
+        'Easy integration'
+      ]
     }
   ];
 
