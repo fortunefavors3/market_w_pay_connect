@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { Card, CardContent } from '../components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
-import { Star, Heart, Share2, MapPin, Truck, ShieldCheck, MessageSquare, Eye } from 'lucide-react';
+import { Star, Heart, Share2, MapPin, Truck, ShieldCheck, MessageSquare, Eye, AlertTriangle } from 'lucide-react';
 import { mockProducts } from '../mock';
 import { useAuth } from '../context/AuthContext';
 import { toast } from '../hooks/use-toast';
+import { Alert, AlertDescription, AlertTitle } from '../components/ui/alert';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -16,12 +20,54 @@ const ProductDetail = () => {
   const product = mockProducts.find(p => p.id === id);
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [sellerSuspended, setSellerSuspended] = useState(false);
+  const [checkingSuspension, setCheckingSuspension] = useState(true);
+
+  // Check if seller is suspended
+  useEffect(() => {
+    const checkSellerSuspension = async () => {
+      if (!product?.seller?.id) {
+        setCheckingSuspension(false);
+        return;
+      }
+      
+      try {
+        const response = await axios.get(`${BACKEND_URL}/api/suspended-seller-ids`);
+        const suspendedIds = response.data.suspended_seller_ids || [];
+        setSellerSuspended(suspendedIds.includes(product.seller.id));
+      } catch (error) {
+        console.error('Error checking seller suspension:', error);
+      } finally {
+        setCheckingSuspension(false);
+      }
+    };
+    checkSellerSuspension();
+  }, [product?.seller?.id]);
 
   if (!product) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-16 text-center">
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Product not found</h2>
         <Button onClick={() => navigate('/')}>Go Home</Button>
+      </div>
+    );
+  }
+
+  // Show unavailable message if seller is suspended
+  if (!checkingSuspension && sellerSuspended) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-16 text-center">
+        <Alert className="max-w-lg mx-auto border-amber-500 bg-amber-50">
+          <AlertTriangle className="h-5 w-5 text-amber-600" />
+          <AlertTitle className="text-amber-800 font-bold">Listing Temporarily Unavailable</AlertTitle>
+          <AlertDescription className="text-amber-700">
+            This listing is temporarily unavailable. The seller's account is currently suspended.
+            Please browse other products.
+          </AlertDescription>
+        </Alert>
+        <Button onClick={() => navigate('/')} className="mt-6">
+          Browse Products
+        </Button>
       </div>
     );
   }
