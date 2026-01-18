@@ -110,7 +110,7 @@ const PaymentSetup = () => {
     {
       id: 'authorizenet',
       name: 'Authorize.net',
-      logoUrl: null, // Will use icon
+      logoUrl: 'https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/authorizeNet.png',
       description: 'For high-risk & specialty merchants',
       connected: paymentStatus.authorizenet_connected,
       fee: '2.9% + $0.30',
