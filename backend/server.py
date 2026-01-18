@@ -940,6 +940,8 @@ from payments import router as payments_router
 from authorizenet import router as authorizenet_router
 from epicpayment import router as epicpayment_router
 from billing import router as billing_router
+from fraud_prevention import router as fraud_prevention_router
+from fraud_prevention import block_user_identifiers, unblock_user_identifiers
 
 # Include the routers in the main app
 app.include_router(api_router)
@@ -950,6 +952,7 @@ app.include_router(payments_router)
 app.include_router(authorizenet_router)
 app.include_router(epicpayment_router)
 app.include_router(billing_router)
+app.include_router(fraud_prevention_router)
 
 # Mount static files for serving uploaded avatars
 app.mount("/api/uploads", StaticFiles(directory=str(UPLOADS_DIR)), name="uploads")
