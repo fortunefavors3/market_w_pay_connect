@@ -312,7 +312,15 @@ const PaymentSetup = () => {
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
                     <div className={`w-16 h-16 bg-gradient-to-br ${processor.gradient} rounded-xl flex items-center justify-center p-3`}>
-                      <CreditCard className="w-8 h-8 text-white" />
+                      {processor.logoUrl ? (
+                        <img 
+                          src={processor.logoUrl} 
+                          alt={`${processor.name} logo`}
+                          className="w-full h-full object-contain"
+                        />
+                      ) : (
+                        <CreditCard className="w-8 h-8 text-white" />
+                      )}
                     </div>
                     <div>
                       <CardTitle className="text-xl">{processor.name}</CardTitle>
