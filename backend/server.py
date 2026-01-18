@@ -892,6 +892,7 @@ async def mark_fees_paid(invoice_id: str):
     """
     Admin endpoint to mark a fee invoice as paid.
     Used when payment is received manually.
+    Also unblocks user identifiers if all past-due fees are cleared.
     """
     invoice = await db.fee_invoices.find_one({"id": invoice_id}, {"_id": 0})
     
@@ -924,6 +925,7 @@ async def mark_fees_paid(invoice_id: str):
             has_past_due = True
             break
     
+    user_unsuspended = False
     if not has_past_due:
         # Unsuspend user
         await db.users.update_one(
@@ -934,6 +936,10 @@ async def mark_fees_paid(invoice_id: str):
                 "updated_at": datetime.now(timezone.utc).isoformat()
             }}
         )
+        user_unsuspended = True
+        
+        # Unblock user identifiers so they can use their phone/email/cards again
+        await unblock_user_identifiers(user_id)
     
     return {
         "success": True,
