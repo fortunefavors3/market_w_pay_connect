@@ -459,7 +459,20 @@ def get_fee_status(due_date_str: str):
     """
     from datetime import timedelta
     
-    due_date = datetime.fromisoformat(due_date_str.replace('Z', '+00:00'))
+    # Handle different date formats
+    if isinstance(due_date_str, str):
+        if 'T' in due_date_str:
+            due_date = datetime.fromisoformat(due_date_str.replace('Z', '+00:00'))
+        else:
+            # Simple date format like "2024-12-05"
+            due_date = datetime.strptime(due_date_str, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+    else:
+        due_date = due_date_str
+    
+    # Ensure timezone aware
+    if due_date.tzinfo is None:
+        due_date = due_date.replace(tzinfo=timezone.utc)
+    
     now = datetime.now(timezone.utc)
     grace_end_date = due_date + timedelta(days=15)
     
