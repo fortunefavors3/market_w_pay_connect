@@ -1,16 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { Button } from '../components/ui/button';
 import { ArrowRight, TrendingUp, Shield, Truck } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import { mockProducts, mockCategories } from '../mock';
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
+
 const Home = () => {
   const navigate = useNavigate();
-  const featuredProducts = mockProducts.slice(0, 6);
+  const [suspendedSellerIds, setSuspendedSellerIds] = useState([]);
   
-  // Create 24 featured products (repeating the mock data)
-  const extendedFeaturedProducts = Array(4).fill(mockProducts).flat().slice(0, 24);
+  // Fetch suspended seller IDs on mount
+  useEffect(() => {
+    const fetchSuspendedSellers = async () => {
+      try {
+        const response = await axios.get(`${BACKEND_URL}/api/suspended-seller-ids`);
+        setSuspendedSellerIds(response.data.suspended_seller_ids || []);
+      } catch (error) {
+        console.error('Error fetching suspended sellers:', error);
+      }
+    };
+    fetchSuspendedSellers();
+  }, []);
+  
+  // Filter out products from suspended sellers
+  const availableProducts = mockProducts.filter(
+    product => !suspendedSellerIds.includes(product.seller?.id)
+  );
+  
+  // Create 24 featured products (repeating the available mock data)
+  const extendedFeaturedProducts = availableProducts.length > 0 
+    ? Array(Math.ceil(24 / availableProducts.length)).fill(availableProducts).flat().slice(0, 24)
+    : [];
   
   // Newest products (reverse order to simulate recent)
   const newestProducts = [...extendedFeaturedProducts].reverse().slice(0, 24);
