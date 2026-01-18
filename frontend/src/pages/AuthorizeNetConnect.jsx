@@ -263,8 +263,12 @@ const AuthorizeNetConnect = () => {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg flex items-center justify-center">
-              <CreditCard className="w-6 h-6 text-white" />
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg flex items-center justify-center p-2">
+              <img 
+                src="https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/authorizeNet.png" 
+                alt="Authorize.net logo"
+                className="w-full h-full object-contain"
+              />
             </div>
             <div>
               <CardTitle className="text-xl">Authorize.net</CardTitle>
