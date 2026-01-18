@@ -1030,6 +1030,196 @@ def test_epic_payment_status_disconnected_user():
         return False
 
 # ============================================================================
+# DASHBOARD SALES STATS AND FEE MANAGEMENT TESTS (NEW)
+# ============================================================================
+
+def test_sales_stats_no_transactions():
+    """Test GET /api/users/{user_id}/sales-stats for user with no transactions"""
+    test_user_id = f"no_sales_user_{uuid.uuid4().hex[:8]}"
+    response = make_request("GET", f"/users/{test_user_id}/sales-stats")
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        required_fields = ["all_time", "last_30_days"]
+        
+        if all(field in data for field in required_fields):
+            # Check all_time stats
+            all_time = data["all_time"]
+            if (all_time.get("total_sales") == 0 and 
+                all_time.get("total_orders") == 0 and
+                all_time.get("total_platform_fees") == 0):
+                
+                # Check last_30_days stats
+                last_30 = data["last_30_days"]
+                if (last_30.get("total_sales") == 0 and 
+                    last_30.get("total_orders") == 0 and
+                    last_30.get("total_platform_fees") == 0):
+                    
+                    log_test("Sales Stats No Transactions", "PASS", 
+                            "Correctly returned zeros for user with no transactions")
+                    return True
+                else:
+                    log_test("Sales Stats No Transactions", "FAIL", 
+                            f"Last 30 days stats not zero: {last_30}")
+                    return False
+            else:
+                log_test("Sales Stats No Transactions", "FAIL", 
+                        f"All time stats not zero: {all_time}")
+                return False
+        else:
+            missing_fields = [f for f in required_fields if f not in data]
+            log_test("Sales Stats No Transactions", "FAIL", 
+                    f"Missing required fields: {missing_fields}")
+            return False
+    else:
+        log_test("Sales Stats No Transactions", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+def test_pending_fees_no_manual_processor():
+    """Test GET /api/users/{user_id}/pending-fees for user without manual processors"""
+    test_user_id = f"no_manual_proc_user_{uuid.uuid4().hex[:8]}"
+    response = make_request("GET", f"/users/{test_user_id}/pending-fees")
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        required_fields = ["has_manual_processor", "pending_fees", "total_due", "past_due_amount", "is_suspended"]
+        
+        if all(field in data for field in required_fields):
+            if (data.get("has_manual_processor") is False and 
+                data.get("pending_fees") == [] and
+                data.get("total_due") == 0 and
+                data.get("past_due_amount") == 0 and
+                data.get("is_suspended") is False):
+                
+                log_test("Pending Fees No Manual Processor", "PASS", 
+                        "Correctly returned default values for user without manual processors")
+                return True
+            else:
+                log_test("Pending Fees No Manual Processor", "FAIL", 
+                        f"Unexpected values: {data}")
+                return False
+        else:
+            missing_fields = [f for f in required_fields if f not in data]
+            log_test("Pending Fees No Manual Processor", "FAIL", 
+                    f"Missing required fields: {missing_fields}")
+            return False
+    else:
+        log_test("Pending Fees No Manual Processor", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+def test_suspension_status_default():
+    """Test GET /api/users/{user_id}/suspension-status for regular user"""
+    test_user_id = f"regular_user_{uuid.uuid4().hex[:8]}"
+    response = make_request("GET", f"/users/{test_user_id}/suspension-status")
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        required_fields = ["is_suspended", "suspension_reason", "can_list_items"]
+        
+        if all(field in data for field in required_fields):
+            if (data.get("is_suspended") is False and 
+                data.get("suspension_reason") is None and
+                data.get("can_list_items") is True):
+                
+                log_test("Suspension Status Default", "PASS", 
+                        "Correctly returned default suspension status")
+                return True
+            else:
+                log_test("Suspension Status Default", "FAIL", 
+                        f"Unexpected values: {data}")
+                return False
+        else:
+            missing_fields = [f for f in required_fields if f not in data]
+            log_test("Suspension Status Default", "FAIL", 
+                    f"Missing required fields: {missing_fields}")
+            return False
+    else:
+        log_test("Suspension Status Default", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+def test_pay_fees_no_fees_due():
+    """Test POST /api/users/pay-fees for user with no fees due"""
+    test_data = {
+        "user_id": "test_user"
+    }
+    
+    response = make_request("POST", "/users/pay-fees", test_data)
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        if (data.get("success") is True and 
+            "No fees due" in data.get("message", "")):
+            
+            log_test("Pay Fees No Fees Due", "PASS", 
+                    "Correctly returned no fees due message")
+            return True
+        else:
+            log_test("Pay Fees No Fees Due", "FAIL", 
+                    f"Unexpected response: {data}")
+            return False
+    else:
+        log_test("Pay Fees No Fees Due", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+def test_epic_payment_connect_for_fees():
+    """Test connecting Epic Payment for fee testing"""
+    test_data = {
+        "user_id": "fee_test_user",
+        "merchant_id": "MERCH123456",
+        "api_key": "api_test_key_1234567890",
+        "secret_key": "secret_test_key_1234567890",
+        "environment": "sandbox"
+    }
+    
+    response = make_request("POST", "/epicpayment/connect", test_data)
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        if data.get("success") is True:
+            log_test("Epic Payment Connect for Fees", "PASS", 
+                    "Successfully connected Epic Payment for fee testing")
+            return True
+        else:
+            log_test("Epic Payment Connect for Fees", "FAIL", 
+                    f"Expected success: true, got: {data}")
+            return False
+    else:
+        log_test("Epic Payment Connect for Fees", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+def test_pending_fees_with_manual_processor():
+    """Test GET /api/users/fee_test_user/pending-fees for user WITH Epic Payment connected"""
+    response = make_request("GET", "/users/fee_test_user/pending-fees")
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        required_fields = ["has_manual_processor", "pending_fees", "total_due", "past_due_amount", "is_suspended"]
+        
+        if all(field in data for field in required_fields):
+            if data.get("has_manual_processor") is True:
+                log_test("Pending Fees With Manual Processor", "PASS", 
+                        "Correctly shows has_manual_processor: true for Epic Payment user")
+                return True
+            else:
+                log_test("Pending Fees With Manual Processor", "FAIL", 
+                        f"Expected has_manual_processor: true, got: {data.get('has_manual_processor')}")
+                return False
+        else:
+            missing_fields = [f for f in required_fields if f not in data]
+            log_test("Pending Fees With Manual Processor", "FAIL", 
+                    f"Missing required fields: {missing_fields}")
+            return False
+    else:
+        log_test("Pending Fees With Manual Processor", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+# ============================================================================
 # COMBINED PAYMENT STATUS TESTS
 # ============================================================================
 
