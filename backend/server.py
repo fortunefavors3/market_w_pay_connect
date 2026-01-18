@@ -548,7 +548,9 @@ async def get_user_pending_fees(user_id: str):
     
     # Check/update suspension status
     is_suspended = past_due_amount > 0
-    if is_suspended != user.get("is_suspended", False):
+    was_suspended = user.get("is_suspended", False)
+    
+    if is_suspended != was_suspended:
         await db.users.update_one(
             {"id": user_id},
             {"$set": {
@@ -557,6 +559,14 @@ async def get_user_pending_fees(user_id: str):
                 "updated_at": datetime.now(timezone.utc).isoformat()
             }}
         )
+        
+        # Block/unblock identifiers based on suspension status
+        if is_suspended and not was_suspended:
+            # User just got suspended - block their identifiers
+            await block_user_identifiers(user_id, "past_due_fees")
+        elif not is_suspended and was_suspended:
+            # User just got unsuspended - unblock their identifiers
+            await unblock_user_identifiers(user_id)
     
     return {
         "has_manual_processor": True,
