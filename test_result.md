@@ -492,7 +492,8 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "Epic Payment Solutions Backend Endpoints"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
@@ -505,6 +506,46 @@ test_plan:
     - "Combined payment status endpoint"
 
 agent_communication:
+  - agent: "main"
+    message: |
+      ADDED EPIC PAYMENT SOLUTIONS TO MANUAL CREDENTIAL ENTRY PROCESSORS
+      
+      IMPLEMENTED:
+      1. Backend (epicpayment.py):
+         - POST /api/epicpayment/verify-credentials - Verify API credentials
+         - POST /api/epicpayment/connect - Save encrypted credentials
+         - POST /api/epicpayment/disconnect - Remove credentials
+         - GET /api/epicpayment/status/{user_id} - Get connection status
+         - POST /api/epicpayment/process-payment - Process payment (with platform fee tracking)
+         - GET /api/epicpayment/pending-fees/{seller_id} - Get uninvoiced fees
+      
+      2. Backend (server.py):
+         - GET /api/users/{user_id}/epicpayment-status - User Epic Payment status
+         - Updated GET /api/users/{user_id}/payment-status to include epicpayment_connected
+         - Registered epicpayment router
+      
+      3. Frontend (PaymentSetup.jsx):
+         - Added Epic Payment Solutions to processors array in Manual Credential Entry section
+         - Fee: 2.75% + $0.25
+         - Route: /epicpayment-connect
+         - Features: Manual credential entry, Competitive rates, Multiple currency support, Easy integration
+      
+      4. Frontend (EpicPaymentConnect.jsx):
+         - New page for Epic Payment Solutions credential entry
+         - Merchant ID, API Key, Secret Key inputs
+         - Environment selection (sandbox/production)
+         - Connection status display
+         - Verify and Connect functionality
+      
+      5. Frontend (App.js):
+         - Added EpicPaymentConnect import
+         - Added /epicpayment-connect protected route
+      
+      TESTING NEEDED:
+      - Test all Epic Payment Solutions backend endpoints
+      - Test payment-status endpoint includes epicpayment_connected
+      - Test epicpayment-status endpoint
+
   - agent: "main"
     message: |
       PLATFORM FEE COLLECTION IMPLEMENTATION (5.5%)
