@@ -147,6 +147,31 @@ A marketplace platform for sellers to list items, accept payments through multip
 - User ID: `user_1768712792124`
 - Status: Suspended (for demo purposes)
 
+## 3rd Party Integrations
+
+### Payment Processors (Sellers Receiving Payments)
+
+**OAuth/Automatic Fee Deduction:**
+- ✅ Stripe Connect
+- ✅ Square
+- ✅ PayPal
+- ✅ Braintree (NEW)
+
+**Manual Credential Entry (Monthly Fee Invoice):**
+- ✅ Authorize.net
+- ✅ Epic Payment Solutions
+- ✅ NMI (Network Merchants) (NEW)
+- ✅ USAePay (NEW)
+- ✅ PayKickstart (NEW)
+- ✅ Durango Merchant Services (NEW)
+- ✅ Host Merchant Services (NEW)
+- ✅ Adyen (NEW)
+- ✅ WorldPay (FIS) (NEW)
+- ✅ Checkout.com (NEW)
+
+### Platform Fee Collection
+- ✅ Stripe (platform's account for billing sellers)
+
 ## Known Limitations
 - Daily batch job requires external cron setup (endpoint ready)
 - Email notifications not yet implemented
