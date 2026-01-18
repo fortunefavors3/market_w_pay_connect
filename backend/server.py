@@ -305,6 +305,25 @@ async def get_user_authorizenet_status(user_id: str):
         "environment": user.get("authorizenet_environment")
     }
 
+@api_router.get("/users/{user_id}/epicpayment-status")
+async def get_user_epicpayment_status(user_id: str):
+    """Get user's Epic Payment Solutions connection status"""
+    user = await db.users.find_one({"id": user_id}, {"_id": 0})
+    if not user:
+        return {
+            "connected": False,
+            "verified": False,
+            "lastVerified": None,
+            "environment": None
+        }
+    
+    return {
+        "connected": user.get("epicpayment_connected", False),
+        "verified": user.get("epicpayment_verified", False),
+        "lastVerified": user.get("epicpayment_connected_at"),
+        "environment": user.get("epicpayment_environment")
+    }
+
 # Avatar Upload Endpoint
 @api_router.post("/users/avatar")
 async def upload_avatar(file: UploadFile = File(...), user_id: str = Form(...)):
