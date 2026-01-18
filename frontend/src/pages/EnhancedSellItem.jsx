@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
@@ -12,6 +13,8 @@ import { Upload, X, Plus, Palette, Type, Eye } from 'lucide-react';
 import { mockCategories, pageTemplates, googleFonts } from '../mock';
 import { useAuth } from '../context/AuthContext';
 import { toast } from '../hooks/use-toast';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 
 const EnhancedSellItem = () => {
   const navigate = useNavigate();
@@ -52,21 +55,47 @@ const EnhancedSellItem = () => {
   const [previewMedia, setPreviewMedia] = useState([]);
   const [newVariant, setNewVariant] = useState({ name: '', values: '' });
 
-  // Check authentication and payment processor setup
-  React.useEffect(() => {
+  // Check authentication, payment processor setup, and suspension status
+  useEffect(() => {
     // First check if user is logged in
     if (!isAuthenticated) {
       navigate('/auth', { state: { from: { pathname: '/sell' } } });
       return;
     }
 
+    // Check suspension status
+    const checkSuspension = async () => {
+      try {
+        const response = await axios.get(`${BACKEND_URL}/api/users/${user.id}/suspension-status`);
+        if (response.data.is_suspended) {
+          toast({
+            title: "Account Suspended",
+            description: "Your account is suspended due to unpaid platform fees. Please pay your fees to list items.",
+            variant: "destructive",
+            duration: 8000,
+          });
+          setTimeout(() => {
+            navigate('/dashboard');
+          }, 2000);
+          return;
+        }
+      } catch (error) {
+        console.error('Error checking suspension status:', error);
+      }
+    };
+
+    if (user?.id) {
+      checkSuspension();
+    }
+
     // Check if user has at least one payment processor connected
-    const hasPaymentProcessor = user?.stripeConnected || user?.squareConnected || user?.paypalConnected;
+    const hasPaymentProcessor = user?.stripeConnected || user?.squareConnected || user?.paypalConnected || 
+                                user?.authorizeNetConnected || user?.epicPaymentConnected;
     
     if (!hasPaymentProcessor) {
       toast({
         title: "Payment processor required",
-        description: "You must connect a payment processor (Stripe, Square, or PayPal) before listing items for sale.",
+        description: "You must connect a payment processor before listing items for sale.",
         variant: "destructive",
         duration: 8000,
       });
