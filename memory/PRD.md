@@ -28,10 +28,12 @@ A marketplace platform for sellers to list items, accept payments through multip
 - Fee tracking for manual processor users
 - Account suspension banner and restrictions
 
-### User Suspension System
-- Suspended users cannot list new items
-- Suspended users' active listings are hidden from buyers
-- Clear messaging about suspension status and resolution
+### Fraud Prevention System
+- **Phone Number Block**: Blocked phone numbers cannot register new accounts
+- **Email Block**: Blocked emails cannot register new accounts
+- **Payment Card Fingerprinting**: Blocked cards cannot be added to any account
+- **Hard Block**: Any match prevents registration entirely
+- Identifiers are blocked when user is suspended, unblocked when fees are paid
 
 ## What's Been Implemented
 
