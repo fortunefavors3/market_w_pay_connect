@@ -115,7 +115,7 @@ const PaymentSetup = () => {
       connected: paymentStatus.authorizenet_connected,
       fee: '2.9% + $0.30',
       route: '/authorizenet-connect',
-      gradient: 'from-blue-800 to-indigo-900',
+      gradient: 'from-blue-600 to-indigo-900',
       feeType: 'manual',
       isManualEntry: true,
       features: [
@@ -135,7 +135,7 @@ const PaymentSetup = () => {
       connected: paymentStatus.braintree_connected,
       fee: '2.59% + $0.49',
       route: '/braintree-connect',
-      gradient: 'from-gray-700 to-purple-700',
+      gradient: 'from-slate-900 to-slate-800',
       feeType: 'automatic',
       features: [
         'OAuth integration',
@@ -153,7 +153,7 @@ const PaymentSetup = () => {
       connected: paymentStatus.nmi_connected,
       fee: 'Varies',
       route: '/nmi-connect',
-      gradient: 'from-emerald-600 to-blue-900',
+      gradient: 'from-emerald-500 to-teal-600',
       feeType: 'manual',
       isManualEntry: true,
       features: [
@@ -171,7 +171,7 @@ const PaymentSetup = () => {
       connected: paymentStatus.usaepay_connected,
       fee: 'Varies',
       route: '/usaepay-connect',
-      gradient: 'from-blue-700 to-orange-600',
+      gradient: 'from-slate-600 to-indigo-700',
       feeType: 'manual',
       isManualEntry: true,
       features: [
@@ -189,7 +189,7 @@ const PaymentSetup = () => {
       connected: paymentStatus.paykickstart_connected,
       fee: 'Varies',
       route: '/paykickstart-connect',
-      gradient: 'from-teal-600 to-blue-800',
+      gradient: 'from-teal-400 to-slate-700',
       feeType: 'manual',
       isManualEntry: true,
       features: [
@@ -207,7 +207,7 @@ const PaymentSetup = () => {
       connected: paymentStatus.durango_connected,
       fee: 'Varies',
       route: '/durango-connect',
-      gradient: 'from-orange-500 to-gray-700',
+      gradient: 'from-slate-400 to-sky-600',
       feeType: 'manual',
       isManualEntry: true,
       features: [
@@ -225,7 +225,7 @@ const PaymentSetup = () => {
       connected: paymentStatus.hostmerchant_connected,
       fee: 'Interchange+',
       route: '/hostmerchant-connect',
-      gradient: 'from-red-400 to-red-700',
+      gradient: 'from-rose-500 to-red-700',
       feeType: 'manual',
       isManualEntry: true,
       features: [
@@ -243,7 +243,7 @@ const PaymentSetup = () => {
       connected: paymentStatus.adyen_connected,
       fee: 'Custom',
       route: '/adyen-connect',
-      gradient: 'from-yellow-400 to-emerald-400',
+      gradient: 'from-lime-400 to-emerald-400',
       feeType: 'manual',
       isManualEntry: true,
       features: [
@@ -261,7 +261,7 @@ const PaymentSetup = () => {
       connected: paymentStatus.epicpayment_connected,
       fee: '2.75% + $0.25',
       route: '/epicpayment-connect',
-      gradient: 'from-gray-800 to-red-600',
+      gradient: 'from-slate-700 to-red-600',
       feeType: 'manual',
       isManualEntry: true,
       features: [
@@ -279,7 +279,7 @@ const PaymentSetup = () => {
       connected: paymentStatus.worldpay_connected,
       fee: 'Custom',
       route: '/worldpay-connect',
-      gradient: 'from-red-500 to-orange-500',
+      gradient: 'from-rose-500 to-orange-500',
       feeType: 'manual',
       isManualEntry: true,
       features: [
@@ -297,7 +297,7 @@ const PaymentSetup = () => {
       connected: paymentStatus.checkoutcom_connected,
       fee: 'Custom',
       route: '/checkoutcom-connect',
-      gradient: 'from-blue-600 to-blue-300',
+      gradient: 'from-blue-600 to-sky-300',
       feeType: 'manual',
       isManualEntry: true,
       features: [
