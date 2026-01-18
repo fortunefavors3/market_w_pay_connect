@@ -742,6 +742,141 @@ async def generate_monthly_fee_invoices():
     }
 
 
+# ============================================
+# Products/Listings Endpoints
+# ============================================
+
+@api_router.get("/products")
+async def get_products(
+    category: str = None,
+    limit: int = 50,
+    skip: int = 0,
+    exclude_suspended: bool = True
+):
+    """
+    Get products/listings, optionally filtering out suspended sellers.
+    By default, excludes listings from suspended users.
+    """
+    # Build query
+    query = {"status": {"$in": ["active", "available"]}}
+    
+    if category:
+        query["category"] = category
+    
+    # If excluding suspended sellers, we need to get suspended user IDs first
+    suspended_seller_ids = []
+    if exclude_suspended:
+        suspended_users = await db.users.find(
+            {"is_suspended": True},
+            {"_id": 0, "id": 1}
+        ).to_list(1000)
+        suspended_seller_ids = [u["id"] for u in suspended_users]
+        
+        if suspended_seller_ids:
+            query["seller_id"] = {"$nin": suspended_seller_ids}
+    
+    # Fetch products
+    products = await db.products.find(
+        query,
+        {"_id": 0}
+    ).sort("created_at", -1).skip(skip).limit(limit).to_list(limit)
+    
+    # Get total count for pagination
+    total_count = await db.products.count_documents(query)
+    
+    return {
+        "products": products,
+        "total": total_count,
+        "skip": skip,
+        "limit": limit,
+        "suspended_sellers_filtered": len(suspended_seller_ids)
+    }
+
+
+@api_router.get("/products/{product_id}")
+async def get_product(product_id: str):
+    """
+    Get a single product by ID.
+    Returns 404 if product not found or seller is suspended.
+    """
+    product = await db.products.find_one(
+        {"id": product_id},
+        {"_id": 0}
+    )
+    
+    if not product:
+        return {"error": "Product not found", "status": 404}
+    
+    # Check if seller is suspended
+    seller_id = product.get("seller_id")
+    if seller_id:
+        seller = await db.users.find_one({"id": seller_id}, {"_id": 0})
+        if seller and seller.get("is_suspended"):
+            return {
+                "error": "This listing is temporarily unavailable",
+                "status": 403,
+                "reason": "seller_suspended"
+            }
+    
+    return {"product": product}
+
+
+@api_router.get("/sellers/{seller_id}/products")
+async def get_seller_products(
+    seller_id: str,
+    limit: int = 50,
+    skip: int = 0
+):
+    """
+    Get products from a specific seller.
+    Returns empty array if seller is suspended.
+    """
+    # Check if seller is suspended
+    seller = await db.users.find_one({"id": seller_id}, {"_id": 0})
+    
+    if seller and seller.get("is_suspended"):
+        return {
+            "products": [],
+            "total": 0,
+            "seller_suspended": True,
+            "message": "This seller's listings are temporarily unavailable"
+        }
+    
+    # Fetch seller's products
+    products = await db.products.find(
+        {"seller_id": seller_id, "status": {"$in": ["active", "available"]}},
+        {"_id": 0}
+    ).sort("created_at", -1).skip(skip).limit(limit).to_list(limit)
+    
+    total_count = await db.products.count_documents(
+        {"seller_id": seller_id, "status": {"$in": ["active", "available"]}}
+    )
+    
+    return {
+        "products": products,
+        "total": total_count,
+        "skip": skip,
+        "limit": limit,
+        "seller_suspended": False
+    }
+
+
+@api_router.get("/suspended-seller-ids")
+async def get_suspended_seller_ids():
+    """
+    Get list of suspended seller IDs.
+    Used by frontend to filter mock data until real product DB is implemented.
+    """
+    suspended_users = await db.users.find(
+        {"is_suspended": True},
+        {"_id": 0, "id": 1}
+    ).to_list(1000)
+    
+    return {
+        "suspended_seller_ids": [u["id"] for u in suspended_users]
+    }
+
+
 @api_router.post("/admin/mark-fees-paid/{invoice_id}")
 async def mark_fees_paid(invoice_id: str):
     """
