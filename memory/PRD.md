@@ -71,6 +71,14 @@ A marketplace platform for sellers to list items, accept payments through multip
 - User Suspension System
 
 ### Backend Endpoints Created
+**Fraud Prevention:**
+- `POST /api/fraud-prevention/check-registration` - Check if phone/email can register
+- `POST /api/fraud-prevention/check-card` - Check if card fingerprint is blocked
+- `POST /api/fraud-prevention/block-user` - Block all identifiers for a user
+- `POST /api/fraud-prevention/unblock-user/{user_id}` - Unblock user identifiers
+- `GET /api/fraud-prevention/blocked-list` - View all blocked identifiers
+- `GET /api/fraud-prevention/check-user-status/{user_id}` - Check if user is blocked
+
 **Billing System:**
 - `GET /api/billing/info/{user_id}` - Get billing info and saved payment methods
 - `POST /api/billing/setup-intent` - Create Stripe Setup Intent for card collection
