@@ -85,6 +85,7 @@ function App() {
               <Route path="/authorizenet-connect" element={<ProtectedRoute><AuthorizeNetConnect /></ProtectedRoute>} />
               <Route path="/epicpayment-connect" element={<ProtectedRoute><EpicPaymentConnect /></ProtectedRoute>} />
               <Route path="/integration-guides" element={<ProtectedRoute><IntegrationGuides /></ProtectedRoute>} />
+              <Route path="/billing-settings" element={<ProtectedRoute><BillingSettings /></ProtectedRoute>} />
               <Route path="/seller-page-editor" element={<ProtectedRoute><SellerPageEditor /></ProtectedRoute>} />
               <Route path="/customize/:id" element={<ProtectedRoute><ProductCustomizer /></ProtectedRoute>} />
               <Route path="/checkout" element={<ProtectedRoute><EnhancedCheckout /></ProtectedRoute>} />
