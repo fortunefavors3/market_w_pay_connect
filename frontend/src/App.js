@@ -93,6 +93,15 @@ function App() {
               <Route path="/paypal-connect" element={<ProtectedRoute><PayPalConnect /></ProtectedRoute>} />
               <Route path="/authorizenet-connect" element={<ProtectedRoute><AuthorizeNetConnect /></ProtectedRoute>} />
               <Route path="/epicpayment-connect" element={<ProtectedRoute><EpicPaymentConnect /></ProtectedRoute>} />
+              <Route path="/nmi-connect" element={<ProtectedRoute><NMIConnect /></ProtectedRoute>} />
+              <Route path="/braintree-connect" element={<ProtectedRoute><BraintreeConnect /></ProtectedRoute>} />
+              <Route path="/usaepay-connect" element={<ProtectedRoute><USAePayConnect /></ProtectedRoute>} />
+              <Route path="/paykickstart-connect" element={<ProtectedRoute><PayKickstartConnect /></ProtectedRoute>} />
+              <Route path="/durango-connect" element={<ProtectedRoute><DurangoConnect /></ProtectedRoute>} />
+              <Route path="/hostmerchant-connect" element={<ProtectedRoute><HostMerchantConnect /></ProtectedRoute>} />
+              <Route path="/adyen-connect" element={<ProtectedRoute><AdyenConnect /></ProtectedRoute>} />
+              <Route path="/worldpay-connect" element={<ProtectedRoute><WorldPayConnect /></ProtectedRoute>} />
+              <Route path="/checkoutcom-connect" element={<ProtectedRoute><CheckoutComConnect /></ProtectedRoute>} />
               <Route path="/integration-guides" element={<ProtectedRoute><IntegrationGuides /></ProtectedRoute>} />
               <Route path="/billing-settings" element={<ProtectedRoute><BillingSettings /></ProtectedRoute>} />
               <Route path="/seller-page-editor" element={<ProtectedRoute><SellerPageEditor /></ProtectedRoute>} />
