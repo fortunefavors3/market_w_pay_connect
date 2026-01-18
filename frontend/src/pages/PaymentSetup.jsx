@@ -128,12 +128,12 @@ const PaymentSetup = () => {
     {
       id: 'epicpayment',
       name: 'Epic Payment Solutions',
-      logoUrl: null, // Will use icon
+      logoUrl: 'https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/epic.jpg', // Will use icon
       description: 'Flexible payment solutions for all merchants',
       connected: paymentStatus.epicpayment_connected,
       fee: '2.75% + $0.25',
       route: '/epicpayment-connect',
-      gradient: 'from-emerald-700 to-teal-600',
+      gradient: 'from-gray-800 to-red-600',
       feeType: 'manual',
       isManualEntry: true,
       features: [
@@ -147,12 +147,12 @@ const PaymentSetup = () => {
     {
       id: 'braintree',
       name: 'Braintree',
-      logoUrl: null,
+      logoUrl: 'https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/braintree.png',
       description: 'PayPal-owned payment platform',
       connected: paymentStatus.braintree_connected,
       fee: '2.59% + $0.49',
       route: '/braintree-connect',
-      gradient: 'from-blue-700 to-purple-700',
+      gradient: 'from-gray-700 to-purple-700',
       feeType: 'automatic',
       features: [
         'OAuth integration',
@@ -165,12 +165,12 @@ const PaymentSetup = () => {
     {
       id: 'nmi',
       name: 'NMI',
-      logoUrl: null,
+      logoUrl: 'https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/nmipayments_logo.jpg',
       description: 'Network Merchants Inc - Popular gateway',
       connected: paymentStatus.nmi_connected,
       fee: 'Varies',
       route: '/nmi-connect',
-      gradient: 'from-orange-600 to-red-600',
+      gradient: 'from-emerald-600 to-blue-900',
       feeType: 'manual',
       isManualEntry: true,
       features: [
@@ -183,12 +183,12 @@ const PaymentSetup = () => {
     {
       id: 'usaepay',
       name: 'USAePay',
-      logoUrl: null,
+      logoUrl: 'https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/usaepay.jpg',
       description: 'High-volume payment processing',
       connected: paymentStatus.usaepay_connected,
       fee: 'Varies',
       route: '/usaepay-connect',
-      gradient: 'from-green-600 to-teal-600',
+      gradient: 'from-blue-700 to-orange-600',
       feeType: 'manual',
       isManualEntry: true,
       features: [
@@ -201,12 +201,12 @@ const PaymentSetup = () => {
     {
       id: 'paykickstart',
       name: 'PayKickstart',
-      logoUrl: null,
+      logoUrl: 'https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/paykickstart.png',
       description: 'Shopping cart & subscription platform',
       connected: paymentStatus.paykickstart_connected,
       fee: 'Varies',
       route: '/paykickstart-connect',
-      gradient: 'from-pink-600 to-rose-600',
+      gradient: 'from-teal-600 to-blue-800',
       feeType: 'manual',
       isManualEntry: true,
       features: [
@@ -219,12 +219,12 @@ const PaymentSetup = () => {
     {
       id: 'durango',
       name: 'Durango',
-      logoUrl: null,
+      logoUrl: 'https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/durango.png',
       description: 'High-risk merchant specialist',
       connected: paymentStatus.durango_connected,
       fee: 'Varies',
       route: '/durango-connect',
-      gradient: 'from-amber-600 to-orange-700',
+      gradient: 'from-orange-500 to-gray-700',
       feeType: 'manual',
       isManualEntry: true,
       features: [
@@ -237,12 +237,12 @@ const PaymentSetup = () => {
     {
       id: 'hostmerchant',
       name: 'Host Merchant',
-      logoUrl: null,
+      logoUrl: 'https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/cropped-HMS-favicon-512x512-SR19-8R1.webp',
       description: 'Competitive rates for all businesses',
       connected: paymentStatus.hostmerchant_connected,
       fee: 'Interchange+',
       route: '/hostmerchant-connect',
-      gradient: 'from-cyan-600 to-blue-700',
+      gradient: 'from-red-400 to-red-700',
       feeType: 'manual',
       isManualEntry: true,
       features: [
@@ -255,12 +255,12 @@ const PaymentSetup = () => {
     {
       id: 'adyen',
       name: 'Adyen',
-      logoUrl: null,
+      logoUrl: 'https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/ADYEN.AS-76bbfafc.png',
       description: 'Enterprise - Used by Uber, Spotify',
       connected: paymentStatus.adyen_connected,
       fee: 'Custom',
       route: '/adyen-connect',
-      gradient: 'from-green-500 to-emerald-600',
+      gradient: 'from-yellow-400 to-emerald-400',
       feeType: 'manual',
       isManualEntry: true,
       features: [
@@ -273,12 +273,12 @@ const PaymentSetup = () => {
     {
       id: 'worldpay',
       name: 'WorldPay',
-      logoUrl: null,
+      logoUrl: 'https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/worldpay825476.png',
       description: 'Global payment processing leader',
       connected: paymentStatus.worldpay_connected,
       fee: 'Custom',
       route: '/worldpay-connect',
-      gradient: 'from-red-600 to-red-800',
+      gradient: 'from-red-500 to-orange-500',
       feeType: 'manual',
       isManualEntry: true,
       features: [
@@ -291,12 +291,12 @@ const PaymentSetup = () => {
     {
       id: 'checkoutcom',
       name: 'Checkout.com',
-      logoUrl: null,
+      logoUrl: 'https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/checkoutcom.jpg',
       description: 'Modern payment infrastructure',
       connected: paymentStatus.checkoutcom_connected,
       fee: 'Custom',
       route: '/checkoutcom-connect',
-      gradient: 'from-indigo-600 to-violet-700',
+      gradient: 'from-blue-600 to-blue-300',
       feeType: 'manual',
       isManualEntry: true,
       features: [
