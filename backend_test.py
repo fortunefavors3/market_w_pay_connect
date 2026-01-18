@@ -829,6 +829,207 @@ def test_paypal_user_status_nonexistent():
         return False
 
 # ============================================================================
+# EPIC PAYMENT SOLUTIONS TESTS
+# ============================================================================
+
+def test_epic_payment_status_nonexistent_user():
+    """Test GET /api/users/{user_id}/epicpayment-status for non-existent user"""
+    fake_user_id = f"nonexistent_user_{uuid.uuid4().hex[:8]}"
+    response = make_request("GET", f"/users/{fake_user_id}/epicpayment-status")
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        if (data.get("connected") is False and 
+            data.get("verified") is False and
+            data.get("lastVerified") is None and
+            data.get("environment") is None):
+            log_test("Epic Payment Status Non-existent User", "PASS", 
+                    "Correctly returned default status for non-existent user")
+            return True
+        else:
+            log_test("Epic Payment Status Non-existent User", "FAIL", 
+                    f"Unexpected response for non-existent user: {data}")
+            return False
+    else:
+        log_test("Epic Payment Status Non-existent User", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+def test_payment_status_includes_epicpayment():
+    """Test GET /api/users/{user_id}/payment-status includes epicpayment_connected field"""
+    fake_user_id = f"test_payment_status_{uuid.uuid4().hex[:8]}"
+    response = make_request("GET", f"/users/{fake_user_id}/payment-status")
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        required_fields = ["has_any_processor", "stripe_connected", "square_connected", 
+                          "paypal_connected", "authorizenet_connected", "epicpayment_connected"]
+        
+        if all(field in data for field in required_fields):
+            if data.get("epicpayment_connected") is False:
+                log_test("Payment Status Includes Epic Payment", "PASS", 
+                        "Payment status endpoint includes epicpayment_connected field")
+                return True
+            else:
+                log_test("Payment Status Includes Epic Payment", "FAIL", 
+                        f"Expected epicpayment_connected: false, got: {data.get('epicpayment_connected')}")
+                return False
+        else:
+            missing_fields = [f for f in required_fields if f not in data]
+            log_test("Payment Status Includes Epic Payment", "FAIL", 
+                    f"Missing required fields: {missing_fields}")
+            return False
+    else:
+        log_test("Payment Status Includes Epic Payment", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+def test_epic_payment_verify_credentials_valid():
+    """Test POST /api/epicpayment/verify-credentials with valid credentials"""
+    test_data = {
+        "merchant_id": "MERCH123456",
+        "api_key": "api_test_key_1234567890",
+        "secret_key": "secret_test_key_1234567890",
+        "environment": "sandbox"
+    }
+    
+    response = make_request("POST", "/epicpayment/verify-credentials", test_data)
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        if (data.get("valid") is True and 
+            data.get("merchant_id") == "MERCH123456" and
+            data.get("environment") == "sandbox"):
+            log_test("Epic Payment Verify Credentials Valid", "PASS", 
+                    "Valid credentials correctly verified")
+            return True
+        else:
+            log_test("Epic Payment Verify Credentials Valid", "FAIL", 
+                    f"Expected valid: true, got: {data}")
+            return False
+    else:
+        log_test("Epic Payment Verify Credentials Valid", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+def test_epic_payment_verify_credentials_invalid():
+    """Test POST /api/epicpayment/verify-credentials with invalid credentials (too short)"""
+    test_data = {
+        "merchant_id": "AB",
+        "api_key": "short",
+        "secret_key": "short",
+        "environment": "sandbox"
+    }
+    
+    response = make_request("POST", "/epicpayment/verify-credentials", test_data)
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        if data.get("valid") is False and data.get("error"):
+            log_test("Epic Payment Verify Credentials Invalid", "PASS", 
+                    f"Invalid credentials correctly rejected: {data.get('error')}")
+            return True
+        else:
+            log_test("Epic Payment Verify Credentials Invalid", "FAIL", 
+                    f"Expected valid: false with error, got: {data}")
+            return False
+    else:
+        log_test("Epic Payment Verify Credentials Invalid", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+def test_epic_payment_connect():
+    """Test POST /api/epicpayment/connect - connecting a user"""
+    test_data = {
+        "user_id": "test_epic_user_123",
+        "merchant_id": "MERCH123456",
+        "api_key": "api_test_key_1234567890",
+        "secret_key": "secret_test_key_1234567890",
+        "environment": "sandbox"
+    }
+    
+    response = make_request("POST", "/epicpayment/connect", test_data)
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        if data.get("success") is True:
+            log_test("Epic Payment Connect", "PASS", 
+                    "User successfully connected to Epic Payment Solutions")
+            return True
+        else:
+            log_test("Epic Payment Connect", "FAIL", 
+                    f"Expected success: true, got: {data}")
+            return False
+    else:
+        log_test("Epic Payment Connect", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+def test_epic_payment_status_connected_user():
+    """Test GET /api/users/test_epic_user_123/epicpayment-status - should return connected: true"""
+    response = make_request("GET", "/users/test_epic_user_123/epicpayment-status")
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        if (data.get("connected") is True and 
+            data.get("verified") is True and
+            data.get("environment") == "sandbox"):
+            log_test("Epic Payment Status Connected User", "PASS", 
+                    "Connected user shows correct status")
+            return True
+        else:
+            log_test("Epic Payment Status Connected User", "FAIL", 
+                    f"Expected connected: true, verified: true, got: {data}")
+            return False
+    else:
+        log_test("Epic Payment Status Connected User", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+def test_epic_payment_disconnect():
+    """Test POST /api/epicpayment/disconnect - disconnecting a user"""
+    test_data = {
+        "user_id": "test_epic_user_123"
+    }
+    
+    response = make_request("POST", "/epicpayment/disconnect", test_data)
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        if data.get("success") is True:
+            log_test("Epic Payment Disconnect", "PASS", 
+                    "User successfully disconnected from Epic Payment Solutions")
+            return True
+        else:
+            log_test("Epic Payment Disconnect", "FAIL", 
+                    f"Expected success: true, got: {data}")
+            return False
+    else:
+        log_test("Epic Payment Disconnect", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+def test_epic_payment_status_disconnected_user():
+    """Test GET /api/users/test_epic_user_123/epicpayment-status - should return connected: false"""
+    response = make_request("GET", "/users/test_epic_user_123/epicpayment-status")
+    
+    if response and response.status_code == 200:
+        data = response.json()
+        if (data.get("connected") is False and 
+            data.get("verified") is False):
+            log_test("Epic Payment Status Disconnected User", "PASS", 
+                    "Disconnected user shows correct status")
+            return True
+        else:
+            log_test("Epic Payment Status Disconnected User", "FAIL", 
+                    f"Expected connected: false, verified: false, got: {data}")
+            return False
+    else:
+        log_test("Epic Payment Status Disconnected User", "FAIL", 
+                f"Request failed or unexpected status code")
+        return False
+
+# ============================================================================
 # COMBINED PAYMENT STATUS TESTS
 # ============================================================================
 
