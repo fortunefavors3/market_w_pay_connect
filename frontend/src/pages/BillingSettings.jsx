@@ -121,7 +121,8 @@ const AddCardForm = ({ onSuccess, onCancel }) => {
         <Button 
           type="submit" 
           disabled={!stripe || isLoading}
-          className="flex-1"
+          variant="default"
+          className="flex-1 bg-blue-600 text-white hover:bg-blue-700 border-none"
         >
           {isLoading ? (
             <>
@@ -135,7 +136,7 @@ const AddCardForm = ({ onSuccess, onCancel }) => {
             </>
           )}
         </Button>
-        <Button type="button" variant="outline" onClick={onCancel}>
+                <Button type="button" variant="outline" onClick={onCancel}>
           Cancel
         </Button>
       </div>
