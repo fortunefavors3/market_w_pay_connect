@@ -1,27 +1,110 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { Badge } from '../components/ui/badge';
-import { Package, ShoppingBag, MessageSquare, Heart, Settings, Plus, Edit, Trash2, Eye, User, CreditCard } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from '../components/ui/alert';
+import { 
+  Package, ShoppingBag, MessageSquare, Heart, Settings, Plus, Edit, Trash2, Eye, 
+  User, CreditCard, DollarSign, TrendingUp, AlertTriangle, Ban, Calendar
+} from 'lucide-react';
 import { mockOrders, mockMyListings, mockMessages } from '../mock';
 import { useAuth } from '../context/AuthContext';
 import { toast } from '../hooks/use-toast';
 import AvatarUpload from '../components/AvatarUpload';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
   const [activeListings] = useState(mockMyListings.filter(l => l.status === 'active'));
   const [soldListings] = useState(mockMyListings.filter(l => l.status === 'sold'));
+  
+  // Sales statistics state
+  const [salesStats, setSalesStats] = useState({
+    all_time: { total_sales: 0, total_orders: 0 },
+    last_30_days: { total_sales: 0, total_orders: 0 }
+  });
+  
+  // Fee information state (for manual processor users)
+  const [feeInfo, setFeeInfo] = useState({
+    has_manual_processor: false,
+    pending_fees: [],
+    total_due: 0,
+    past_due_amount: 0,
+    grace_period_amount: 0,
+    is_suspended: false
+  });
+  
+  const [loadingStats, setLoadingStats] = useState(true);
+  const [payingFees, setPayingFees] = useState(false);
 
   // Redirect to auth if not logged in
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isAuthenticated) {
       navigate('/auth', { state: { from: { pathname: '/dashboard' } } });
     }
   }, [isAuthenticated, navigate]);
+
+  // Fetch sales stats and fee info
+  useEffect(() => {
+    if (user?.id) {
+      fetchSalesStats();
+      fetchFeeInfo();
+    }
+  }, [user?.id]);
+
+  const fetchSalesStats = async () => {
+    try {
+      const response = await axios.get(`${BACKEND_URL}/api/users/${user.id}/sales-stats`);
+      setSalesStats(response.data);
+    } catch (error) {
+      console.error('Error fetching sales stats:', error);
+    } finally {
+      setLoadingStats(false);
+    }
+  };
+
+  const fetchFeeInfo = async () => {
+    try {
+      const response = await axios.get(`${BACKEND_URL}/api/users/${user.id}/pending-fees`);
+      setFeeInfo(response.data);
+    } catch (error) {
+      console.error('Error fetching fee info:', error);
+    }
+  };
+
+  const handlePayFees = async () => {
+    setPayingFees(true);
+    try {
+      const response = await axios.post(`${BACKEND_URL}/api/users/pay-fees`, {
+        user_id: user.id
+      });
+      
+      if (response.data.payment_pending) {
+        toast({
+          title: "Payment Processing Coming Soon",
+          description: response.data.message,
+        });
+      } else {
+        toast({
+          title: "No Fees Due",
+          description: response.data.message,
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to process fee payment request.",
+        variant: "destructive"
+      });
+    } finally {
+      setPayingFees(false);
+    }
+  };
 
   const handleDeleteListing = (id) => {
     toast({
@@ -30,8 +113,65 @@ const Dashboard = () => {
     });
   };
 
+  // Format currency
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    }).format(amount);
+  };
+
+  // Get fee amount color based on status
+  const getFeeAmountColor = (status) => {
+    switch (status) {
+      case 'past_due':
+        return 'text-red-600';
+      case 'grace_period':
+        return 'text-orange-500';
+      default:
+        return 'text-gray-900';
+    }
+  };
+
+  // Format due date with status
+  const formatDueDate = (dueDateStr, status) => {
+    const dueDate = new Date(dueDateStr);
+    const formattedDate = dueDate.toLocaleDateString('en-US', { 
+      month: 'short', 
+      day: 'numeric', 
+      year: 'numeric' 
+    });
+    
+    if (status === 'past_due') {
+      return `Overdue since ${formattedDate}`;
+    } else if (status === 'grace_period') {
+      return `Due ${formattedDate} (Grace Period)`;
+    }
+    return `Due ${formattedDate}`;
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
+      {/* Account Suspension Banner */}
+      {feeInfo.is_suspended && (
+        <Alert className="mb-6 border-red-500 bg-red-50">
+          <Ban className="h-5 w-5 text-red-600" />
+          <AlertTitle className="text-red-800 font-bold">Account Suspended</AlertTitle>
+          <AlertDescription className="text-red-700">
+            Your account has been temporarily suspended due to past-due platform fees totaling {formatCurrency(feeInfo.past_due_amount)}. 
+            Your listings are hidden and you cannot create new listings until your fees are paid.
+            <Button 
+              onClick={handlePayFees}
+              className="ml-4 bg-red-600 hover:bg-red-700"
+              size="sm"
+              disabled={payingFees}
+            >
+              {payingFees ? 'Processing...' : 'Pay Now'}
+            </Button>
+          </AlertDescription>
+        </Alert>
+      )}
+
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-start justify-between">
@@ -71,7 +211,7 @@ const Dashboard = () => {
       </div>
 
       {/* Payment Setup Alert */}
-      {(!user?.stripeConnected && !user?.squareConnected && !user?.paypalConnected) && (
+      {(!user?.stripeConnected && !user?.squareConnected && !user?.paypalConnected) && !feeInfo.is_suspended && (
         <Card className="mb-6 bg-amber-50 border-amber-500">
           <CardContent className="pt-6">
             <div className="flex items-start gap-3">
@@ -91,6 +231,117 @@ const Dashboard = () => {
                 >
                   Set Up Payments
                 </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Sales Statistics Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        {/* All-Time Sales */}
+        <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-200">
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-green-700">All-Time Sales</p>
+                <p className="text-3xl font-bold text-green-900 mt-1">
+                  {loadingStats ? '...' : formatCurrency(salesStats.all_time.total_sales)}
+                </p>
+                <p className="text-sm text-green-600 mt-1">
+                  {salesStats.all_time.total_orders} orders
+                </p>
+              </div>
+              <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center">
+                <DollarSign className="w-7 h-7 text-green-600" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Last 30 Days Sales */}
+        <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200">
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-blue-700">Last 30 Days</p>
+                <p className="text-3xl font-bold text-blue-900 mt-1">
+                  {loadingStats ? '...' : formatCurrency(salesStats.last_30_days.total_sales)}
+                </p>
+                <p className="text-sm text-blue-600 mt-1">
+                  {salesStats.last_30_days.total_orders} orders
+                </p>
+              </div>
+              <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center">
+                <TrendingUp className="w-7 h-7 text-blue-600" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Platform Fees Section (Only for Manual Processor Users) */}
+      {feeInfo.has_manual_processor && feeInfo.total_due > 0 && (
+        <Card className={`mb-6 ${feeInfo.past_due_amount > 0 ? 'border-red-300 bg-red-50' : feeInfo.grace_period_amount > 0 ? 'border-orange-300 bg-orange-50' : 'border-gray-200'}`}>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <AlertTriangle className={`w-5 h-5 ${feeInfo.past_due_amount > 0 ? 'text-red-600' : feeInfo.grace_period_amount > 0 ? 'text-orange-500' : 'text-gray-600'}`} />
+                <CardTitle className="text-lg">Platform Fees Due</CardTitle>
+              </div>
+              <Button 
+                onClick={handlePayFees}
+                disabled={payingFees}
+                className={feeInfo.past_due_amount > 0 ? 'bg-red-600 hover:bg-red-700' : 'bg-indigo-600 hover:bg-indigo-700'}
+              >
+                {payingFees ? 'Processing...' : 'Pay Now'}
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {/* Total Summary */}
+              <div className="flex items-center justify-between p-4 bg-white rounded-lg border">
+                <div>
+                  <p className="text-sm text-gray-600">Total Amount Due</p>
+                  <p className={`text-2xl font-bold ${feeInfo.past_due_amount > 0 ? 'text-red-600' : feeInfo.grace_period_amount > 0 ? 'text-orange-500' : 'text-gray-900'}`}>
+                    {formatCurrency(feeInfo.total_due)}
+                  </p>
+                </div>
+                {feeInfo.past_due_amount > 0 && (
+                  <Badge className="bg-red-500">Past Due: {formatCurrency(feeInfo.past_due_amount)}</Badge>
+                )}
+                {feeInfo.grace_period_amount > 0 && feeInfo.past_due_amount === 0 && (
+                  <Badge className="bg-orange-500">Grace Period: {formatCurrency(feeInfo.grace_period_amount)}</Badge>
+                )}
+              </div>
+
+              {/* Individual Fee Invoices */}
+              <div className="space-y-2">
+                {feeInfo.pending_fees.map((fee) => (
+                  <div key={fee.id} className="flex items-center justify-between p-3 bg-white rounded-lg border">
+                    <div className="flex items-center gap-3">
+                      <Calendar className={`w-4 h-4 ${getFeeAmountColor(fee.status)}`} />
+                      <div>
+                        <p className="text-sm font-medium text-gray-900">
+                          {fee.billing_period} Platform Fees
+                        </p>
+                        <p className={`text-xs ${fee.status === 'past_due' ? 'text-red-600' : fee.status === 'grace_period' ? 'text-orange-500' : 'text-gray-500'}`}>
+                          {formatDueDate(fee.due_date, fee.status)}
+                        </p>
+                      </div>
+                    </div>
+                    <p className={`font-bold ${getFeeAmountColor(fee.status)}`}>
+                      {formatCurrency(fee.amount)}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Fee Schedule Info */}
+              <div className="text-xs text-gray-500 p-3 bg-gray-50 rounded-lg">
+                <p><strong>Fee Schedule:</strong> Platform fees (5.5%) are due on the 5th of each month for the previous month's transactions.</p>
+                <p className="mt-1"><strong>Grace Period:</strong> 15 days after due date. Accounts with fees past the grace period are temporarily suspended.</p>
               </div>
             </div>
           </CardContent>
@@ -187,7 +438,21 @@ const Dashboard = () => {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle>My Listings</CardTitle>
-                <Button onClick={() => navigate('/sell')}>
+                <Button 
+                  onClick={() => {
+                    if (feeInfo.is_suspended) {
+                      toast({
+                        title: "Account Suspended",
+                        description: "Please pay your past-due fees to create new listings.",
+                        variant: "destructive"
+                      });
+                      return;
+                    }
+                    navigate('/sell');
+                  }}
+                  disabled={feeInfo.is_suspended}
+                  className={feeInfo.is_suspended ? 'opacity-50 cursor-not-allowed' : ''}
+                >
                   <Plus className="w-4 h-4 mr-2" />
                   New Listing
                 </Button>
