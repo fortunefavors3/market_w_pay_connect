@@ -38,6 +38,12 @@ A marketplace platform for sellers to list items, accept payments through multip
 ## What's Been Implemented
 
 ### January 2025 (Current Session)
+- **Fraud Prevention System** (`/app/backend/fraud_prevention.py`):
+  - Phone number blocking for suspended accounts
+  - Email blocking for suspended accounts
+  - Payment card fingerprinting and blocking
+  - Hard block on registration if any identifier matches
+  - Auto-block when user is suspended, auto-unblock when fees paid
 - **Billing Settings Page**: New dedicated page for sellers to manage fee payments
   - Add/remove payment methods (Stripe Elements card collection)
   - Set default payment method
@@ -48,6 +54,7 @@ A marketplace platform for sellers to list items, accept payments through multip
   - Stripe Customer creation for sellers
   - Setup Intent for secure card collection
   - Payment method management (save, delete, set default)
+  - Card fingerprint check during payment method save
   - Auto-charge settings management
   - Fee charging endpoint
   - Daily batch processing endpoint
