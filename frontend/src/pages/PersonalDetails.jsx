@@ -208,7 +208,9 @@ const PersonalDetails = () => {
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               />
-              <Button onClick={handleEmailChange}>Update</Button>
+              <Button onClick={handleEmailChange}
+              className="bg-blue-600 text-white hover:bg-blue-700"
+              >Update</Button>
             </div>
             <p className="text-xs text-gray-500 mt-1">
               Changing your email requires SMS verification
@@ -230,7 +232,9 @@ const PersonalDetails = () => {
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               />
-              <Button onClick={handlePhoneChange}>Update</Button>
+              <Button onClick={handlePhoneChange}
+              className="bg-blue-600 text-white hover:bg-blue-700"
+              >Update</Button>
             </div>
             <p className="text-xs text-gray-500 mt-1">
               Changing your phone requires email verification
@@ -267,7 +271,7 @@ const PersonalDetails = () => {
               ) : (
                 <p className="text-gray-500">No shipping address saved</p>
               )}
-              <Button onClick={() => setIsEditing(true)} variant="outline" className="w-full">
+              <Button onClick={() => setIsEditing(true)} variant="outline" className="w-full bg-blue-600 text-white hover:bg-blue-700">
                 Edit Address
               </Button>
             </>
