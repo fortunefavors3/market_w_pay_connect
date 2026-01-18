@@ -1597,6 +1597,14 @@ def run_all_tests():
     
     # Test sequence as specified in requirements
     tests = [
+        # DASHBOARD SALES STATS AND FEE MANAGEMENT TESTS (NEW - HIGH PRIORITY)
+        test_sales_stats_no_transactions,
+        test_pending_fees_no_manual_processor,
+        test_suspension_status_default,
+        test_pay_fees_no_fees_due,
+        test_epic_payment_connect_for_fees,
+        test_pending_fees_with_manual_processor,
+        
         # EPIC PAYMENT SOLUTIONS TESTS (NEW - HIGH PRIORITY)
         test_epic_payment_status_nonexistent_user,
         test_payment_status_includes_epicpayment,
