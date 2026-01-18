@@ -585,7 +585,7 @@ agent_communication:
         * PayPal: platform_fees parameter
       
       BACKEND URL CONFIGURATION:
-      - All tests conducted against production URL: https://processor-connect.preview.emergentagent.com/api
+      - All tests conducted against production URL: https://payment-epic-add.preview.emergentagent.com/api
       - All endpoints properly prefixed with /api for correct Kubernetes routing
       - Error handling and response formats consistent across all processors
       
@@ -965,7 +965,7 @@ agent_communication:
       - Square: sandbox environment confirmed, using connect.squareupsandbox.com
       - PayPal: sandbox mode confirmed, using sandbox.paypal.com
       - All endpoints use /api prefix for proper Kubernetes routing
-      - Backend URL correctly configured: https://processor-connect.preview.emergentagent.com/api
+      - Backend URL correctly configured: https://payment-epic-add.preview.emergentagent.com/api
       
       ALL SQUARE AND PAYPAL BACKEND FUNCTIONALITY READY FOR PRODUCTION USE
 

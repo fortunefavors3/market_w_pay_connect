@@ -10,7 +10,7 @@ import uuid
 from datetime import datetime
 
 # Configuration
-BASE_URL = "https://processor-connect.preview.emergentagent.com/api"
+BASE_URL = "https://payment-epic-add.preview.emergentagent.com/api"
 TEST_USER_ID = f"test_user_{uuid.uuid4().hex[:8]}"
 TEST_USER_ID_2 = f"test_user_{uuid.uuid4().hex[:8]}"
 TEST_USER_ID_3 = f"test_user_{uuid.uuid4().hex[:8]}"
