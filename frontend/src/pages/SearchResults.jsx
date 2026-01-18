@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import axios from 'axios';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
 import { Input } from '../components/ui/input';
@@ -10,10 +11,13 @@ import { SlidersHorizontal } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import { mockProducts, mockCategories } from '../mock';
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
+
 const SearchResults = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('q') || '';
   const [showFilters, setShowFilters] = useState(true);
+  const [suspendedSellerIds, setSuspendedSellerIds] = useState([]);
   const [filters, setFilters] = useState({
     minPrice: '',
     maxPrice: '',
@@ -22,8 +26,26 @@ const SearchResults = () => {
     sortBy: 'most_relevant',
   });
 
+  // Fetch suspended seller IDs on mount
+  useEffect(() => {
+    const fetchSuspendedSellers = async () => {
+      try {
+        const response = await axios.get(`${BACKEND_URL}/api/suspended-seller-ids`);
+        setSuspendedSellerIds(response.data.suspended_seller_ids || []);
+      } catch (error) {
+        console.error('Error fetching suspended sellers:', error);
+      }
+    };
+    fetchSuspendedSellers();
+  }, []);
+
+  // Filter products - first exclude suspended sellers, then apply other filters
+  const availableProducts = mockProducts.filter(
+    product => !suspendedSellerIds.includes(product.seller?.id)
+  );
+
   // Filter products based on search query and filters
-  let filteredProducts = mockProducts.filter(product => {
+  let filteredProducts = availableProducts.filter(product => {
     const matchesQuery = query === '' || product.title.toLowerCase().includes(query.toLowerCase());
     const matchesPrice = (!filters.minPrice || product.price >= parseFloat(filters.minPrice)) &&
                         (!filters.maxPrice || product.price <= parseFloat(filters.maxPrice));
