@@ -82,6 +82,7 @@ function App() {
               <Route path="/square-connect" element={<ProtectedRoute><SquareConnect /></ProtectedRoute>} />
               <Route path="/paypal-connect" element={<ProtectedRoute><PayPalConnect /></ProtectedRoute>} />
               <Route path="/authorizenet-connect" element={<ProtectedRoute><AuthorizeNetConnect /></ProtectedRoute>} />
+              <Route path="/epicpayment-connect" element={<ProtectedRoute><EpicPaymentConnect /></ProtectedRoute>} />
               <Route path="/integration-guides" element={<ProtectedRoute><IntegrationGuides /></ProtectedRoute>} />
               <Route path="/seller-page-editor" element={<ProtectedRoute><SellerPageEditor /></ProtectedRoute>} />
               <Route path="/customize/:id" element={<ProtectedRoute><ProductCustomizer /></ProtectedRoute>} />
