@@ -64,7 +64,34 @@ export const AuthProvider = ({ children }) => {
   };
 
   const register = async (userData) => {
-    // Check if account already exists
+    const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
+    
+    // Check for blocked identifiers (fraud prevention)
+    try {
+      const fraudCheckResponse = await fetch(`${BACKEND_URL}/api/fraud-prevention/check-registration`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phone: userData.phone,
+          email: userData.email
+        })
+      });
+      
+      const fraudCheck = await fraudCheckResponse.json();
+      
+      if (!fraudCheck.can_register) {
+        return { 
+          success: false, 
+          error: fraudCheck.message || 'This phone number or email is associated with an account that has unpaid platform fees. Please resolve the outstanding balance before creating a new account.',
+          blocked: true
+        };
+      }
+    } catch (error) {
+      console.error('Fraud check failed:', error);
+      // Continue with registration if fraud check fails (fail open for UX)
+    }
+    
+    // Check if account already exists locally
     const accounts = JSON.parse(localStorage.getItem('cheqmart_accounts') || '[]');
     const existingAccount = accounts.find(acc => acc.phone === userData.phone || acc.email === userData.email);
     
