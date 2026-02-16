@@ -37,6 +37,7 @@ import HostMerchantConnect from './pages/HostMerchantConnect';
 import AdyenConnect from './pages/AdyenConnect';
 import WorldPayConnect from './pages/WorldPayConnect';
 import CheckoutComConnect from './pages/CheckoutComConnect';
+import AdminDashboard from './pages/AdminDashboard';
 import IntegrationGuides from './pages/IntegrationGuides';
 import BillingSettings from './pages/BillingSettings';
 import SellerPageEditor from './pages/SellerPageEditor';
