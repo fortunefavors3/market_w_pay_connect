@@ -128,13 +128,13 @@ const Home = () => {
       </div>
 
       {/* CTA Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-16">
+      <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white py-16">
         <div className="max-w-4xl mx-auto px-4 text-center space-y-6">
           <h2 className="text-3xl md:text-4xl font-bold">Ready to Start Selling?</h2>
           <p className="text-lg text-blue-100">
             Create custom product pages, reach millions of buyers, and grow your business today.
           </p>
-          <Button size="lg" variant="secondary" onClick={() => navigate('/sell')}>
+          <Button size="lg" variant="secondary" className="bg-white text-black hover:bg-gray-100" onClick={() => navigate('/sell')}>
             Get Started Now
             <ArrowRight className="w-4 h-4 ml-2" />
           </Button>

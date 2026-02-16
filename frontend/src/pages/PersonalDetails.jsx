@@ -199,7 +199,7 @@ const PersonalDetails = () => {
           <div>
             <div className="flex items-center justify-between mb-2">
               <Label htmlFor="email">Email Address</Label>
-              <Mail className="w-4 h-4 text-gray-400" />
+              <Mail className="w-4 h-4 text-blue-400" />
             </div>
             <div className="flex gap-2">
               <Input
@@ -223,7 +223,7 @@ const PersonalDetails = () => {
           <div>
             <div className="flex items-center justify-between mb-2">
               <Label htmlFor="phone">Phone Number</Label>
-              <Phone className="w-4 h-4 text-gray-400" />
+              <Phone className="w-4 h-4 text-blue-400" />
             </div>
             <div className="flex gap-2">
               <Input
@@ -251,7 +251,7 @@ const PersonalDetails = () => {
               <CardTitle>Shipping Address</CardTitle>
               <CardDescription>Update your default shipping address</CardDescription>
             </div>
-            <MapPin className="w-5 h-5 text-gray-400" />
+            <MapPin className="w-5 h-5 text-blue-400" />
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -330,7 +330,7 @@ const PersonalDetails = () => {
                 </div>
               </div>
               <div className="flex gap-2">
-                <Button onClick={handleShippingUpdate} className="flex-1">
+                <Button onClick={handleShippingUpdate} className="bg-blue-600 text-white hover:bg-blue-700 flex-1">
                   Save Address
                 </Button>
                 <Button

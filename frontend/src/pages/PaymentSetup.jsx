@@ -81,7 +81,7 @@ const PaymentSetup = () => {
       connected: paymentStatus.square_connected,
       fee: '2.6% + $0.10',
       route: '/square-connect',
-      gradient: 'from-gray-800 to-gray-600',
+      gradient: 'from-slate-800 to-gray-600',
       feeType: 'automatic',
       features: [
         'OAuth integration',
@@ -135,7 +135,7 @@ const PaymentSetup = () => {
       connected: paymentStatus.braintree_connected,
       fee: '2.59% + $0.49',
       route: '/braintree-connect',
-      gradient: 'from-slate-900 to-slate-800',
+      gradient: 'from-slate-900 to-gray-800',
       feeType: 'automatic',
       features: [
         'OAuth integration',
@@ -164,24 +164,6 @@ const PaymentSetup = () => {
       ]
     },
     {
-      id: 'usaepay',
-      name: 'USAePay',
-      logoUrl: 'https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/usaepay.jpg',
-      description: 'High-volume payment processing',
-      connected: paymentStatus.usaepay_connected,
-      fee: 'Varies',
-      route: '/usaepay-connect',
-      gradient: 'from-slate-600 to-indigo-700',
-      feeType: 'manual',
-      isManualEntry: true,
-      features: [
-        'High-volume friendly',
-        'Level 3 processing',
-        'Recurring billing',
-        'Mobile payments'
-      ]
-    },
-    {
       id: 'paykickstart',
       name: 'PayKickstart',
       logoUrl: 'https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/paykickstart.png',
@@ -200,21 +182,21 @@ const PaymentSetup = () => {
       ]
     },
     {
-      id: 'durango',
-      name: 'Durango',
-      logoUrl: 'https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/durango.png',
-      description: 'High-risk merchant specialist',
-      connected: paymentStatus.durango_connected,
+      id: 'usaepay',
+      name: 'USAePay',
+      logoUrl: 'https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/usaepay.jpg',
+      description: 'High-volume payment processing',
+      connected: paymentStatus.usaepay_connected,
       fee: 'Varies',
-      route: '/durango-connect',
-      gradient: 'from-slate-400 to-sky-600',
+      route: '/usaepay-connect',
+      gradient: 'from-slate-600 to-indigo-700',
       feeType: 'manual',
       isManualEntry: true,
       features: [
-        'High-risk industries',
-        'CBD & cannabis friendly',
-        'Adult merchants welcome',
-        'Nutraceuticals support'
+        'High-volume friendly',
+        'Level 3 processing',
+        'Recurring billing',
+        'Mobile payments'
       ]
     },
     {
@@ -233,6 +215,24 @@ const PaymentSetup = () => {
         'No long-term contracts',
         'Free terminal equipment',
         'Same-day funding available'
+      ]
+    },
+     {
+      id: 'durango',
+      name: 'Durango',
+      logoUrl: 'https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/durango.png',
+      description: 'High-risk merchant specialist',
+      connected: paymentStatus.durango_connected,
+      fee: 'Varies',
+      route: '/durango-connect',
+      gradient: 'from-slate-400 to-sky-600',
+      feeType: 'manual',
+      isManualEntry: true,
+      features: [
+        'High-risk industries',
+        'CBD & cannabis friendly',
+        'Adult merchants welcome',
+        'Nutraceuticals support'
       ]
     },
     {
@@ -261,7 +261,7 @@ const PaymentSetup = () => {
       connected: paymentStatus.epicpayment_connected,
       fee: '2.75% + $0.25',
       route: '/epicpayment-connect',
-      gradient: 'from-slate-700 to-red-600',
+      gradient: 'from-orange-700 to-red-600',
       feeType: 'manual',
       isManualEntry: true,
       features: [
