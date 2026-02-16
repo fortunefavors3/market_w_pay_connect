@@ -103,6 +103,7 @@ function App() {
               <Route path="/adyen-connect" element={<ProtectedRoute><AdyenConnect /></ProtectedRoute>} />
               <Route path="/worldpay-connect" element={<ProtectedRoute><WorldPayConnect /></ProtectedRoute>} />
               <Route path="/checkoutcom-connect" element={<ProtectedRoute><CheckoutComConnect /></ProtectedRoute>} />
+              <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
               <Route path="/integration-guides" element={<ProtectedRoute><IntegrationGuides /></ProtectedRoute>} />
               <Route path="/billing-settings" element={<ProtectedRoute><BillingSettings /></ProtectedRoute>} />
               <Route path="/seller-page-editor" element={<ProtectedRoute><SellerPageEditor /></ProtectedRoute>} />
