@@ -74,11 +74,39 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-3 flex-shrink-0 group">
-            <img 
-              src="https://customer-assets.emergentagent.com/job_d5504b06-2603-41d4-bd91-1b5586e00e8a/artifacts/8ef2uzh5_ChatGPT%20Image%20Dec%205%2C%202025%2C%2011_16_20%20AM.png" 
-              alt="Effinsure Logo" 
-              className="h-10 w-auto transition-transform group-hover:scale-105"
-            />
+            {/* Diamond/Gem Logo Mark */}
+            <div className="relative w-12 h-12 flex-shrink-0">
+              <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg transition-transform group-hover:scale-110">
+                <defs>
+                  <linearGradient id="diamondGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#4F46E5" />
+                    <stop offset="50%" stopColor="#7C3AED" />
+                    <stop offset="100%" stopColor="#4F46E5" />
+                  </linearGradient>
+                  <linearGradient id="diamondHighlight" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#818CF8" />
+                    <stop offset="100%" stopColor="#6366F1" />
+                  </linearGradient>
+                  <linearGradient id="diamondShadow" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#3730A3" />
+                    <stop offset="100%" stopColor="#4C1D95" />
+                  </linearGradient>
+                </defs>
+                {/* Main diamond body */}
+                <polygon points="50,5 95,35 50,95 5,35" fill="url(#diamondGradient)" />
+                {/* Top facet - highlight */}
+                <polygon points="50,5 95,35 50,45 5,35" fill="url(#diamondHighlight)" opacity="0.9" />
+                {/* Left facet */}
+                <polygon points="5,35 50,45 50,95" fill="url(#diamondShadow)" opacity="0.7" />
+                {/* Right facet */}
+                <polygon points="95,35 50,45 50,95" fill="url(#diamondGradient)" opacity="0.85" />
+                {/* Center line accent */}
+                <line x1="50" y1="45" x2="50" y2="95" stroke="#A78BFA" strokeWidth="1" opacity="0.5" />
+                {/* Top edges */}
+                <line x1="50" y1="5" x2="5" y2="35" stroke="#C4B5FD" strokeWidth="1.5" opacity="0.6" />
+                <line x1="50" y1="5" x2="95" y2="35" stroke="#C4B5FD" strokeWidth="1.5" opacity="0.6" />
+              </svg>
+            </div>
             <div className="hidden sm:flex flex-col">
               <span className="text-2xl font-black tracking-tight bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-800 bg-clip-text text-transparent">
                 EFFINSURE
