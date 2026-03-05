@@ -519,6 +519,20 @@ test_plan:
     - "All PayPal OAuth endpoints"
     - "User management for all processors"
     - "Combined payment status endpoint"
+    - "EnhancedCheckout UI Changes (Progress steps removed, Buy Now button, 2FA badge)"
+
+  - task: "EnhancedCheckout Page UI Changes"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/EnhancedCheckout.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "COMPREHENSIVE TESTING COMPLETED ✅ - All three UI changes verified on EnhancedCheckout page (/checkout): 1) PROGRESS STEPS BANNER REMOVED ✅: No step indicators (1-2-3 circles) found on any checkout step, only 'Checkout' heading displayed. 2) 'BUY NOW' BUTTON ON STEP 2 ✅: Payment step correctly shows green 'Buy Now' button instead of 'Continue to Confirm'. 3) 2FA SECURITY BADGE VISIBILITY ✅: Badge with 'Secure Checkout' and '2FA verification protects your purchase' text is correctly HIDDEN on steps 1 and 2, and SHOWN ONLY on step 3 (confirmation page) in the Order Summary sidebar. All test scenarios from review request passed (100% success rate). Test flow completed: Sign up (+15551234999/test1234) → Navigate to /checkout → Fill shipping (Test User, 123 Main St, Austin, TX 78701) → Continue to Payment → Verify 'Buy Now' button and no 2FA badge → Fill payment (4111111111111111, Test User, 12/28, 123) → Click 'Buy Now' → Verify 2FA badge appears on confirmation step. Screenshots captured for all 3 steps documenting the changes."
+
 
   - task: "Dashboard Sales Stats and Fee Management Endpoints"
     implemented: true
@@ -1249,6 +1263,66 @@ agent_communication:
         - Both cards maintain consistent styling and layout
         - All text content verified: processor names, descriptions, fees, features
       
+
+  - agent: "testing"
+    message: |
+      ENHANCEDCHECKOUT PAGE UI CHANGES TESTING COMPLETED ✅
+      
+      COMPREHENSIVE TEST RESULTS (ALL 3 UI CHANGES VERIFIED - 100% SUCCESS RATE):
+      
+      TEST SCENARIO: Verified three specific UI changes on the EnhancedCheckout page (/checkout)
+      
+      ✅ CHANGE 1: PROGRESS STEPS BANNER REMOVED
+        - VERIFIED: No progress step indicators (1-2-3 circles with "Shipping", "Payment", "Confirm" labels) found
+        - Only simple "Checkout" h1 heading displayed at the top
+        - No step numbers, circles, or progress bar elements detected on any of the 3 checkout steps
+        - Result: PASS - Progress steps banner successfully removed
+      
+      ✅ CHANGE 2: "BUY NOW" BUTTON ON STEP 2 (PAYMENT)
+        - VERIFIED: After filling shipping info and moving to step 2 (Payment), the submit button text is "Buy Now"
+        - NO "Continue to Confirm" button found (correctly removed)
+        - Button styling: Green background (bg-green-600 hover:bg-green-700)
+        - Result: PASS - Button correctly displays "Buy Now" on step 2
+      
+      ✅ CHANGE 3: 2FA SECURITY BADGE VISIBILITY
+        - VERIFIED ON STEP 1 (SHIPPING): 2FA badge NOT visible (0 instances) ✅
+        - VERIFIED ON STEP 2 (PAYMENT): 2FA badge NOT visible (0 instances) ✅
+        - VERIFIED ON STEP 3 (CONFIRMATION): 2FA badge IS visible (1 instance) ✅
+        - Badge contains: "Secure Checkout" heading with ShieldCheck icon
+        - Badge text: "2FA verification protects your purchase"
+        - Badge styling: Green background (bg-green-50) with green border (border-green-200)
+        - Badge location: Order Summary sidebar (only appears on step 3)
+        - Result: PASS - 2FA security badge correctly hidden on steps 1 & 2, shown only on step 3
+      
+      TEST FLOW EXECUTED:
+      1. ✅ Sign up with phone +15551234999, password test1234
+      2. ✅ Navigate to /checkout
+      3. ✅ Verify NO progress steps banner (only "Checkout" title)
+      4. ✅ Fill shipping form (First: Test, Last: User, Address: 123 Main St, City: Austin, State: TX, Zip: 78701)
+      5. ✅ Click "Continue to Payment"
+      6. ✅ On step 2, verify button says "Buy Now" (NOT "Continue to Confirm")
+      7. ✅ Verify 2FA security badge NOT visible on step 2
+      8. ✅ Fill payment info (Card: 4111111111111111, Name: Test User, Expiry: 12/28, CVV: 123)
+      9. ✅ Click "Buy Now"
+      10. ✅ On step 3, verify 2FA security badge IS NOW visible in Order Summary sidebar
+      11. ✅ Screenshot each step to document the changes
+      
+      SCREENSHOTS CAPTURED:
+      - checkout_step1_shipping_final.png: Shows step 1 with NO progress banner, NO 2FA badge
+      - checkout_step2_payment_final.png: Shows step 2 with "Buy Now" button (green), NO 2FA badge
+      - checkout_step3_confirmation_final.png: Shows step 3 with 2FA security badge NOW visible
+      
+      BACKEND URL: https://payment-hub-241.preview.emergentagent.com
+      
+      CODE VERIFICATION:
+      - EnhancedCheckout.jsx line 175: Simple h1 heading "Checkout" (no progress steps)
+      - EnhancedCheckout.jsx line 351-353: "Buy Now" button on step 2 (green, bg-green-600)
+      - EnhancedCheckout.jsx lines 452-462: Conditional rendering {step === 3 && ...} for 2FA badge
+      
+      NO CONSOLE ERRORS: Only React DevTools info messages (non-critical)
+      
+      ALL THREE UI CHANGES SUCCESSFULLY IMPLEMENTED AND VERIFIED
+
       TESTING METHODOLOGY:
         - Created fresh user account to ensure clean authentication state
         - Navigated to /payment-setup page and verified full page load

@@ -116,7 +116,7 @@ const EnhancedCheckout = () => {
     // Mock SMS send
     toast({
       title: "Verification code sent!",
-      description: `Code sent to ${user.phone}. Expires in 1 hour. (Mock: ${couponCode})`,
+      description: `Code sent to ${user.phone}. Expires in 10 mins. (Mock: ${couponCode})`,
       duration: 10000,
     });
     
@@ -172,36 +172,7 @@ const EnhancedCheckout = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Secure Checkout</h1>
-
-      {/* Progress Steps */}
-      <div className="flex items-center justify-center mb-8">
-        {['Shipping', 'Payment', 'Confirm'].map((label, index) => (
-          <React.Fragment key={label}>
-            <div className="flex items-center">
-              <div
-                className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
-                  step > index + 1
-                    ? 'bg-green-600 text-white'
-                    : step === index + 1
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-200 text-gray-600'
-                }`}
-              >
-                {step > index + 1 ? '✓' : index + 1}
-              </div>
-              <span
-                className={`ml-2 font-medium hidden md:inline ${
-                  step >= index + 1 ? 'text-gray-900' : 'text-gray-400'
-                }`}
-              >
-                {label}
-              </span>
-            </div>
-            {index < 2 && <div className="w-12 md:w-16 h-0.5 bg-gray-300 mx-2" />}
-          </React.Fragment>
-        ))}
-      </div>
+      <h1 className="text-3xl font-bold text-gray-900 mb-8">Checkout</h1>
 
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Form Section */}
@@ -377,8 +348,8 @@ const EnhancedCheckout = () => {
                     <Button type="button" variant="outline" className="flex-1" onClick={() => setStep(1)}>
                       Back
                     </Button>
-                    <Button type="submit" className="flex-1 bg-blue-600 hover:bg-blue-700" size="lg">
-                      Continue to Confirm
+                    <Button type="submit" className="flex-1 bg-green-600 hover:bg-green-700" size="lg">
+                      Buy Now
                     </Button>
                   </div>
                 </CardContent>
@@ -419,7 +390,7 @@ const EnhancedCheckout = () => {
                       Enter Verification Code
                     </Label>
                     <p className="text-sm text-gray-600 mb-4">
-                      A 6-digit code was sent to {user.phone}. Code expires in 1 hour.
+                      A 6-digit code was sent to {user.phone}. Code expires in 10 mins.
                     </p>
                     <Input
                       id="verificationCode"
@@ -477,16 +448,18 @@ const EnhancedCheckout = () => {
                 </div>
               </div>
               
-              {/* Security Badge */}
-              <div className="mt-6 p-4 bg-green-50 rounded-lg border border-green-200">
-                <div className="flex items-center gap-2 text-green-700">
-                  <ShieldCheck className="w-5 h-5" />
-                  <span className="text-sm font-semibold">Secure Checkout</span>
+              {/* Security Badge - Only show on step 3 (2FA verification step) */}
+              {step === 3 && (
+                <div className="mt-6 p-4 bg-green-50 rounded-lg border border-green-200">
+                  <div className="flex items-center gap-2 text-green-700">
+                    <ShieldCheck className="w-5 h-5" />
+                    <span className="text-sm font-semibold">Secure Checkout</span>
+                  </div>
+                  <p className="text-xs text-green-600 mt-1">
+                    2FA verification protects your purchase
+                  </p>
                 </div>
-                <p className="text-xs text-green-600 mt-1">
-                  2FA verification protects your purchase
-                </p>
-              </div>
+              )}
             </CardContent>
           </Card>
         </div>
