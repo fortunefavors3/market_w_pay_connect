@@ -189,31 +189,31 @@ const Dashboard = () => {
       {/* Seller Benefits Banner */}
       <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-xl p-6 mb-8 shadow-lg">
         <div className="grid md:grid-cols-3 gap-6">
-          <div className="flex items-center gap-4 text-white">
+          <div className="flex items-start gap-4 text-white">
             <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm flex-shrink-0">
               <ShieldCheck className="w-7 h-7" />
             </div>
-            <div>
-              <h3 className="font-bold text-lg">Zero Fraud</h3>
-              <p className="text-sm text-purple-100">2FA verification blocks fraudulent purchases automatically</p>
+            <div className="pt-1">
+              <h3 className="font-bold text-lg leading-tight">Zero Fraud</h3>
+              <p className="text-sm text-purple-100 mt-1">2FA verification blocks fraudulent purchases automatically</p>
             </div>
           </div>
-          <div className="flex items-center gap-4 text-white">
+          <div className="flex items-start gap-4 text-white">
             <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm flex-shrink-0">
               <Percent className="w-7 h-7" />
             </div>
-            <div>
-              <h3 className="font-bold text-lg">Low Fees</h3>
-              <p className="text-sm text-purple-100">Just 5.5% platform fee, keep more of your profits</p>
+            <div className="pt-1">
+              <h3 className="font-bold text-lg leading-tight">Low Fees</h3>
+              <p className="text-sm text-purple-100 mt-1">Just 5.5% platform fee, keep more of your profits</p>
             </div>
           </div>
-          <div className="flex items-center gap-4 text-white">
+          <div className="flex items-start gap-4 text-white">
             <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm flex-shrink-0">
               <Palette className="w-7 h-7" />
             </div>
-            <div>
-              <h3 className="font-bold text-lg">Custom Storefronts</h3>
-              <p className="text-sm text-purple-100">Design beautiful product pages that convert</p>
+            <div className="pt-1">
+              <h3 className="font-bold text-lg leading-tight">Custom Storefronts</h3>
+              <p className="text-sm text-purple-100 mt-1">Design beautiful product pages that convert</p>
             </div>
           </div>
         </div>
@@ -368,7 +368,7 @@ const Dashboard = () => {
               </div>
               <div>
                 <CardTitle className="text-lg text-red-900">Fraud Prevention Analytics</CardTitle>
-                <p className="text-sm text-red-600">Your store's protection status (Last 30 days)</p>
+                <p className="text-sm text-red-600">Your Store's Protection Status (Last 30 days)</p>
               </div>
             </div>
           </CardHeader>
@@ -380,7 +380,7 @@ const Dashboard = () => {
                   <span className="text-sm font-medium text-gray-700">Fraud Blocked</span>
                 </div>
                 <p className="text-3xl font-bold text-red-600">{fraudStats.summary?.total_prevented_attempts || 0}</p>
-                <p className="text-xs text-gray-500 mt-1">fraudulent attempts stopped</p>
+                <p className="text-xs text-gray-500 mt-1">Fraudulent Attempts Stopped</p>
               </div>
               <div className="bg-white rounded-lg p-4 border border-red-100">
                 <div className="flex items-center gap-2 mb-2">
@@ -388,7 +388,7 @@ const Dashboard = () => {
                   <span className="text-sm font-medium text-gray-700">Value Protected</span>
                 </div>
                 <p className="text-3xl font-bold text-red-600">{formatCurrency(fraudStats.summary?.total_value_prevented || 0)}</p>
-                <p className="text-xs text-gray-500 mt-1">saved from chargebacks</p>
+                <p className="text-xs text-gray-500 mt-1">Saved from Chargebacks</p>
               </div>
               <div className="bg-white rounded-lg p-4 border border-red-100">
                 <div className="flex items-center gap-2 mb-2">
@@ -396,7 +396,7 @@ const Dashboard = () => {
                   <span className="text-sm font-medium text-gray-700">Verified Orders</span>
                 </div>
                 <p className="text-3xl font-bold text-green-600">{fraudStats.summary?.completed_checkouts || 0}</p>
-                <p className="text-xs text-gray-500 mt-1">legitimate purchases</p>
+                <p className="text-xs text-gray-500 mt-1">Legitimate Purchases</p>
               </div>
             </div>
             <div className="mt-4 p-3 bg-white rounded-lg border border-red-100">
