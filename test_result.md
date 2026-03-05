@@ -571,7 +571,7 @@ agent_communication:
         - Returns proper structure with pending_fees: [], total_due: 0, grace_period_amount: 0
       
       BACKEND URL CONFIGURATION:
-      - All tests conducted against production URL: https://seller-billing.preview.emergentagent.com/api
+      - All tests conducted against production URL: https://payment-hub-241.preview.emergentagent.com/api
       - All endpoints properly prefixed with /api for correct Kubernetes routing
       - Response formats consistent and properly structured
       
@@ -715,7 +715,7 @@ agent_communication:
         * PayPal: platform_fees parameter
       
       BACKEND URL CONFIGURATION:
-      - All tests conducted against production URL: https://seller-billing.preview.emergentagent.com/api
+      - All tests conducted against production URL: https://payment-hub-241.preview.emergentagent.com/api
       - All endpoints properly prefixed with /api for correct Kubernetes routing
       - Error handling and response formats consistent across all processors
       
@@ -1095,7 +1095,7 @@ agent_communication:
       - Square: sandbox environment confirmed, using connect.squareupsandbox.com
       - PayPal: sandbox mode confirmed, using sandbox.paypal.com
       - All endpoints use /api prefix for proper Kubernetes routing
-      - Backend URL correctly configured: https://seller-billing.preview.emergentagent.com/api
+      - Backend URL correctly configured: https://payment-hub-241.preview.emergentagent.com/api
       
       ALL SQUARE AND PAYPAL BACKEND FUNCTIONALITY READY FOR PRODUCTION USE
 
@@ -1184,7 +1184,7 @@ agent_communication:
       ✅ INTEGRATION VERIFICATION:
         - MongoDB integration working correctly for user credential storage
         - All endpoints use /api prefix for proper Kubernetes routing
-        - Backend URL correctly configured: https://seller-billing.preview.emergentagent.com/api
+        - Backend URL correctly configured: https://payment-hub-241.preview.emergentagent.com/api
         - Error handling robust for invalid inputs and missing users
         - Response formats consistent with other payment processors
       
