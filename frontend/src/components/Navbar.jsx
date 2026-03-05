@@ -74,33 +74,51 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-3 flex-shrink-0 group">
-            {/* Enhanced Diamond Logo - Bold Checkmark & Sparkles */}
-            <div className="relative w-12 h-12 flex-shrink-0">
+            {/* Premium Diamond Logo - Maximum Detail & Sparkles */}
+            <div className="relative w-14 h-14 flex-shrink-0">
               <svg viewBox="0 0 100 100" className="w-full h-full transition-transform group-hover:scale-110">
                 <defs>
-                  <linearGradient id="diamondGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <linearGradient id="diamondMain" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stopColor="#4F46E5" />
                     <stop offset="50%" stopColor="#7C3AED" />
                     <stop offset="100%" stopColor="#4F46E5" />
                   </linearGradient>
-                  <linearGradient id="diamondHighlight" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#A5B4FC" />
+                  <linearGradient id="diamondTop" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#C7D2FE" />
+                    <stop offset="50%" stopColor="#A5B4FC" />
                     <stop offset="100%" stopColor="#818CF8" />
                   </linearGradient>
-                  <linearGradient id="diamondShadow" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#3730A3" />
+                  <linearGradient id="diamondLeft" x1="100%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#6366F1" />
+                    <stop offset="100%" stopColor="#3730A3" />
+                  </linearGradient>
+                  <linearGradient id="diamondRight" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#8B5CF6" />
+                    <stop offset="100%" stopColor="#5B21B6" />
+                  </linearGradient>
+                  <linearGradient id="diamondCenter" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#7C3AED" />
                     <stop offset="100%" stopColor="#4C1D95" />
                   </linearGradient>
                   <filter id="glow">
-                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                    <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
                     <feMerge>
                       <feMergeNode in="coloredBlur"/>
                       <feMergeNode in="SourceGraphic"/>
                     </feMerge>
                   </filter>
                   <filter id="sparkleGlow">
-                    <feGaussianBlur stdDeviation="1.5" result="blur"/>
+                    <feGaussianBlur stdDeviation="2" result="blur"/>
                     <feMerge>
+                      <feMergeNode in="blur"/>
+                      <feMergeNode in="blur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                  <filter id="strongGlow">
+                    <feGaussianBlur stdDeviation="3" result="blur"/>
+                    <feMerge>
+                      <feMergeNode in="blur"/>
                       <feMergeNode in="blur"/>
                       <feMergeNode in="blur"/>
                       <feMergeNode in="SourceGraphic"/>
@@ -108,32 +126,52 @@ const Navbar = () => {
                   </filter>
                 </defs>
                 
-                {/* Main diamond body with glow */}
-                <g filter="url(#glow)">
-                  <polygon points="50,8 92,35 50,92 8,35" fill="url(#diamondGradient)" />
-                </g>
+                {/* === DIAMOND BODY WITH DETAILED FACETS === */}
                 
-                {/* Top facet - bright highlight */}
-                <polygon points="50,8 92,35 50,45 8,35" fill="url(#diamondHighlight)" opacity="0.95" />
+                {/* Crown - Top table facet (brightest) */}
+                <polygon points="50,15 70,28 50,35 30,28" fill="url(#diamondTop)" />
                 
-                {/* Left facet - shadow */}
-                <polygon points="8,35 50,45 50,92" fill="url(#diamondShadow)" opacity="0.8" />
+                {/* Crown - Top left facet */}
+                <polygon points="50,15 30,28 12,38" fill="#A5B4FC" opacity="0.9" />
                 
-                {/* Right facet */}
-                <polygon points="92,35 50,45 50,92" fill="url(#diamondGradient)" opacity="0.9" />
+                {/* Crown - Top right facet */}
+                <polygon points="50,15 70,28 88,38" fill="#818CF8" opacity="0.85" />
                 
-                {/* Center facet line */}
-                <line x1="50" y1="45" x2="50" y2="92" stroke="#C4B5FD" strokeWidth="1.5" opacity="0.6" />
+                {/* Girdle - Left upper facet */}
+                <polygon points="12,38 30,28 50,35 35,45" fill="url(#diamondLeft)" opacity="0.95" />
                 
-                {/* Edge highlights */}
-                <line x1="50" y1="8" x2="8" y2="35" stroke="#E0E7FF" strokeWidth="2" opacity="0.8" />
-                <line x1="50" y1="8" x2="92" y2="35" stroke="#FFFFFF" strokeWidth="1.5" opacity="0.6" />
-                <line x1="8" y1="35" x2="50" y2="92" stroke="#6366F1" strokeWidth="1" opacity="0.4" />
-                <line x1="92" y1="35" x2="50" y2="92" stroke="#A78BFA" strokeWidth="1" opacity="0.3" />
+                {/* Girdle - Right upper facet */}
+                <polygon points="88,38 70,28 50,35 65,45" fill="url(#diamondRight)" opacity="0.9" />
                 
-                {/* BOLD Checkmark */}
+                {/* Pavilion - Left main facet */}
+                <polygon points="12,38 35,45 50,90" fill="#4338CA" opacity="0.85" />
+                
+                {/* Pavilion - Center left facet */}
+                <polygon points="35,45 50,35 50,90" fill="url(#diamondCenter)" opacity="0.9" />
+                
+                {/* Pavilion - Center right facet */}
+                <polygon points="65,45 50,35 50,90" fill="url(#diamondMain)" opacity="0.95" />
+                
+                {/* Pavilion - Right main facet */}
+                <polygon points="88,38 65,45 50,90" fill="#5B21B6" opacity="0.8" />
+                
+                {/* === EDGE HIGHLIGHTS === */}
+                <line x1="50" y1="15" x2="12" y2="38" stroke="#E0E7FF" strokeWidth="2" opacity="0.9" />
+                <line x1="50" y1="15" x2="88" y2="38" stroke="#FFFFFF" strokeWidth="1.5" opacity="0.7" />
+                <line x1="30" y1="28" x2="70" y2="28" stroke="#FFFFFF" strokeWidth="1" opacity="0.5" />
+                <line x1="50" y1="35" x2="50" y2="90" stroke="#C4B5FD" strokeWidth="1.5" opacity="0.5" />
+                <line x1="12" y1="38" x2="50" y2="90" stroke="#818CF8" strokeWidth="1" opacity="0.4" />
+                <line x1="88" y1="38" x2="50" y2="90" stroke="#A78BFA" strokeWidth="1" opacity="0.3" />
+                
+                {/* Inner facet lines for detail */}
+                <line x1="30" y1="28" x2="35" y2="45" stroke="#C4B5FD" strokeWidth="0.5" opacity="0.6" />
+                <line x1="70" y1="28" x2="65" y2="45" stroke="#C4B5FD" strokeWidth="0.5" opacity="0.5" />
+                <line x1="35" y1="45" x2="50" y2="90" stroke="#A78BFA" strokeWidth="0.5" opacity="0.4" />
+                <line x1="65" y1="45" x2="50" y2="90" stroke="#A78BFA" strokeWidth="0.5" opacity="0.4" />
+                
+                {/* === BOLD CHECKMARK === */}
                 <path 
-                  d="M32 52 L45 65 L68 38" 
+                  d="M33 50 L45 63 L67 38" 
                   fill="none" 
                   stroke="#FFFFFF" 
                   strokeWidth="6" 
@@ -142,31 +180,41 @@ const Navbar = () => {
                   filter="url(#glow)"
                 />
                 
+                {/* === LARGE SPARKLES === */}
+                
                 {/* TOP SPARKLE - Large 4-pointed star */}
-                <g filter="url(#sparkleGlow)">
-                  <polygon points="50,0 52,6 50,12 48,6" fill="#FFFFFF" />
-                  <polygon points="44,6 50,8 56,6 50,4" fill="#FFFFFF" />
+                <g filter="url(#strongGlow)">
+                  <polygon points="50,-5 54,10 50,25 46,10" fill="#FFFFFF" />
+                  <polygon points="35,10 50,14 65,10 50,6" fill="#FFFFFF" />
                 </g>
                 
-                {/* LEFT SPARKLE - 4-pointed star */}
-                <g filter="url(#sparkleGlow)">
-                  <polygon points="2,35 6,33 10,35 6,37" fill="#FFFFFF" opacity="0.9" />
-                  <polygon points="6,31 8,35 6,39 4,35" fill="#FFFFFF" opacity="0.9" />
+                {/* LEFT SPARKLE - Large 4-pointed star */}
+                <g filter="url(#strongGlow)">
+                  <polygon points="-2,38 10,34 22,38 10,42" fill="#FFFFFF" opacity="0.95" />
+                  <polygon points="10,26 14,38 10,50 6,38" fill="#FFFFFF" opacity="0.95" />
                 </g>
                 
-                {/* RIGHT SPARKLE - 4-pointed star */}
-                <g filter="url(#sparkleGlow)">
-                  <polygon points="90,35 94,33 98,35 94,37" fill="#FFFFFF" opacity="0.9" />
-                  <polygon points="94,31 96,35 94,39 92,35" fill="#FFFFFF" opacity="0.9" />
+                {/* RIGHT SPARKLE - Large 4-pointed star */}
+                <g filter="url(#strongGlow)">
+                  <polygon points="78,38 90,34 102,38 90,42" fill="#FFFFFF" opacity="0.95" />
+                  <polygon points="90,26 94,38 90,50 86,38" fill="#FFFFFF" opacity="0.95" />
                 </g>
                 
-                {/* Additional corner sparkles */}
-                <circle cx="20" cy="25" r="2" fill="#FFFFFF" opacity="0.7" filter="url(#sparkleGlow)" />
-                <circle cx="80" cy="25" r="2" fill="#FFFFFF" opacity="0.7" filter="url(#sparkleGlow)" />
+                {/* BOTTOM SPARKLE - Small accent */}
+                <g filter="url(#sparkleGlow)">
+                  <polygon points="50,88 53,94 50,100 47,94" fill="#FFFFFF" opacity="0.8" />
+                  <polygon points="44,94 50,96 56,94 50,92" fill="#FFFFFF" opacity="0.8" />
+                </g>
                 
-                {/* Small accent sparkles on facets */}
-                <circle cx="30" cy="40" r="1.5" fill="#FFFFFF" opacity="0.6" />
-                <circle cx="70" cy="40" r="1.5" fill="#FFFFFF" opacity="0.5" />
+                {/* Corner accent sparkles */}
+                <circle cx="22" cy="22" r="3" fill="#FFFFFF" opacity="0.8" filter="url(#sparkleGlow)" />
+                <circle cx="78" cy="22" r="3" fill="#FFFFFF" opacity="0.8" filter="url(#sparkleGlow)" />
+                
+                {/* Facet reflection sparkles */}
+                <circle cx="40" cy="30" r="2" fill="#FFFFFF" opacity="0.7" />
+                <circle cx="58" cy="32" r="1.5" fill="#FFFFFF" opacity="0.6" />
+                <circle cx="25" cy="42" r="1.5" fill="#FFFFFF" opacity="0.5" />
+                <circle cx="75" cy="42" r="1.5" fill="#FFFFFF" opacity="0.5" />
               </svg>
             </div>
             <div className="hidden sm:flex flex-col">
