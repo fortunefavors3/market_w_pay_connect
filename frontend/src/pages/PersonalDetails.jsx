@@ -209,7 +209,7 @@ const PersonalDetails = () => {
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               />
               <Button onClick={handleEmailChange}
-              className="bg-blue-600 text-white hover:bg-blue-700"
+              className="bg-blue-500 text-white hover:bg-blue-600"
               >Update</Button>
             </div>
             <p className="text-xs text-gray-500 mt-1">
@@ -233,7 +233,7 @@ const PersonalDetails = () => {
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               />
               <Button onClick={handlePhoneChange}
-              className="bg-blue-600 text-white hover:bg-blue-700"
+              className="bg-blue-500 text-white hover:bg-blue-600"
               >Update</Button>
             </div>
             <p className="text-xs text-gray-500 mt-1">
@@ -271,7 +271,7 @@ const PersonalDetails = () => {
               ) : (
                 <p className="text-gray-500">No shipping address saved</p>
               )}
-              <Button onClick={() => setIsEditing(true)} variant="outline" className="w-full bg-blue-600 text-white hover:bg-blue-700">
+              <Button onClick={() => setIsEditing(true)} variant="outline" className="w-full bg-blue-500 text-white hover:bg-blue-600">
                 Edit Address
               </Button>
             </>

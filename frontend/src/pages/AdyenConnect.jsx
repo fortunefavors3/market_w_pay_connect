@@ -104,12 +104,19 @@ const AdyenConnect = () => {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-xl">A</span>
+            <div className="w-16 h-16 rounded-xl overflow-hidden flex items-center justify-center bg-white">
+              <img
+                src="https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/ADYEN.AS-76bbfafc.png"
+                alt="Adyen Logo"
+                className="w-full h-full object-contain p-1"
+              />
             </div>
+
             <div>
               <CardTitle className="text-2xl">Adyen</CardTitle>
-              <CardDescription>Enterprise payment platform - Used by Uber, Spotify, eBay</CardDescription>
+              <CardDescription>
+                Enterprise payment platform - Used by Uber, Spotify, eBay
+              </CardDescription>
             </div>
           </div>
         </CardHeader>

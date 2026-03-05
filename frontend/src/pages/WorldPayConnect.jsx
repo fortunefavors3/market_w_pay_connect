@@ -103,12 +103,19 @@ const WorldPayConnect = () => {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-red-600 to-red-800 rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-sm">WorldPay</span>
+            <div className="w-16 h-16 rounded-xl overflow-hidden flex items-center justify-center bg-white">
+              <img
+                src="https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/worldpay825476.png"
+                alt="Worldpay Logo"
+                className="w-full h-full object-contain p-1"
+              />
             </div>
+
             <div>
               <CardTitle className="text-2xl">WorldPay (FIS)</CardTitle>
-              <CardDescription>Global payment processing leader</CardDescription>
+              <CardDescription>
+                Global payment processing leader
+              </CardDescription>
             </div>
           </div>
         </CardHeader>
@@ -134,7 +141,11 @@ const WorldPayConnect = () => {
                 </div>
               </div>
 
-              <Button variant="destructive" onClick={handleDisconnect} disabled={isLoading} className="w-full">
+              <Button
+                onClick={handleDisconnect}
+                disabled={isLoading}
+                className="w-full bg-gradient-to-r from-rose-500 to-orange-500 text-white hover:from-rose-600 hover:to-orange-600 border-none"
+              >
                 {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
                 Disconnect WorldPay
               </Button>
@@ -190,7 +201,11 @@ const WorldPayConnect = () => {
                 </AlertDescription>
               </Alert>
 
-              <Button type="submit" disabled={isLoading || !credentials.merchantCode || !credentials.xmlPassword} className="w-full bg-gradient-to-r from-red-600 to-red-800">
+              <Button
+                type="submit"
+                disabled={isLoading || !credentials.merchantCode || !credentials.xmlPassword}
+                className="w-full bg-gradient-to-r from-rose-500 to-orange-500 text-white hover:from-rose-600 hover:to-orange-600 border-none"
+              >
                 {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
                 Connect WorldPay
               </Button>

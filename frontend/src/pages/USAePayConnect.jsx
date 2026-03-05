@@ -101,12 +101,19 @@ const USAePayConnect = () => {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-green-600 to-teal-600 rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-lg">USAe</span>
+            <div className="w-16 h-16 rounded-xl overflow-hidden flex items-center justify-center bg-white">
+              <img
+                src="https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/usaepay.jpg"
+                alt="USAePay Logo"
+                className="w-full h-full object-contain p-1"
+              />
             </div>
+
             <div>
               <CardTitle className="text-2xl">USAePay</CardTitle>
-              <CardDescription>High-volume payment processing gateway</CardDescription>
+              <CardDescription>
+                High-volume payment processing gateway
+              </CardDescription>
             </div>
           </div>
         </CardHeader>
@@ -124,15 +131,24 @@ const USAePayConnect = () => {
               <div className="p-4 bg-gray-50 rounded-lg space-y-2">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Status</span>
-                  <Badge className="bg-green-500">Active</Badge>
+                  <Badge className="bg-green-500 hover:bg-green-500 text-white hover:text-white">
+                    Active
+                  </Badge>
                 </div>
+
                 <div className="flex justify-between">
                   <span className="text-gray-600">Connected</span>
-                  <span className="font-medium">{new Date(connectionStatus.lastVerified).toLocaleDateString()}</span>
+                  <span className="font-medium">
+                    {new Date(connectionStatus.lastVerified).toLocaleDateString()}
+                  </span>
                 </div>
               </div>
 
-              <Button variant="destructive" onClick={handleDisconnect} disabled={isLoading} className="w-full">
+              <Button
+                onClick={handleDisconnect}
+                disabled={isLoading}
+                className="w-full bg-gradient-to-r from-slate-600 to-indigo-700 text-white hover:from-slate-700 hover:to-indigo-800 border-none"
+              >
                 {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
                 Disconnect USAePay
               </Button>
@@ -176,7 +192,11 @@ const USAePayConnect = () => {
                 </AlertDescription>
               </Alert>
 
-              <Button type="submit" disabled={isLoading || !credentials.sourceKey} className="w-full bg-gradient-to-r from-green-600 to-teal-600">
+              <Button
+                type="submit"
+                disabled={isLoading || !credentials.sourceKey}
+                className="w-full bg-gradient-to-r from-slate-600 to-indigo-700 text-white hover:from-slate-700 hover:to-indigo-800 border-none"
+              >
                 {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
                 Connect USAePay
               </Button>

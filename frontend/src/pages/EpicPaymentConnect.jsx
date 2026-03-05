@@ -267,12 +267,19 @@ const EpicPaymentConnect = () => {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-gradient-to-br from-emerald-600 to-teal-600 rounded-lg flex items-center justify-center">
-              <CreditCard className="w-6 h-6 text-white" />
+            <div className="w-12 h-12 rounded-lg overflow-hidden flex items-center justify-center bg-white">
+              <img
+                src="https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/epic.jpg"
+                alt="Epic Payment Solutions Logo"
+                className="w-full h-full object-contain p-1"
+              />
             </div>
+
             <div>
               <CardTitle className="text-xl">Epic Payment Solutions</CardTitle>
-              <CardDescription>Flexible payment solutions for all merchants</CardDescription>
+              <CardDescription>
+                Flexible payment solutions for all merchants
+              </CardDescription>
             </div>
           </div>
         </CardHeader>
@@ -426,8 +433,13 @@ const EpicPaymentConnect = () => {
                 </Button>
                 <Button
                   onClick={handleConnect}
-                  disabled={loading || !credentials.merchantId || !credentials.apiKey || !credentials.secretKey}
-                  className="flex-1 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700"
+                  disabled={
+                    loading ||
+                    !credentials.merchantId ||
+                    !credentials.apiKey ||
+                    !credentials.secretKey
+                  }
+                  className="flex-1 bg-gradient-to-r from-orange-700 to-red-600 text-white hover:from-orange-800 hover:to-red-700 border-none"
                 >
                   {loading ? (
                     <>

@@ -10,6 +10,8 @@ import { Checkbox } from '../components/ui/checkbox';
 import { SlidersHorizontal } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import { mockProducts, mockCategories } from '../mock';
+import { Check } from "lucide-react";
+
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 
@@ -181,7 +183,7 @@ const SearchResults = () => {
 
                 <Button
                   variant="outline"
-                  className="w-full"
+                  className="w-full bg-gray-50 hover:bg-gray-100"
                   onClick={() => setFilters({
                     minPrice: '',
                     maxPrice: '',
@@ -224,13 +226,15 @@ const SearchResults = () => {
               <p className="text-gray-600 mb-4">No products found matching your criteria.</p>
               <Button
                 variant="outline"
-                onClick={() => setFilters({
-                  minPrice: '',
-                  maxPrice: '',
-                  condition: [],
-                  categories: [],
-                  sortBy: 'relevance',
-                })}
+                onClick={() =>
+                  setFilters({
+                    minPrice: '',
+                    maxPrice: '',
+                    condition: [],
+                    categories: [],
+                    sortBy: 'relevance',
+                  })
+                }
               >
                 Clear All Filters
               </Button>

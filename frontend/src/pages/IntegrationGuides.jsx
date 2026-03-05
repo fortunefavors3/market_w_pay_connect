@@ -44,7 +44,7 @@ const IntegrationGuides = () => {
     {
       id: 'shopify',
       name: 'Shopify',
-      logoUrl: 'https://cdn.shopify.com/shopifycloud/brochure/assets/brand-assets/shopify-logo-primary-logo-456baa801ee66a0a435671082365958316831c9960c480451dd0330bcdae304f.svg',
+      logoUrl: 'https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/shopifyimages.png',
       description: 'Leading e-commerce platform',
       gradient: 'from-green-600 to-green-400',
       difficulty: 'Easy',
@@ -59,7 +59,7 @@ const IntegrationGuides = () => {
     {
       id: 'wix',
       name: 'Wix',
-      logoUrl: 'https://static.wixstatic.com/media/9ab0d1_8bc47a0c22b54b7eb27f2884deb61b3e~mv2.png',
+      logoUrl: 'https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/wiximages.png',
       description: 'Website builder with e-commerce',
       gradient: 'from-blue-600 to-blue-400',
       difficulty: 'Easy',
@@ -74,7 +74,7 @@ const IntegrationGuides = () => {
     {
       id: 'woocommerce',
       name: 'WooCommerce',
-      logoUrl: 'https://woocommerce.com/wp-content/themes/woo/images/logo-woocommerce@2x.png',
+      logoUrl: 'https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/wooimages.png',
       description: 'WordPress e-commerce plugin',
       gradient: 'from-purple-600 to-purple-400',
       difficulty: 'Medium',
@@ -89,7 +89,7 @@ const IntegrationGuides = () => {
     {
       id: 'etsy',
       name: 'Etsy',
-      logoUrl: 'https://www.etsy.com/images/assets/etsy_logo_lg_rgb.png',
+      logoUrl: 'https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/19-190819_etsy-logo-transparent-png-circle.png',
       description: 'Marketplace for unique goods',
       gradient: 'from-orange-600 to-orange-400',
       difficulty: 'Medium',
@@ -106,7 +106,7 @@ const IntegrationGuides = () => {
       name: 'WordPress',
       logoUrl: 'https://s.w.org/style/images/about/WordPress-logotype-wmark.png',
       description: 'Popular content management system',
-      gradient: 'from-blue-700 to-cyan-500',
+      gradient: 'from-slate-700 to-slate-500',
       difficulty: 'Easy',
       time: '15 minutes',
       features: [
@@ -119,7 +119,7 @@ const IntegrationGuides = () => {
     {
       id: 'bigcommerce',
       name: 'BigCommerce',
-      logoUrl: 'https://storage.googleapis.com/bigcommerce-production-dev-center/images/logo-bigcommerce.svg',
+      logoUrl: 'https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/bigcommerce-512.png',
       description: 'Enterprise e-commerce platform',
       gradient: 'from-blue-800 to-blue-600',
       difficulty: 'Medium',
@@ -832,14 +832,14 @@ function custom_cheqmart_order_handler($order_data) {
       <CardHeader>
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className={`w-16 h-16 bg-gradient-to-br ${platform.gradient} rounded-xl flex items-center justify-center p-3`}>
+            <div className="w-16 h-16 rounded-xl overflow-hidden flex items-center justify-center bg-white">
               <img 
                 src={platform.logoUrl} 
                 alt={`${platform.name} logo`}
-                className="w-full h-full object-contain"
-                style={{ filter: 'brightness(0) invert(1)' }}
+                className="w-full h-full object-contain p-2"
               />
             </div>
+
             <div>
               <CardTitle className="text-xl">{platform.name}</CardTitle>
               <CardDescription>{platform.description}</CardDescription>
@@ -909,6 +909,7 @@ function custom_cheqmart_order_handler($order_data) {
               <Button
                 variant="outline"
                 onClick={() => setSelectedPlatform(null)}
+                className="bg-gray-50 hover:bg-blue-500 hover:text-white hover:border-blue-500 transition-colors"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Platforms
@@ -991,7 +992,10 @@ function custom_cheqmart_order_handler($order_data) {
                   Our support team is here to assist with your integration
                 </p>
               </div>
-              <Button variant="outline">
+              <Button 
+                variant="outline"
+                className="bg-white hover:bg-blue-500 hover:text-white transition-colors"
+              >
                 <ExternalLink className="w-4 h-4 mr-2" />
                 Contact Support
               </Button>

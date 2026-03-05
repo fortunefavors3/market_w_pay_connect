@@ -103,12 +103,19 @@ const DurangoConnect = () => {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-amber-600 to-orange-700 rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-sm">Durango</span>
+            <div className="w-16 h-16 rounded-xl overflow-hidden flex items-center justify-center bg-white">
+              <img
+                src="https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/durango.png"
+                alt="Durango Merchant Services Logo"
+                className="w-full h-full object-contain p-1"
+              />
             </div>
+
             <div>
               <CardTitle className="text-2xl">Durango Merchant Services</CardTitle>
-              <CardDescription>Specializing in high-risk merchant accounts</CardDescription>
+              <CardDescription>
+                Specializing in high-risk merchant accounts
+              </CardDescription>
             </div>
           </div>
         </CardHeader>
@@ -134,7 +141,11 @@ const DurangoConnect = () => {
                 </div>
               </div>
 
-              <Button variant="destructive" onClick={handleDisconnect} disabled={isLoading} className="w-full">
+              <Button
+                onClick={handleDisconnect}
+                disabled={isLoading}
+                className="w-full bg-gradient-to-r from-slate-400 to-sky-600 text-white hover:from-slate-500 hover:to-sky-700 border-none"
+              >
                 {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
                 Disconnect Durango
               </Button>
@@ -190,7 +201,11 @@ const DurangoConnect = () => {
                 </AlertDescription>
               </Alert>
 
-              <Button type="submit" disabled={isLoading || !credentials.merchantId || !credentials.apiKey} className="w-full bg-gradient-to-r from-amber-600 to-orange-700">
+              <Button
+                type="submit"
+                disabled={isLoading || !credentials.merchantId || !credentials.apiKey}
+                className="w-full bg-gradient-to-r from-slate-400 to-sky-600 text-white hover:from-slate-500 hover:to-sky-700 border-none"
+              >
                 {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
                 Connect Durango
               </Button>

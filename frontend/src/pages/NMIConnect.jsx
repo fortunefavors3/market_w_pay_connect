@@ -99,14 +99,21 @@ const NMIConnect = () => {
       </Button>
 
       <Card>
-        <CardHeader>
+       <CardHeader>
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-orange-600 to-red-600 rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-xl">NMI</span>
+            <div className="w-16 h-16 rounded-xl overflow-hidden flex items-center justify-center bg-white">
+              <img
+                src="https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/nmipayments_logo.jpg"
+                alt="NMI Payments Logo"
+                className="w-full h-full object-contain"
+              />
             </div>
+
             <div>
               <CardTitle className="text-2xl">NMI (Network Merchants)</CardTitle>
-              <CardDescription>Connect your NMI payment gateway</CardDescription>
+              <CardDescription>
+                Connect your NMI payment gateway
+              </CardDescription>
             </div>
           </div>
         </CardHeader>
@@ -124,18 +131,27 @@ const NMIConnect = () => {
               <div className="p-4 bg-gray-50 rounded-lg space-y-2">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Status</span>
-                  <Badge className="bg-green-500">Active</Badge>
+                  <Badge className="bg-green-500 hover:bg-green-500 text-white hover:text-white">
+                    Active
+                  </Badge>
                 </div>
+
                 <div className="flex justify-between">
                   <span className="text-gray-600">Connected</span>
-                  <span className="font-medium">{new Date(connectionStatus.lastVerified).toLocaleDateString()}</span>
+                  <span className="font-medium">
+                    {new Date(connectionStatus.lastVerified).toLocaleDateString()}
+                  </span>
                 </div>
               </div>
 
-              <Button variant="destructive" onClick={handleDisconnect} disabled={isLoading} className="w-full">
-                {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
-                Disconnect NMI
-              </Button>
+              <Button
+              onClick={handleDisconnect}
+              disabled={isLoading}
+              className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white hover:from-emerald-600 hover:to-teal-700 border-none"
+            >
+              {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+              Disconnect NMI
+            </Button>
             </div>
           ) : (
             <form onSubmit={handleConnect} className="space-y-4">

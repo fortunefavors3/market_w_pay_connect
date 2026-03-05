@@ -136,7 +136,7 @@ const AddCardForm = ({ onSuccess, onCancel }) => {
             </>
           )}
         </Button>
-                <Button type="button" variant="outline" onClick={onCancel}>
+                <Button type="button" variant="outline" onClick={onCancel} className="bg-gray-50">
           Cancel
         </Button>
       </div>
@@ -582,8 +582,12 @@ const BillingSettingsContent = () => {
             <Checkbox 
               id="agree-terms"
               checked={termsAgreed}
-              onCheckedChange={setTermsAgreed}
-            />
+              onCheckedChange={(checked) => setTermsAgreed(checked === true)}
+              className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+            >
+              <Check className="h-4 w-4 text-white" />
+            </Checkbox>
+
             <Label htmlFor="agree-terms" className="text-sm cursor-pointer">
               I have read and agree to the Automatic Fee Collection Agreement. I authorize CheqMart 
               to charge my saved payment method daily for platform fees.
@@ -591,12 +595,17 @@ const BillingSettingsContent = () => {
           </div>
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowTermsDialog(false)}>
+            <Button 
+              variant="outline" 
+              onClick={() => setShowTermsDialog(false)}
+              className="bg-gray-50"
+            >
               Cancel
             </Button>
             <Button 
               onClick={() => updateAutoCharge(true, true)}
               disabled={!termsAgreed || savingAutoCharge}
+              className="bg-blue-600 text-white hover:bg-blue-700 border-none"
             >
               {savingAutoCharge ? (
                 <>

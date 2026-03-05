@@ -145,7 +145,7 @@ const ProductDetail = () => {
           </div>
 
           {/* Price */}
-          <div className="bg-gray-50 rounded-lg p-6">
+          <div className="rounded-lg p-6">
             <div className="flex items-baseline gap-3 mb-2">
               <span className="text-4xl font-bold text-gray-900">${product.price.toFixed(2)}</span>
               {product.originalPrice && (
@@ -167,6 +167,7 @@ const ProductDetail = () => {
                 <Button
                   size="sm"
                   variant="outline"
+                  className="bg-gray-50"
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
                 >
                   -
@@ -175,6 +176,7 @@ const ProductDetail = () => {
                 <Button
                   size="sm"
                   variant="outline"
+                  className="bg-gray-50"
                   onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
                 >
                   +
@@ -185,15 +187,15 @@ const ProductDetail = () => {
             <Button className="w-full bg-blue-600 hover:bg-blue-700" size="lg" onClick={handleBuyNow}>
               Buy It Now
             </Button>
-            <Button variant="outline" className="w-full" size="lg" onClick={handleAddToCart}>
+            <Button variant="outline" className="w-full bg-gray-50 hover:bg-blue-600 hover:text-white" size="lg" onClick={handleAddToCart}>
               Add to Cart
             </Button>
             <div className="grid grid-cols-2 gap-2">
-              <Button variant="ghost" className="w-full">
+              <Button variant="ghost" className="w-full bg-gray-50 hover:text-white hover:bg-gray-400">
                 <Heart className="w-4 h-4 mr-2" />
                 Add to Watchlist
               </Button>
-              <Button variant="ghost" className="w-full">
+              <Button variant="ghost" className="w-full bg-gray-50 hover:text-white hover:bg-gray-400">
                 <Share2 className="w-4 h-4 mr-2" />
                 Share
               </Button>
@@ -255,9 +257,9 @@ const ProductDetail = () => {
                   </div>
                   <p className="text-sm text-gray-600">Member since {new Date(product.seller.memberSince).getFullYear()}</p>
                 </div>
-                <Button onClick={() => navigate(`/seller/${product.seller.id}`)}>View Profile</Button>
+                <Button className="bg-blue-600 hover:bg-blue-700" onClick={() => navigate(`/seller/${product.seller.id}`)}>View Profile</Button>
               </div>
-              <Button className="w-full" variant="outline" onClick={() => navigate('/messages')}>
+              <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white" variant="outline" onClick={() => navigate('/messages')}>
                 <MessageSquare className="w-4 h-4 mr-2" />
                 Contact Seller
               </Button>

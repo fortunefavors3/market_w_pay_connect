@@ -443,6 +443,7 @@ const Dashboard = () => {
               <div className="flex items-center justify-between">
                 <CardTitle>My Listings</CardTitle>
                 <Button 
+                variant="outline"
                   onClick={() => {
                     if (feeInfo.is_suspended) {
                       toast({
@@ -455,7 +456,9 @@ const Dashboard = () => {
                     navigate('/sell');
                   }}
                   disabled={feeInfo.is_suspended}
-                  className={feeInfo.is_suspended ? 'opacity-50 cursor-not-allowed' : ''}
+                  className={`text-gray hover:bg-blue-500 hover:text-white ${
+                    feeInfo.is_suspended ? 'opacity-50 cursor-not-allowed hover:bg-blue-500' : ''
+                  }`}
                 >
                   <Plus className="w-4 h-4 mr-2" />
                   New Listing
@@ -532,14 +535,24 @@ const Dashboard = () => {
                       <h3 className="font-semibold text-gray-900">{order.product.title}</h3>
                       <p className="text-sm text-gray-600 mt-1">Order #{order.id} • {new Date(order.orderDate).toLocaleDateString()}</p>
                       <p className="text-lg font-bold text-gray-900 mt-1">${order.totalPrice.toFixed(2)}</p>
-                      <Badge className={`mt-2 ${
-                        order.status === 'delivered' ? 'bg-green-500' :
-                        order.status === 'in_transit' ? 'bg-blue-500' : 'bg-gray-500'
-                      }`}>
-                        {order.status.replace('_', ' ').toUpperCase()}
-                      </Badge>
+                      <Badge
+                      className={`mt-2 text-white hover:text-white ${
+                        order.status === 'delivered'
+                          ? 'bg-green-500 hover:bg-green-500'
+                          : order.status === 'in_transit'
+                          ? 'bg-blue-500 hover:bg-blue-500'
+                          : 'bg-gray-500 hover:bg-gray-500'
+                      }`}
+                    >
+                      {order.status.replace('_', ' ').toUpperCase()}
+                    </Badge>
                     </div>
-                    <Button onClick={() => navigate(`/orders/${order.id}`)}>Track Order</Button>
+                    <Button 
+                    onClick={() => navigate(`/orders/${order.id}`)}
+                    className="bg-blue-600 text-white hover:bg-blue-700 border-none"
+                  >
+                    Track Order
+                  </Button> 
                   </div>
                 ))}
               </div>

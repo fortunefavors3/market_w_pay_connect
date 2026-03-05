@@ -103,12 +103,19 @@ const HostMerchantConnect = () => {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-cyan-600 to-blue-700 rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-xs text-center leading-tight">Host<br/>Merchant</span>
+            <div className="w-16 h-16 rounded-xl overflow-hidden flex items-center justify-center bg-white border">
+              <img
+                src="https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/cropped-HMS-favicon-512x512-SR19-8R1.webp"
+                alt="Host Merchant Services Logo"
+                className="w-full h-full object-contain"
+              />
             </div>
+
             <div>
               <CardTitle className="text-2xl">Host Merchant Services</CardTitle>
-              <CardDescription>Competitive rates for all business types</CardDescription>
+              <CardDescription>
+                Competitive rates for all business types
+              </CardDescription>
             </div>
           </div>
         </CardHeader>
@@ -134,7 +141,11 @@ const HostMerchantConnect = () => {
                 </div>
               </div>
 
-              <Button variant="destructive" onClick={handleDisconnect} disabled={isLoading} className="w-full">
+              <Button
+                onClick={handleDisconnect}
+                disabled={isLoading}
+                className="w-full bg-gradient-to-r from-rose-500 to-red-700 text-white hover:from-rose-600 hover:to-red-800 border-none"
+              >
                 {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
                 Disconnect Host Merchant
               </Button>
@@ -191,7 +202,11 @@ const HostMerchantConnect = () => {
                 </AlertDescription>
               </Alert>
 
-              <Button type="submit" disabled={isLoading || !credentials.merchantId || !credentials.apiKey} className="w-full bg-gradient-to-r from-cyan-600 to-blue-700">
+              <Button
+                type="submit"
+                disabled={isLoading || !credentials.merchantId || !credentials.apiKey}
+                className="w-full bg-gradient-to-r from-rose-500 to-red-700 text-white hover:from-rose-600 hover:to-red-800 border-none"
+              >
                 {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
                 Connect Host Merchant
               </Button>

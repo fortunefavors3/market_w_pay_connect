@@ -369,9 +369,15 @@ const PaymentSetup = () => {
                 </p>
               </div>
             </div>
-            <Badge className={paymentStatus.has_any_processor ? 'bg-green-500' : 'bg-gray-400'}>
-              {paymentStatus.has_any_processor ? 'Active' : 'Inactive'}
-            </Badge>
+            <Badge
+            className={`text-white hover:text-white ${
+              paymentStatus.has_any_processor
+                ? 'bg-green-500 hover:bg-green-500'
+                : 'bg-gray-400 hover:bg-gray-400'
+            }`}
+          >
+            {paymentStatus.has_any_processor ? 'Active' : 'Inactive'}
+          </Badge>
           </div>
         </CardContent>
       </Card>
@@ -381,7 +387,9 @@ const PaymentSetup = () => {
         <div className="flex items-center gap-2 mb-4">
           <CheckCircle className="w-5 h-5 text-green-600" />
           <h2 className="text-xl font-semibold text-gray-900">Automatic Fee Collection</h2>
-          <Badge className="bg-green-100 text-green-800">Recommended</Badge>
+          <Badge className="!bg-green-100 !text-green-800 hover:!bg-green-100 hover:!text-green-800">
+            Recommended
+          </Badge>
         </div>
         <p className="text-sm text-gray-600 mb-4">
           These processors support OAuth integration with automatic 5.5% platform fee deduction per transaction.
@@ -392,13 +400,14 @@ const PaymentSetup = () => {
               <CardHeader>
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <div className={`w-16 h-16 bg-gradient-to-br ${processor.gradient} rounded-xl flex items-center justify-center p-3`}>
+                    <div className="w-16 h-16 rounded-xl overflow-hidden">
                       <img 
                         src={processor.logoUrl} 
                         alt={`${processor.name} logo`}
-                        className="w-full h-full object-contain"
+                        className="w-full h-full object-cover"
                       />
                     </div>
+
                     <div>
                       <CardTitle className="text-xl">{processor.name}</CardTitle>
                       <CardDescription>{processor.description}</CardDescription>
@@ -407,7 +416,13 @@ const PaymentSetup = () => {
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <Badge className={processor.connected ? 'bg-green-500' : 'bg-gray-400'}>
+                  <Badge
+                    className={`text-white hover:text-white ${
+                      processor.connected
+                        ? 'bg-green-500 hover:bg-green-500'
+                        : 'bg-gray-400 hover:bg-gray-400'
+                    }`}
+                  >
                     {processor.connected ? (
                       <>
                         <CheckCircle className="w-3 h-3 mr-1" />
@@ -417,7 +432,7 @@ const PaymentSetup = () => {
                       'Not Connected'
                     )}
                   </Badge>
-                  <span className="text-sm text-gray-600">Fee: {processor.fee}</span>
+                  <span className="text-sm text-gray-600 hover">Fee: {processor.fee}</span>
                 </div>
               </CardHeader>
 
@@ -475,17 +490,18 @@ const PaymentSetup = () => {
               <CardHeader>
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <div className={`w-16 h-16 bg-gradient-to-br ${processor.gradient} rounded-xl flex items-center justify-center p-3`}>
+                    <div className="w-16 h-16 rounded-xl overflow-hidden flex items-center justify-center bg-white">
                       {processor.logoUrl ? (
                         <img 
                           src={processor.logoUrl} 
                           alt={`${processor.name} logo`}
-                          className="w-full h-full object-contain"
+                          className="w-full h-full object-cover"
                         />
                       ) : (
-                        <CreditCard className="w-8 h-8 text-white" />
+                        <CreditCard className="w-8 h-8 text-gray-600" />
                       )}
                     </div>
+
                     <div>
                       <CardTitle className="text-xl">{processor.name}</CardTitle>
                       <CardDescription>{processor.description}</CardDescription>
@@ -493,8 +509,14 @@ const PaymentSetup = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <Badge className={processor.connected ? 'bg-green-500' : 'bg-gray-400'}>
+                <div className="flex items-center justify-between group">
+                  <Badge
+                    className={`!text-white hover:!text-white group-hover:!text-white ${
+                      processor.connected
+                        ? '!bg-green-500 hover:!bg-green-500 group-hover:!bg-green-500'
+                        : '!bg-gray-400 hover:!bg-gray-400 group-hover:!bg-gray-400'
+                    }`}
+                  >
                     {processor.connected ? (
                       <>
                         <CheckCircle className="w-3 h-3 mr-1" />
@@ -504,7 +526,10 @@ const PaymentSetup = () => {
                       'Not Connected'
                     )}
                   </Badge>
-                  <span className="text-sm text-gray-600">Fee: {processor.fee}</span>
+
+                  <span className="text-sm text-gray-600 hover:text-gray-600 group-hover:text-gray-600">
+                    Fee: {processor.fee}
+                  </span>
                 </div>
               </CardHeader>
 

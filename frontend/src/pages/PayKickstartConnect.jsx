@@ -101,12 +101,19 @@ const PayKickstartConnect = () => {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-pink-600 to-rose-600 rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-sm">PayKick</span>
+            <div className="w-16 h-16 rounded-xl overflow-hidden flex items-center justify-center bg-white">
+              <img
+                src="https://raw.githubusercontent.com/fortunefavors3/image-hosting/main/paykickstart.png"
+                alt="PayKickstart Logo"
+                className="w-full h-full object-contain p-1"
+              />
             </div>
+
             <div>
               <CardTitle className="text-2xl">PayKickstart</CardTitle>
-              <CardDescription>Shopping cart & affiliate management platform</CardDescription>
+              <CardDescription>
+                Shopping cart & affiliate management platform
+              </CardDescription>
             </div>
           </div>
         </CardHeader>
@@ -132,7 +139,11 @@ const PayKickstartConnect = () => {
                 </div>
               </div>
 
-              <Button variant="destructive" onClick={handleDisconnect} disabled={isLoading} className="w-full">
+              <Button
+                onClick={handleDisconnect}
+                disabled={isLoading}
+                className="w-full bg-gradient-to-r from-teal-400 to-slate-700 text-white hover:from-teal-500 hover:to-slate-800 border-none"
+              >
                 {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
                 Disconnect PayKickstart
               </Button>
@@ -177,7 +188,11 @@ const PayKickstartConnect = () => {
                 </AlertDescription>
               </Alert>
 
-              <Button type="submit" disabled={isLoading || !credentials.apiKey || !credentials.secretKey} className="w-full bg-gradient-to-r from-pink-600 to-rose-600">
+              <Button
+                type="submit"
+                disabled={isLoading || !credentials.apiKey || !credentials.secretKey}
+                className="w-full bg-gradient-to-r from-teal-400 to-slate-700 text-white hover:from-teal-500 hover:to-slate-800 border-none"
+              >
                 {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
                 Connect PayKickstart
               </Button>
