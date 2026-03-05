@@ -74,37 +74,55 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-3 flex-shrink-0 group">
-            {/* Diamond/Gem Logo Mark */}
+            {/* Shield + E Monogram Logo */}
             <div className="relative w-12 h-12 flex-shrink-0">
-              <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-lg transition-transform group-hover:scale-110">
+              <svg viewBox="0 0 100 120" className="w-full h-full drop-shadow-lg transition-transform group-hover:scale-110">
                 <defs>
-                  <linearGradient id="diamondGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <linearGradient id="shieldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stopColor="#4F46E5" />
-                    <stop offset="50%" stopColor="#7C3AED" />
-                    <stop offset="100%" stopColor="#4F46E5" />
+                    <stop offset="50%" stopColor="#6366F1" />
+                    <stop offset="100%" stopColor="#4338CA" />
                   </linearGradient>
-                  <linearGradient id="diamondHighlight" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <linearGradient id="shieldHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
                     <stop offset="0%" stopColor="#818CF8" />
                     <stop offset="100%" stopColor="#6366F1" />
                   </linearGradient>
-                  <linearGradient id="diamondShadow" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#3730A3" />
-                    <stop offset="100%" stopColor="#4C1D95" />
+                  <linearGradient id="eGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#FFFFFF" />
+                    <stop offset="100%" stopColor="#E0E7FF" />
                   </linearGradient>
                 </defs>
-                {/* Main diamond body */}
-                <polygon points="50,5 95,35 50,95 5,35" fill="url(#diamondGradient)" />
-                {/* Top facet - highlight */}
-                <polygon points="50,5 95,35 50,45 5,35" fill="url(#diamondHighlight)" opacity="0.9" />
-                {/* Left facet */}
-                <polygon points="5,35 50,45 50,95" fill="url(#diamondShadow)" opacity="0.7" />
-                {/* Right facet */}
-                <polygon points="95,35 50,45 50,95" fill="url(#diamondGradient)" opacity="0.85" />
-                {/* Center line accent */}
-                <line x1="50" y1="45" x2="50" y2="95" stroke="#A78BFA" strokeWidth="1" opacity="0.5" />
-                {/* Top edges */}
-                <line x1="50" y1="5" x2="5" y2="35" stroke="#C4B5FD" strokeWidth="1.5" opacity="0.6" />
-                <line x1="50" y1="5" x2="95" y2="35" stroke="#C4B5FD" strokeWidth="1.5" opacity="0.6" />
+                {/* Shield shape */}
+                <path 
+                  d="M50 5 L95 20 L95 55 C95 85 50 115 50 115 C50 115 5 85 5 55 L5 20 Z" 
+                  fill="url(#shieldGradient)"
+                />
+                {/* Shield highlight (left side) */}
+                <path 
+                  d="M50 5 L50 115 C50 115 5 85 5 55 L5 20 Z" 
+                  fill="url(#shieldHighlight)"
+                  opacity="0.3"
+                />
+                {/* Inner shield border */}
+                <path 
+                  d="M50 12 L88 25 L88 53 C88 78 50 105 50 105 C50 105 12 78 12 53 L12 25 Z" 
+                  fill="none"
+                  stroke="#A5B4FC"
+                  strokeWidth="1.5"
+                  opacity="0.5"
+                />
+                {/* Bold E letter */}
+                <path 
+                  d="M30 35 L70 35 L70 45 L42 45 L42 55 L65 55 L65 65 L42 65 L42 78 L70 78 L70 88 L30 88 Z" 
+                  fill="url(#eGradient)"
+                />
+                {/* E shadow for depth */}
+                <path 
+                  d="M30 35 L70 35 L70 45 L42 45 L42 55 L65 55 L65 65 L42 65 L42 78 L70 78 L70 88 L30 88 Z" 
+                  fill="#4338CA"
+                  opacity="0.2"
+                  transform="translate(2, 2)"
+                />
               </svg>
             </div>
             <div className="hidden sm:flex flex-col">
