@@ -74,55 +74,81 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-3 flex-shrink-0 group">
-            {/* Shield + E Monogram Logo */}
+            {/* Enhanced Diamond Logo with Glow & Accent */}
             <div className="relative w-12 h-12 flex-shrink-0">
-              <svg viewBox="0 0 100 120" className="w-full h-full drop-shadow-lg transition-transform group-hover:scale-110">
+              <svg viewBox="0 0 100 100" className="w-full h-full transition-transform group-hover:scale-110">
                 <defs>
-                  <linearGradient id="shieldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <linearGradient id="diamondGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stopColor="#4F46E5" />
-                    <stop offset="50%" stopColor="#6366F1" />
-                    <stop offset="100%" stopColor="#4338CA" />
+                    <stop offset="50%" stopColor="#7C3AED" />
+                    <stop offset="100%" stopColor="#4F46E5" />
                   </linearGradient>
-                  <linearGradient id="shieldHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#818CF8" />
+                  <linearGradient id="diamondHighlight" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#A5B4FC" />
+                    <stop offset="100%" stopColor="#818CF8" />
+                  </linearGradient>
+                  <linearGradient id="diamondShadow" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#3730A3" />
+                    <stop offset="100%" stopColor="#4C1D95" />
+                  </linearGradient>
+                  <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#6366F1" />
+                    <stop offset="50%" stopColor="#8B5CF6" />
                     <stop offset="100%" stopColor="#6366F1" />
                   </linearGradient>
-                  <linearGradient id="eGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#FFFFFF" />
-                    <stop offset="100%" stopColor="#E0E7FF" />
-                  </linearGradient>
+                  <filter id="glow">
+                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                    <feMerge>
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                  <filter id="innerShadow">
+                    <feOffset dx="0" dy="2"/>
+                    <feGaussianBlur stdDeviation="1"/>
+                    <feComposite in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1"/>
+                    <feColorMatrix type="matrix" values="0 0 0 0 0.2 0 0 0 0 0.1 0 0 0 0 0.4 0 0 0 0.3 0"/>
+                    <feBlend in2="SourceGraphic"/>
+                  </filter>
                 </defs>
-                {/* Shield shape */}
-                <path 
-                  d="M50 5 L95 20 L95 55 C95 85 50 115 50 115 C50 115 5 85 5 55 L5 20 Z" 
-                  fill="url(#shieldGradient)"
-                />
-                {/* Shield highlight (left side) */}
-                <path 
-                  d="M50 5 L50 115 C50 115 5 85 5 55 L5 20 Z" 
-                  fill="url(#shieldHighlight)"
-                  opacity="0.3"
-                />
-                {/* Inner shield border */}
-                <path 
-                  d="M50 12 L88 25 L88 53 C88 78 50 105 50 105 C50 105 12 78 12 53 L12 25 Z" 
-                  fill="none"
-                  stroke="#A5B4FC"
-                  strokeWidth="1.5"
-                  opacity="0.5"
-                />
-                {/* Bold E letter */}
-                <path 
-                  d="M30 35 L70 35 L70 45 L42 45 L42 55 L65 55 L65 65 L42 65 L42 78 L70 78 L70 88 L30 88 Z" 
-                  fill="url(#eGradient)"
-                />
-                {/* E shadow for depth */}
-                <path 
-                  d="M30 35 L70 35 L70 45 L42 45 L42 55 L65 55 L65 65 L42 65 L42 78 L70 78 L70 88 L30 88 Z" 
-                  fill="#4338CA"
-                  opacity="0.2"
-                  transform="translate(2, 2)"
-                />
+                
+                {/* Outer circular ring/badge */}
+                <circle cx="50" cy="50" r="47" fill="none" stroke="url(#ringGradient)" strokeWidth="2" opacity="0.6" />
+                <circle cx="50" cy="50" r="44" fill="none" stroke="#E0E7FF" strokeWidth="0.5" opacity="0.4" />
+                
+                {/* Main diamond body with glow */}
+                <g filter="url(#glow)">
+                  <polygon points="50,12 88,38 50,88 12,38" fill="url(#diamondGradient)" />
+                </g>
+                
+                {/* Top facet - bright highlight */}
+                <polygon points="50,12 88,38 50,48 12,38" fill="url(#diamondHighlight)" opacity="0.95" />
+                
+                {/* Left facet - shadow */}
+                <polygon points="12,38 50,48 50,88" fill="url(#diamondShadow)" opacity="0.8" />
+                
+                {/* Right facet */}
+                <polygon points="88,38 50,48 50,88" fill="url(#diamondGradient)" opacity="0.9" />
+                
+                {/* Sparkle/shine accent - top */}
+                <g className="animate-pulse">
+                  <polygon points="50,8 53,14 50,12 47,14" fill="#FFFFFF" opacity="0.9" />
+                  <circle cx="50" cy="10" r="2" fill="#FFFFFF" opacity="0.8" />
+                </g>
+                
+                {/* Small sparkle accents */}
+                <circle cx="75" cy="30" r="1.5" fill="#FFFFFF" opacity="0.7" />
+                <circle cx="28" cy="35" r="1" fill="#FFFFFF" opacity="0.5" />
+                
+                {/* Center facet line with glow */}
+                <line x1="50" y1="48" x2="50" y2="88" stroke="#C4B5FD" strokeWidth="1" opacity="0.6" />
+                
+                {/* Edge highlights */}
+                <line x1="50" y1="12" x2="12" y2="38" stroke="#E0E7FF" strokeWidth="1.5" opacity="0.7" />
+                <line x1="50" y1="12" x2="88" y2="38" stroke="#FFFFFF" strokeWidth="1" opacity="0.5" />
+                
+                {/* Inner checkmark/verification accent */}
+                <path d="M40 50 L47 57 L62 42" fill="none" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" opacity="0.9" />
               </svg>
             </div>
             <div className="hidden sm:flex flex-col">
