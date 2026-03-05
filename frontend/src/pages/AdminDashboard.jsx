@@ -11,11 +11,33 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { 
   Users, DollarSign, AlertTriangle, Shield, Search, 
   CheckCircle, XCircle, Ban, Unlock, Eye, RefreshCw,
-  TrendingUp, CreditCard, Activity, ArrowLeft, Loader2
+  TrendingUp, CreditCard, Activity, ArrowLeft, Loader2,
+  ShoppingCart, Target, AlertOctagon, BarChart3
 } from 'lucide-react';
 import { toast } from '../hooks/use-toast';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
+
+// Funnel Step Component for visualization
+const FunnelStep = ({ label, count, percentage, color, highlight, isNegative }) => (
+  <div className={`flex items-center gap-4 ${highlight ? 'bg-green-50 p-3 rounded-lg border border-green-200' : ''}`}>
+    <div className="w-32 text-right">
+      <span className={`text-sm font-medium ${isNegative ? 'text-red-600' : 'text-gray-700'}`}>{label}</span>
+    </div>
+    <div className="flex-1">
+      <div className="h-8 bg-gray-100 rounded-full overflow-hidden">
+        <div 
+          className={`h-full ${color} transition-all duration-500`}
+          style={{ width: `${Math.min(percentage, 100)}%` }}
+        />
+      </div>
+    </div>
+    <div className="w-24 text-right">
+      <span className={`text-lg font-bold ${isNegative ? 'text-red-600' : 'text-gray-900'}`}>{count}</span>
+      <span className="text-xs text-gray-500 ml-1">({percentage}%)</span>
+    </div>
+  </div>
+);
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -24,6 +46,8 @@ const AdminDashboard = () => {
   const [invoices, setInvoices] = useState([]);
   const [blockedIdentifiers, setBlockedIdentifiers] = useState([]);
   const [recentActivity, setRecentActivity] = useState([]);
+  const [checkoutAnalytics, setCheckoutAnalytics] = useState(null);
+  const [fraudStats, setFraudStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [sellerFilter, setSellerFilter] = useState('all');
@@ -35,12 +59,14 @@ const AdminDashboard = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [statsRes, sellersRes, invoicesRes, blockedRes, activityRes] = await Promise.all([
+      const [statsRes, sellersRes, invoicesRes, blockedRes, activityRes, checkoutRes, fraudRes] = await Promise.all([
         axios.get(`${BACKEND_URL}/api/admin/dashboard-stats`),
         axios.get(`${BACKEND_URL}/api/admin/sellers?limit=100`),
         axios.get(`${BACKEND_URL}/api/admin/invoices?limit=100`),
         axios.get(`${BACKEND_URL}/api/admin/blocked-identifiers?limit=100`),
-        axios.get(`${BACKEND_URL}/api/admin/recent-activity`)
+        axios.get(`${BACKEND_URL}/api/admin/recent-activity`),
+        axios.get(`${BACKEND_URL}/api/checkout-analytics/funnel-stats?days=30`).catch(() => ({ data: null })),
+        axios.get(`${BACKEND_URL}/api/checkout-analytics/fraud-prevention-stats?days=30`).catch(() => ({ data: null }))
       ]);
 
       setStats(statsRes.data);
@@ -48,6 +74,8 @@ const AdminDashboard = () => {
       setInvoices(invoicesRes.data.invoices);
       setBlockedIdentifiers(blockedRes.data.blocked_identifiers);
       setRecentActivity(activityRes.data.activities);
+      setCheckoutAnalytics(checkoutRes.data);
+      setFraudStats(fraudRes.data);
     } catch (error) {
       console.error('Error fetching admin data:', error);
       toast({
@@ -267,6 +295,10 @@ const AdminDashboard = () => {
               <Users className="w-4 h-4 mr-2" />
               Sellers
             </TabsTrigger>
+            <TabsTrigger value="checkout" className="data-[state=active]:bg-blue-100">
+              <ShoppingCart className="w-4 h-4 mr-2" />
+              Checkout Analytics
+            </TabsTrigger>
             <TabsTrigger value="invoices" className="data-[state=active]:bg-blue-100">
               <DollarSign className="w-4 h-4 mr-2" />
               Invoices
@@ -396,6 +428,164 @@ const AdminDashboard = () => {
                 </div>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          {/* Checkout Analytics Tab - Fraud Prevention Metrics */}
+          <TabsContent value="checkout">
+            <div className="space-y-6">
+              {/* Key Fraud Prevention Metric */}
+              <Card className="bg-gradient-to-br from-red-500 to-rose-600 text-white">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-white">
+                    <AlertOctagon className="w-6 h-6" />
+                    Fraud Prevention Effectiveness
+                  </CardTitle>
+                  <CardDescription className="text-red-100">
+                    Checkouts abandoned at 2FA step = Potential fraud attempts blocked
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="bg-white/10 rounded-lg p-4">
+                      <p className="text-red-100 text-sm">Potential Fraud Blocked</p>
+                      <p className="text-4xl font-bold">{fraudStats?.summary?.total_prevented_attempts || 0}</p>
+                      <p className="text-red-200 text-sm mt-1">abandoned at 2FA</p>
+                    </div>
+                    <div className="bg-white/10 rounded-lg p-4">
+                      <p className="text-red-100 text-sm">Value Protected</p>
+                      <p className="text-4xl font-bold">{formatCurrency(fraudStats?.summary?.total_value_prevented || 0)}</p>
+                      <p className="text-red-200 text-sm mt-1">prevented losses</p>
+                    </div>
+                    <div className="bg-white/10 rounded-lg p-4">
+                      <p className="text-red-100 text-sm">Prevention Rate</p>
+                      <p className="text-4xl font-bold">{fraudStats?.summary?.prevention_rate || 0}%</p>
+                      <p className="text-red-200 text-sm mt-1">of 2FA drop-offs</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Checkout Funnel */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <BarChart3 className="w-5 h-5" />
+                    Checkout Funnel (Last 30 Days)
+                  </CardTitle>
+                  <CardDescription>
+                    Track where users drop off in the checkout process
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {/* Funnel Visualization */}
+                    <div className="space-y-3">
+                      <FunnelStep 
+                        label="Checkouts Started" 
+                        count={checkoutAnalytics?.funnel?.checkouts_started || 0}
+                        percentage={100}
+                        color="bg-blue-500"
+                      />
+                      <FunnelStep 
+                        label="Shipping Completed" 
+                        count={checkoutAnalytics?.funnel?.shipping_completed || 0}
+                        percentage={checkoutAnalytics?.rates?.step1_to_step2 || 0}
+                        color="bg-indigo-500"
+                      />
+                      <FunnelStep 
+                        label="Payment Entered" 
+                        count={checkoutAnalytics?.funnel?.payment_entered || 0}
+                        percentage={checkoutAnalytics?.rates?.step2_to_buynow || 0}
+                        color="bg-purple-500"
+                      />
+                      <FunnelStep 
+                        label="'Buy Now' Clicked" 
+                        count={checkoutAnalytics?.funnel?.buy_now_clicked || 0}
+                        percentage={100}
+                        color="bg-green-500"
+                        highlight
+                      />
+                      <div className="border-t-2 border-dashed border-red-300 pt-3 mt-3">
+                        <p className="text-sm text-red-600 font-medium mb-2">⚠️ 2FA Verification Step (Fraud Detection Point)</p>
+                      </div>
+                      <FunnelStep 
+                        label="2FA Completed (Legitimate)" 
+                        count={checkoutAnalytics?.funnel?.tfa_completed || 0}
+                        percentage={checkoutAnalytics?.rates?.buynow_to_complete || 0}
+                        color="bg-green-600"
+                      />
+                      <FunnelStep 
+                        label="2FA Abandoned (Potential Fraud)" 
+                        count={checkoutAnalytics?.funnel?.tfa_abandoned || 0}
+                        percentage={checkoutAnalytics?.rates?.tfa_abandonment_rate || 0}
+                        color="bg-red-500"
+                        isNegative
+                      />
+                    </div>
+
+                    {/* Conversion Rates */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 pt-6 border-t">
+                      <div className="text-center p-3 bg-gray-50 rounded-lg">
+                        <p className="text-2xl font-bold text-blue-600">{checkoutAnalytics?.rates?.step1_to_step2 || 0}%</p>
+                        <p className="text-xs text-gray-600">Shipping → Payment</p>
+                      </div>
+                      <div className="text-center p-3 bg-gray-50 rounded-lg">
+                        <p className="text-2xl font-bold text-purple-600">{checkoutAnalytics?.rates?.step2_to_buynow || 0}%</p>
+                        <p className="text-xs text-gray-600">Payment → Buy Now</p>
+                      </div>
+                      <div className="text-center p-3 bg-gray-50 rounded-lg">
+                        <p className="text-2xl font-bold text-green-600">{checkoutAnalytics?.rates?.buynow_to_complete || 0}%</p>
+                        <p className="text-xs text-gray-600">Buy Now → Complete</p>
+                      </div>
+                      <div className="text-center p-3 bg-red-50 rounded-lg border border-red-200">
+                        <p className="text-2xl font-bold text-red-600">{checkoutAnalytics?.rates?.tfa_abandonment_rate || 0}%</p>
+                        <p className="text-xs text-red-700 font-medium">2FA Abandonment</p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Key Insight Card */}
+              <Alert className="bg-amber-50 border-amber-200">
+                <Target className="w-5 h-5 text-amber-600" />
+                <AlertDescription className="text-amber-800">
+                  <strong>Key Insight:</strong> Users who click "Buy Now" but abandon at 2FA verification are likely attempting fraud. 
+                  Legitimate users have a {checkoutAnalytics?.rates?.buynow_to_complete || 0}% completion rate after clicking Buy Now.
+                  <br />
+                  <span className="text-sm">The 2FA step catches fraudsters who didn't expect verification.</span>
+                </AlertDescription>
+              </Alert>
+
+              {/* Stats Summary */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Successful Checkouts</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-center">
+                      <p className="text-5xl font-bold text-green-600">{fraudStats?.summary?.completed_checkouts || 0}</p>
+                      <p className="text-gray-600 mt-2">orders completed with 2FA</p>
+                      <p className="text-sm text-gray-500 mt-1">Last 30 days</p>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Overall Conversion</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-center">
+                      <p className="text-5xl font-bold text-blue-600">{checkoutAnalytics?.rates?.overall_conversion || 0}%</p>
+                      <p className="text-gray-600 mt-2">checkout start to completion</p>
+                      <p className="text-sm text-gray-500 mt-1">includes legitimate drop-offs</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
           </TabsContent>
 
           {/* Invoices Tab */}

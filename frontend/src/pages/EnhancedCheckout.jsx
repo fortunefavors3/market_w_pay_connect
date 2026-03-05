@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Input } from '../components/ui/input';
@@ -11,11 +12,14 @@ import { mockCart } from '../mock';
 import { useAuth } from '../context/AuthContext';
 import { toast } from '../hooks/use-toast';
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
+
 const EnhancedCheckout = () => {
   const navigate = useNavigate();
   const { user, isAuthenticated, saveShippingAddress, savePaymentMethod } = useAuth();
   const [step, setStep] = useState(1);
   const [cartUUID] = useState(`cart_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`);
+  const [sessionId] = useState(`session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`);
   const [verificationCode, setVerificationCode] = useState('');
   const [generatedCouponCode, setGeneratedCouponCode] = useState('');
   const [couponExpiry, setCouponExpiry] = useState(null);
@@ -40,6 +44,44 @@ const EnhancedCheckout = () => {
   const shipping = subtotal > 50 ? 0 : 9.99;
   const tax = subtotal * 0.08;
   const total = subtotal + shipping + tax;
+
+  // Analytics tracking function
+  const trackEvent = useCallback(async (eventType, metadata = {}) => {
+    try {
+      await axios.post(`${BACKEND_URL}/api/checkout-analytics/track-event`, {
+        session_id: sessionId,
+        user_id: user?.id,
+        event_type: eventType,
+        cart_total: total,
+        items_count: mockCart.length,
+        metadata
+      });
+    } catch (error) {
+      console.error('Analytics tracking error:', error);
+    }
+  }, [sessionId, user?.id, total]);
+
+  // Track checkout started
+  useEffect(() => {
+    if (isAuthenticated && step === 1) {
+      trackEvent('checkout_started');
+    }
+  }, [isAuthenticated, trackEvent, step]);
+
+  // Track page unload for abandonment
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (step === 3 && !verificationCode) {
+        // User leaving at 2FA step without completing
+        navigator.sendBeacon(
+          `${BACKEND_URL}/api/checkout-analytics/mark-session-abandoned?session_id=${sessionId}&last_step=2fa_verification`
+        );
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [step, sessionId, verificationCode]);
 
   // Auto-fill for returning users
   useEffect(() => {
@@ -77,6 +119,9 @@ const EnhancedCheckout = () => {
     
     saveShippingAddress(shippingAddress);
     
+    // Track analytics: shipping completed
+    trackEvent('shipping_completed', { has_saved_address: !!user?.shippingAddress });
+    
     toast({
       title: "Shipping address saved",
       description: "Your address has been saved to your account.",
@@ -88,6 +133,9 @@ const EnhancedCheckout = () => {
   const handlePaymentSubmit = async (e) => {
     e.preventDefault();
     e.stopPropagation();
+    
+    // Track analytics: payment info entered
+    trackEvent('payment_entered', { used_saved_card: !!user?.paymentMethods?.length });
     
     // Only save payment method if it's a new card (not already saved)
     if (!user?.paymentMethods?.length) {
@@ -103,6 +151,12 @@ const EnhancedCheckout = () => {
         description: "Your card has been saved to your account.",
       });
     }
+    
+    // Track analytics: "Buy Now" clicked - KEY FRAUD PREVENTION METRIC
+    trackEvent('buy_now_clicked', { 
+      cart_value: total,
+      timestamp: new Date().toISOString()
+    });
     
     // Generate 6-digit coupon code
     const couponCode = Math.floor(100000 + Math.random() * 900000).toString();
@@ -120,6 +174,9 @@ const EnhancedCheckout = () => {
       duration: 10000,
     });
     
+    // Track analytics: 2FA shown - this is where fraudsters will abandon
+    trackEvent('2fa_shown');
+    
     // Use setTimeout to ensure state updates after toast
     setTimeout(() => {
       setStep(3);
@@ -136,6 +193,9 @@ const EnhancedCheckout = () => {
         description: "Please enter the correct 6-digit code sent to your phone.",
         variant: "destructive",
       });
+      
+      // Track failed 2FA attempt
+      trackEvent('2fa_failed', { reason: 'invalid_code' });
       return;
     }
     
@@ -146,8 +206,17 @@ const EnhancedCheckout = () => {
         description: "Your verification code has expired. Please restart checkout.",
         variant: "destructive",
       });
+      
+      // Track failed 2FA attempt
+      trackEvent('2fa_failed', { reason: 'code_expired' });
       return;
     }
+    
+    // Track analytics: 2FA completed successfully - legitimate user
+    trackEvent('2fa_completed', { 
+      cart_value: total,
+      verification_time: new Date().toISOString()
+    });
     
     // Mock payment processing
     toast({
