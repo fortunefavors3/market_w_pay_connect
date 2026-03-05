@@ -74,7 +74,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-3 flex-shrink-0 group">
-            {/* Enhanced Diamond Logo with Glow & Accent */}
+            {/* Enhanced Diamond Logo - Bold Checkmark & Sparkles */}
             <div className="relative w-12 h-12 flex-shrink-0">
               <svg viewBox="0 0 100 100" className="w-full h-full transition-transform group-hover:scale-110">
                 <defs>
@@ -91,11 +91,6 @@ const Navbar = () => {
                     <stop offset="0%" stopColor="#3730A3" />
                     <stop offset="100%" stopColor="#4C1D95" />
                   </linearGradient>
-                  <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#6366F1" />
-                    <stop offset="50%" stopColor="#8B5CF6" />
-                    <stop offset="100%" stopColor="#6366F1" />
-                  </linearGradient>
                   <filter id="glow">
                     <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
                     <feMerge>
@@ -103,52 +98,75 @@ const Navbar = () => {
                       <feMergeNode in="SourceGraphic"/>
                     </feMerge>
                   </filter>
-                  <filter id="innerShadow">
-                    <feOffset dx="0" dy="2"/>
-                    <feGaussianBlur stdDeviation="1"/>
-                    <feComposite in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1"/>
-                    <feColorMatrix type="matrix" values="0 0 0 0 0.2 0 0 0 0 0.1 0 0 0 0 0.4 0 0 0 0.3 0"/>
-                    <feBlend in2="SourceGraphic"/>
+                  <filter id="sparkleGlow">
+                    <feGaussianBlur stdDeviation="1.5" result="blur"/>
+                    <feMerge>
+                      <feMergeNode in="blur"/>
+                      <feMergeNode in="blur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
                   </filter>
                 </defs>
                 
-                {/* Outer circular ring/badge */}
-                <circle cx="50" cy="50" r="47" fill="none" stroke="url(#ringGradient)" strokeWidth="2" opacity="0.6" />
-                <circle cx="50" cy="50" r="44" fill="none" stroke="#E0E7FF" strokeWidth="0.5" opacity="0.4" />
-                
                 {/* Main diamond body with glow */}
                 <g filter="url(#glow)">
-                  <polygon points="50,12 88,38 50,88 12,38" fill="url(#diamondGradient)" />
+                  <polygon points="50,8 92,35 50,92 8,35" fill="url(#diamondGradient)" />
                 </g>
                 
                 {/* Top facet - bright highlight */}
-                <polygon points="50,12 88,38 50,48 12,38" fill="url(#diamondHighlight)" opacity="0.95" />
+                <polygon points="50,8 92,35 50,45 8,35" fill="url(#diamondHighlight)" opacity="0.95" />
                 
                 {/* Left facet - shadow */}
-                <polygon points="12,38 50,48 50,88" fill="url(#diamondShadow)" opacity="0.8" />
+                <polygon points="8,35 50,45 50,92" fill="url(#diamondShadow)" opacity="0.8" />
                 
                 {/* Right facet */}
-                <polygon points="88,38 50,48 50,88" fill="url(#diamondGradient)" opacity="0.9" />
+                <polygon points="92,35 50,45 50,92" fill="url(#diamondGradient)" opacity="0.9" />
                 
-                {/* Sparkle/shine accent - top */}
-                <g className="animate-pulse">
-                  <polygon points="50,8 53,14 50,12 47,14" fill="#FFFFFF" opacity="0.9" />
-                  <circle cx="50" cy="10" r="2" fill="#FFFFFF" opacity="0.8" />
-                </g>
-                
-                {/* Small sparkle accents */}
-                <circle cx="75" cy="30" r="1.5" fill="#FFFFFF" opacity="0.7" />
-                <circle cx="28" cy="35" r="1" fill="#FFFFFF" opacity="0.5" />
-                
-                {/* Center facet line with glow */}
-                <line x1="50" y1="48" x2="50" y2="88" stroke="#C4B5FD" strokeWidth="1" opacity="0.6" />
+                {/* Center facet line */}
+                <line x1="50" y1="45" x2="50" y2="92" stroke="#C4B5FD" strokeWidth="1.5" opacity="0.6" />
                 
                 {/* Edge highlights */}
-                <line x1="50" y1="12" x2="12" y2="38" stroke="#E0E7FF" strokeWidth="1.5" opacity="0.7" />
-                <line x1="50" y1="12" x2="88" y2="38" stroke="#FFFFFF" strokeWidth="1" opacity="0.5" />
+                <line x1="50" y1="8" x2="8" y2="35" stroke="#E0E7FF" strokeWidth="2" opacity="0.8" />
+                <line x1="50" y1="8" x2="92" y2="35" stroke="#FFFFFF" strokeWidth="1.5" opacity="0.6" />
+                <line x1="8" y1="35" x2="50" y2="92" stroke="#6366F1" strokeWidth="1" opacity="0.4" />
+                <line x1="92" y1="35" x2="50" y2="92" stroke="#A78BFA" strokeWidth="1" opacity="0.3" />
                 
-                {/* Inner checkmark/verification accent */}
-                <path d="M40 50 L47 57 L62 42" fill="none" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" opacity="0.9" />
+                {/* BOLD Checkmark */}
+                <path 
+                  d="M32 52 L45 65 L68 38" 
+                  fill="none" 
+                  stroke="#FFFFFF" 
+                  strokeWidth="6" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  filter="url(#glow)"
+                />
+                
+                {/* TOP SPARKLE - Large 4-pointed star */}
+                <g filter="url(#sparkleGlow)">
+                  <polygon points="50,0 52,6 50,12 48,6" fill="#FFFFFF" />
+                  <polygon points="44,6 50,8 56,6 50,4" fill="#FFFFFF" />
+                </g>
+                
+                {/* LEFT SPARKLE - 4-pointed star */}
+                <g filter="url(#sparkleGlow)">
+                  <polygon points="2,35 6,33 10,35 6,37" fill="#FFFFFF" opacity="0.9" />
+                  <polygon points="6,31 8,35 6,39 4,35" fill="#FFFFFF" opacity="0.9" />
+                </g>
+                
+                {/* RIGHT SPARKLE - 4-pointed star */}
+                <g filter="url(#sparkleGlow)">
+                  <polygon points="90,35 94,33 98,35 94,37" fill="#FFFFFF" opacity="0.9" />
+                  <polygon points="94,31 96,35 94,39 92,35" fill="#FFFFFF" opacity="0.9" />
+                </g>
+                
+                {/* Additional corner sparkles */}
+                <circle cx="20" cy="25" r="2" fill="#FFFFFF" opacity="0.7" filter="url(#sparkleGlow)" />
+                <circle cx="80" cy="25" r="2" fill="#FFFFFF" opacity="0.7" filter="url(#sparkleGlow)" />
+                
+                {/* Small accent sparkles on facets */}
+                <circle cx="30" cy="40" r="1.5" fill="#FFFFFF" opacity="0.6" />
+                <circle cx="70" cy="40" r="1.5" fill="#FFFFFF" opacity="0.5" />
               </svg>
             </div>
             <div className="hidden sm:flex flex-col">
