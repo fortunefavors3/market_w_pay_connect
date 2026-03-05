@@ -79,9 +79,14 @@ const Navbar = () => {
               alt="Effinsure Logo" 
               className="h-10 w-auto transition-transform group-hover:scale-105"
             />
-            <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent hidden sm:block">
-              Effinsure
-            </span>
+            <div className="hidden sm:flex flex-col">
+              <span className="text-2xl font-black tracking-tight bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-800 bg-clip-text text-transparent">
+                EFFINSURE
+              </span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 -mt-1">
+                Fearless Commerce
+              </span>
+            </div>
           </Link>
 
           <form onSubmit={handleSearch} className="flex-1 max-w-2xl hidden md:flex">
