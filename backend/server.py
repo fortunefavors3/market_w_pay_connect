@@ -637,8 +637,8 @@ async def pay_fees_placeholder(request: PayFeeRequest):
         "success": False,
         "payment_pending": True,
         "amount_due": fees_response["total_due"],
-        "message": "Payment processing is being set up. Please contact support@cheqmart.com to arrange payment for your platform fees.",
-        "support_email": "support@cheqmart.com"
+        "message": "Payment processing is being set up. Please contact support@effinsure.com to arrange payment for your platform fees.",
+        "support_email": "support@effinsure.com"
     }
 
 

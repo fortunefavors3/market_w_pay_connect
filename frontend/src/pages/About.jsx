@@ -73,7 +73,7 @@ const About = () => {
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back
           </Button>
-          <h1 className="text-5xl font-bold mb-6">About CheqMart</h1>
+          <h1 className="text-5xl font-bold mb-6">About Effinsure</h1>
           <p className="text-xl text-blue-100 max-w-3xl">
             We're on a mission to create the world's most trusted and innovative marketplace 
             where anyone can buy and sell virtually anything.
@@ -107,7 +107,7 @@ const About = () => {
             <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
             <div className="space-y-4 text-gray-700">
               <p>
-                CheqMart was founded in 2020 with a simple idea: create a marketplace that puts 
+                Effinsure was founded in 2020 with a simple idea: create a marketplace that puts 
                 trust, innovation, and community at its core. What started as a small platform has 
                 grown into a global marketplace serving millions of users worldwide.
               </p>
@@ -181,7 +181,7 @@ const About = () => {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Join Our Growing Community</h2>
           <p className="text-xl text-blue-100 mb-8">
-            Whether you're buying or selling, CheqMart is the place for you.
+            Whether you're buying or selling, Effinsure is the place for you.
           </p>
           <div className="flex gap-4 justify-center">
             <Button size="lg" onClick={() => navigate('/sell')} className="bg-white text-blue-600 hover:bg-gray-100">

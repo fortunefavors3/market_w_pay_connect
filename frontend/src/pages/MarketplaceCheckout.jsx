@@ -141,7 +141,7 @@ const MarketplaceCheckout = () => {
         amount: total,
         currency: "USD",
         processor: selectedProcessor,
-        description: `CheqMart Order - ${orderDetails.items.length} item(s)`,
+        description: `Effinsure Order - ${orderDetails.items.length} item(s)`,
         order_id: `order_${Date.now()}`
       });
 
@@ -368,7 +368,7 @@ const MarketplaceCheckout = () => {
                 <Alert className="border-blue-200 bg-blue-50">
                   <Info className="h-4 w-4 text-blue-600" />
                   <AlertDescription className="text-blue-800">
-                    <strong>Platform Fee:</strong> CheqMart charges a 5.5% service fee (${platformFee.toFixed(2)}) 
+                    <strong>Platform Fee:</strong> Effinsure charges a 5.5% service fee (${platformFee.toFixed(2)}) 
                     to facilitate this secure transaction.
                   </AlertDescription>
                 </Alert>
@@ -592,7 +592,7 @@ const MarketplaceCheckout = () => {
                   <span className="text-sm font-semibold">Buyer Protection</span>
                 </div>
                 <p className="text-xs text-green-600 mt-1">
-                  Your purchase is protected by CheqMart
+                  Your purchase is protected by Effinsure
                 </p>
               </div>
 

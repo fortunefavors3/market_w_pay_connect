@@ -241,7 +241,53 @@ const EnhancedCheckout = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Checkout</h1>
+      {/* Header with Trust Indicators */}
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <ShieldCheck className="w-8 h-8 text-green-600" />
+          <h1 className="text-3xl font-bold text-gray-900">Secure Checkout</h1>
+        </div>
+        <div className="hidden md:flex items-center gap-4 text-sm text-gray-600">
+          <span className="flex items-center gap-1">
+            <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd"/></svg>
+            SSL Encrypted
+          </span>
+          <span className="flex items-center gap-1">
+            <svg className="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd"/></svg>
+            PCI Compliant
+          </span>
+        </div>
+      </div>
+
+      {/* Trust Badges Banner */}
+      <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg p-4 mb-6 border border-gray-200">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          <div className="flex flex-col items-center">
+            <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mb-1">
+              <ShieldCheck className="w-5 h-5 text-green-600" />
+            </div>
+            <span className="text-xs font-medium text-gray-700">Buyer Protection</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-1">
+              <CreditCard className="w-5 h-5 text-blue-600" />
+            </div>
+            <span className="text-xs font-medium text-gray-700">Secure Payment</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mb-1">
+              <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+            </div>
+            <span className="text-xs font-medium text-gray-700">Fraud Protected</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center mb-1">
+              <svg className="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            </div>
+            <span className="text-xs font-medium text-gray-700">Money Back Guarantee</span>
+          </div>
+        </div>
+      </div>
 
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Form Section */}

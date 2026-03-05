@@ -72,7 +72,7 @@ const Cookies = () => {
             <h1 className="text-4xl font-bold">Cookie Policy</h1>
           </div>
           <p className="text-xl text-blue-100">
-            Learn about how we use cookies and similar technologies on CheqMart.
+            Learn about how we use cookies and similar technologies on Effinsure.
           </p>
           <p className="text-sm text-blue-200 mt-4">
             Last Updated: December 5, 2025
@@ -92,7 +92,7 @@ const Cookies = () => {
                 understanding how you use our site.
               </p>
               <p>
-                We use both first-party cookies (set by CheqMart) and third-party cookies (set by our partners and 
+                We use both first-party cookies (set by Effinsure) and third-party cookies (set by our partners and 
                 service providers) to enhance your experience and improve our services.
               </p>
             </div>
@@ -212,7 +212,7 @@ const Cookies = () => {
                 <p className="text-sm">
                   Most web browsers allow you to control cookies through their settings. You can typically 
                   find these settings in the "Options" or "Preferences" menu of your browser. Note that 
-                  blocking cookies may impact your experience on CheqMart.
+                  blocking cookies may impact your experience on Effinsure.
                 </p>
               </div>
               <div>
@@ -274,7 +274,7 @@ const Cookies = () => {
                 If you have questions about our use of cookies or this Cookie Policy, please contact us:
               </p>
               <div className="space-y-2 text-sm">
-                <p><strong>Email:</strong> privacy@cheqmart.com</p>
+                <p><strong>Email:</strong> privacy@effinsure.com</p>
                 <p><strong>Phone:</strong> 1-800-CHEQMART (229-6275)</p>
               </div>
               <Button onClick={() => navigate('/contact')} className="mt-4">

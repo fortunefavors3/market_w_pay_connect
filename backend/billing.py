@@ -649,7 +649,7 @@ async def get_auto_charge_terms():
         "terms": """
 AUTOMATIC FEE COLLECTION AGREEMENT
 
-By enabling automatic fee collection, you authorize CheqMart to:
+By enabling automatic fee collection, you authorize Effinsure to:
 
 1. AUTOMATIC CHARGES: Automatically charge your saved payment method daily for platform fees (5.5% of your sales from the previous day).
 

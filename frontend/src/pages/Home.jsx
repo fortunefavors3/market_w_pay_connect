@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Button } from '../components/ui/button';
-import { ArrowRight, TrendingUp, Shield, Truck } from 'lucide-react';
+import { ArrowRight, Shield, Truck, RotateCcw } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import { mockProducts, mockCategories } from '../mock';
 
@@ -40,7 +40,7 @@ const Home = () => {
 
   return (
     <div>
-      {/* Features - Compact & Eye-catching */}
+      {/* Features Banner - Buyer Focused */}
       <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 py-8">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-6">
@@ -50,7 +50,7 @@ const Home = () => {
               </div>
               <div>
                 <h3 className="font-semibold text-lg">Secure Payments</h3>
-                <p className="text-sm text-blue-100">Shop with confidence</p>
+                <p className="text-sm text-blue-100">100% buyer protection</p>
               </div>
             </div>
             <div className="flex items-center justify-center gap-3 text-white">
@@ -59,16 +59,16 @@ const Home = () => {
               </div>
               <div>
                 <h3 className="font-semibold text-lg">Fast Shipping</h3>
-                <p className="text-sm text-blue-100">Quick delivery</p>
+                <p className="text-sm text-blue-100">Quick & tracked delivery</p>
               </div>
             </div>
             <div className="flex items-center justify-center gap-3 text-white">
               <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                <TrendingUp className="w-6 h-6" />
+                <RotateCcw className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="font-semibold text-lg">Custom Storefronts</h3>
-                <p className="text-sm text-blue-100">Design your pages</p>
+                <h3 className="font-semibold text-lg">Easy Returns</h3>
+                <p className="text-sm text-blue-100">30-day money back</p>
               </div>
             </div>
           </div>

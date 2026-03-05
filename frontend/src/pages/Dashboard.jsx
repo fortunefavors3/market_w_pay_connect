@@ -8,7 +8,8 @@ import { Badge } from '../components/ui/badge';
 import { Alert, AlertDescription, AlertTitle } from '../components/ui/alert';
 import { 
   Package, ShoppingBag, MessageSquare, Heart, Settings, Plus, Edit, Trash2, Eye, 
-  User, CreditCard, DollarSign, TrendingUp, AlertTriangle, Ban, Calendar
+  User, CreditCard, DollarSign, TrendingUp, AlertTriangle, Ban, Calendar,
+  Shield, Palette, Percent, ShieldCheck, BarChart3, Target
 } from 'lucide-react';
 import { mockOrders, mockMyListings, mockMessages } from '../mock';
 import { useAuth } from '../context/AuthContext';
@@ -39,6 +40,9 @@ const Dashboard = () => {
     is_suspended: false
   });
   
+  // Fraud prevention analytics for sellers
+  const [fraudStats, setFraudStats] = useState(null);
+  
   const [loadingStats, setLoadingStats] = useState(true);
   const [payingFees, setPayingFees] = useState(false);
 
@@ -54,6 +58,7 @@ const Dashboard = () => {
     if (user?.id) {
       fetchSalesStats();
       fetchFeeInfo();
+      fetchFraudStats();
     }
   }, [user?.id]);
 
@@ -74,6 +79,15 @@ const Dashboard = () => {
       setFeeInfo(response.data);
     } catch (error) {
       console.error('Error fetching fee info:', error);
+    }
+  };
+
+  const fetchFraudStats = async () => {
+    try {
+      const response = await axios.get(`${BACKEND_URL}/api/checkout-analytics/fraud-prevention-stats?days=30`);
+      setFraudStats(response.data);
+    } catch (error) {
+      console.error('Error fetching fraud stats:', error);
     }
   };
 
@@ -172,6 +186,39 @@ const Dashboard = () => {
         </Alert>
       )}
 
+      {/* Seller Benefits Banner */}
+      <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-xl p-6 mb-8 shadow-lg">
+        <div className="grid md:grid-cols-3 gap-6">
+          <div className="flex items-center gap-4 text-white">
+            <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm flex-shrink-0">
+              <ShieldCheck className="w-7 h-7" />
+            </div>
+            <div>
+              <h3 className="font-bold text-lg">Zero Fraud</h3>
+              <p className="text-sm text-purple-100">2FA verification blocks fraudulent purchases automatically</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-4 text-white">
+            <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm flex-shrink-0">
+              <Percent className="w-7 h-7" />
+            </div>
+            <div>
+              <h3 className="font-bold text-lg">Low Fees</h3>
+              <p className="text-sm text-purple-100">Just 5.5% platform fee, keep more of your profits</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-4 text-white">
+            <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm flex-shrink-0">
+              <Palette className="w-7 h-7" />
+            </div>
+            <div>
+              <h3 className="font-bold text-lg">Custom Storefronts</h3>
+              <p className="text-sm text-purple-100">Design beautiful product pages that convert</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-start justify-between">
@@ -252,7 +299,7 @@ const Dashboard = () => {
               <h3 className="font-semibold text-gray-900 mb-1">Integrate with Your Platform</h3>
               <p className="text-sm text-gray-700 mb-3">
                 Already have a store on Shopify, Wix, WooCommerce, Etsy, or BigCommerce? 
-                Get step-by-step instructions to integrate CheqMart checkout.
+                Get step-by-step instructions to integrate Effinsure checkout.
               </p>
               <Button 
                 onClick={() => navigate('/integration-guides')}
@@ -310,6 +357,63 @@ const Dashboard = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Fraud Prevention Analytics Section */}
+      {fraudStats && (
+        <Card className="mb-8 border-red-200 bg-gradient-to-br from-red-50 to-rose-50">
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                <Shield className="w-5 h-5 text-red-600" />
+              </div>
+              <div>
+                <CardTitle className="text-lg text-red-900">Fraud Prevention Analytics</CardTitle>
+                <p className="text-sm text-red-600">Your store's protection status (Last 30 days)</p>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="bg-white rounded-lg p-4 border border-red-100">
+                <div className="flex items-center gap-2 mb-2">
+                  <ShieldCheck className="w-5 h-5 text-red-600" />
+                  <span className="text-sm font-medium text-gray-700">Fraud Blocked</span>
+                </div>
+                <p className="text-3xl font-bold text-red-600">{fraudStats.summary?.total_prevented_attempts || 0}</p>
+                <p className="text-xs text-gray-500 mt-1">fraudulent attempts stopped</p>
+              </div>
+              <div className="bg-white rounded-lg p-4 border border-red-100">
+                <div className="flex items-center gap-2 mb-2">
+                  <DollarSign className="w-5 h-5 text-red-600" />
+                  <span className="text-sm font-medium text-gray-700">Value Protected</span>
+                </div>
+                <p className="text-3xl font-bold text-red-600">{formatCurrency(fraudStats.summary?.total_value_prevented || 0)}</p>
+                <p className="text-xs text-gray-500 mt-1">saved from chargebacks</p>
+              </div>
+              <div className="bg-white rounded-lg p-4 border border-red-100">
+                <div className="flex items-center gap-2 mb-2">
+                  <Target className="w-5 h-5 text-green-600" />
+                  <span className="text-sm font-medium text-gray-700">Verified Orders</span>
+                </div>
+                <p className="text-3xl font-bold text-green-600">{fraudStats.summary?.completed_checkouts || 0}</p>
+                <p className="text-xs text-gray-500 mt-1">legitimate purchases</p>
+              </div>
+            </div>
+            <div className="mt-4 p-3 bg-white rounded-lg border border-red-100">
+              <div className="flex items-start gap-2">
+                <ShieldCheck className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="text-sm font-medium text-gray-900">How Effinsure Protects You</p>
+                  <p className="text-xs text-gray-600 mt-1">
+                    Every checkout requires 2FA verification. Fraudsters who enter stolen card info are stopped when they can't verify the phone number. 
+                    This eliminates chargebacks and protects your revenue.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Platform Fees Section (Only for Manual Processor Users) */}
       {feeInfo.has_manual_processor && feeInfo.total_due > 0 && (

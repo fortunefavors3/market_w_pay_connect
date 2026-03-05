@@ -57,7 +57,7 @@ class PaymentRequest(BaseModel):
     amount: float   # Total amount in dollars
     currency: str = "USD"
     processor: Literal["stripe", "square", "paypal"]
-    description: Optional[str] = "CheqMart Purchase"
+    description: Optional[str] = "Effinsure Purchase"
     # For card payments (Stripe)
     payment_method_id: Optional[str] = None
     # Order details
@@ -331,7 +331,7 @@ async def create_paypal_order(request: PaymentRequest):
                 }
             }],
             "application_context": {
-                "brand_name": "CheqMart",
+                "brand_name": "Effinsure",
                 "shipping_preference": "NO_SHIPPING",
                 "user_action": "PAY_NOW"
             }

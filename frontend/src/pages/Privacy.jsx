@@ -77,7 +77,7 @@ const Privacy = () => {
       icon: Mail,
       title: 'Contact & Updates',
       content: [
-        'Email us at privacy@cheqmart.com',
+        'Email us at privacy@effinsure.com',
         'Updates will be posted on this page',
         'Major changes will be communicated via email',
         'Continued use constitutes acceptance',
@@ -113,12 +113,12 @@ const Privacy = () => {
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Introduction</h2>
             <div className="space-y-4 text-gray-700">
               <p>
-                Welcome to CheqMart. This Privacy Policy explains how CheqMart, Inc. ("we," "us," or "our") 
+                Welcome to Effinsure. This Privacy Policy explains how Effinsure, Inc. ("we," "us," or "our") 
                 collects, uses, discloses, and protects your personal information when you use our marketplace 
                 platform, website, and services (collectively, the "Services").
               </p>
               <p>
-                By using CheqMart, you agree to the collection and use of information in accordance with this policy. 
+                By using Effinsure, you agree to the collection and use of information in accordance with this policy. 
                 If you do not agree with our policies and practices, please do not use our Services.
               </p>
             </div>
@@ -260,9 +260,9 @@ const Privacy = () => {
                 If you have questions about this Privacy Policy or our privacy practices, please contact us:
               </p>
               <div className="space-y-2">
-                <p><strong>Email:</strong> privacy@cheqmart.com</p>
+                <p><strong>Email:</strong> privacy@effinsure.com</p>
                 <p><strong>Phone:</strong> 1-800-CHEQMART (229-6275)</p>
-                <p><strong>Mail:</strong> CheqMart Privacy Team, 123 Market Street, San Francisco, CA 94103</p>
+                <p><strong>Mail:</strong> Effinsure Privacy Team, 123 Market Street, San Francisco, CA 94103</p>
               </div>
               <Button onClick={() => navigate('/contact')} className="mt-4">
                 Contact Privacy Team

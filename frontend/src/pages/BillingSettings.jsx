@@ -589,7 +589,7 @@ const BillingSettingsContent = () => {
             </Checkbox>
 
             <Label htmlFor="agree-terms" className="text-sm cursor-pointer">
-              I have read and agree to the Automatic Fee Collection Agreement. I authorize CheqMart 
+              I have read and agree to the Automatic Fee Collection Agreement. I authorize Effinsure 
               to charge my saved payment method daily for platform fees.
             </Label>
           </div>

@@ -37,9 +37,9 @@ const Contact = () => {
     {
       icon: Mail,
       title: 'Email Us',
-      description: 'support@cheqmart.com',
+      description: 'support@effinsure.com',
       detail: 'Response within 24 hours',
-      action: 'mailto:support@cheqmart.com'
+      action: 'mailto:support@effinsure.com'
     },
     {
       icon: Phone,

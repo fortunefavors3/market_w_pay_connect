@@ -22,8 +22,8 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     // Check if user is logged in from localStorage (persistent across redirects)
-    const storedSession = localStorage.getItem('cheqmart_session');
-    const storedToken = localStorage.getItem('cheqmart_session_token');
+    const storedSession = localStorage.getItem('effinsure_session');
+    const storedToken = localStorage.getItem('effinsure_session_token');
     
     if (storedSession && storedToken) {
       try {
@@ -34,13 +34,13 @@ export const AuthProvider = ({ children }) => {
           setSessionToken(storedToken);
         } else {
           // Invalid session, clear it
-          localStorage.removeItem('cheqmart_session');
-          localStorage.removeItem('cheqmart_session_token');
+          localStorage.removeItem('effinsure_session');
+          localStorage.removeItem('effinsure_session_token');
         }
       } catch (e) {
         console.error('Failed to parse session:', e);
-        localStorage.removeItem('cheqmart_session');
-        localStorage.removeItem('cheqmart_session_token');
+        localStorage.removeItem('effinsure_session');
+        localStorage.removeItem('effinsure_session_token');
       }
     }
     setIsLoading(false);
@@ -55,8 +55,8 @@ export const AuthProvider = ({ children }) => {
       expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days
     };
     
-    localStorage.setItem('cheqmart_session', JSON.stringify(sessionData));
-    localStorage.setItem('cheqmart_session_token', token);
+    localStorage.setItem('effinsure_session', JSON.stringify(sessionData));
+    localStorage.setItem('effinsure_session_token', token);
     setSessionToken(token);
     setUser(userData);
     
@@ -92,7 +92,7 @@ export const AuthProvider = ({ children }) => {
     }
     
     // Check if account already exists locally
-    const accounts = JSON.parse(localStorage.getItem('cheqmart_accounts') || '[]');
+    const accounts = JSON.parse(localStorage.getItem('effinsure_accounts') || '[]');
     const existingAccount = accounts.find(acc => acc.phone === userData.phone || acc.email === userData.email);
     
     if (existingAccount) {
@@ -114,7 +114,7 @@ export const AuthProvider = ({ children }) => {
     
     // Save account to localStorage (persistent account data)
     accounts.push(newUser);
-    localStorage.setItem('cheqmart_accounts', JSON.stringify(accounts));
+    localStorage.setItem('effinsure_accounts', JSON.stringify(accounts));
     
     // Create persistent session
     createSession(newUser);
@@ -124,7 +124,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (phone, password) => {
     // Check against stored accounts
-    const accounts = JSON.parse(localStorage.getItem('cheqmart_accounts') || '[]');
+    const accounts = JSON.parse(localStorage.getItem('effinsure_accounts') || '[]');
     const account = accounts.find(acc => acc.phone === phone && acc.password === password);
     
     if (account) {
@@ -137,8 +137,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem('cheqmart_session');
-    localStorage.removeItem('cheqmart_session_token');
+    localStorage.removeItem('effinsure_session');
+    localStorage.removeItem('effinsure_session_token');
     setSessionToken(null);
     setUser(null);
   };
@@ -149,19 +149,19 @@ export const AuthProvider = ({ children }) => {
     const updatedUser = { ...user, ...updates };
     
     // Update session
-    const storedSession = localStorage.getItem('cheqmart_session');
+    const storedSession = localStorage.getItem('effinsure_session');
     if (storedSession) {
       const sessionData = JSON.parse(storedSession);
       sessionData.user = updatedUser;
-      localStorage.setItem('cheqmart_session', JSON.stringify(sessionData));
+      localStorage.setItem('effinsure_session', JSON.stringify(sessionData));
     }
     
     // Update persistent account data
-    const accounts = JSON.parse(localStorage.getItem('cheqmart_accounts') || '[]');
+    const accounts = JSON.parse(localStorage.getItem('effinsure_accounts') || '[]');
     const updatedAccounts = accounts.map(acc => 
       acc.id === updatedUser.id ? updatedUser : acc
     );
-    localStorage.setItem('cheqmart_accounts', JSON.stringify(updatedAccounts));
+    localStorage.setItem('effinsure_accounts', JSON.stringify(updatedAccounts));
     
     setUser(updatedUser);
   };
@@ -192,8 +192,8 @@ export const AuthProvider = ({ children }) => {
 
   // Verify the session is still valid
   const isSessionValid = () => {
-    const storedSession = localStorage.getItem('cheqmart_session');
-    const storedToken = localStorage.getItem('cheqmart_session_token');
+    const storedSession = localStorage.getItem('effinsure_session');
+    const storedToken = localStorage.getItem('effinsure_session_token');
     
     if (!storedSession || !storedToken) return false;
     

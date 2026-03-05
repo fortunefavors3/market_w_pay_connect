@@ -4,7 +4,7 @@ Epic Payment Solutions Manual Credential Integration
 This module handles manual credential entry for Epic Payment Solutions,
 which doesn't support OAuth/marketplace fee splitting.
 
-For these merchants, CheqMart will:
+For these merchants, Effinsure will:
 1. Store encrypted credentials
 2. Process payments directly to merchant's account
 3. Invoice platform fees separately (monthly billing)
@@ -35,7 +35,7 @@ db = client[os.environ['DB_NAME']]
 ENCRYPTION_KEY = os.getenv("ENCRYPTION_KEY")
 if not ENCRYPTION_KEY:
     # Generate a key from a secret (for demo purposes)
-    secret = os.getenv("SECRET_KEY", "cheqmart-secret-key-change-in-production")
+    secret = os.getenv("SECRET_KEY", "effinsure-secret-key-change-in-production")
     ENCRYPTION_KEY = base64.urlsafe_b64encode(hashlib.sha256(secret.encode()).digest())
 
 fernet = Fernet(ENCRYPTION_KEY)
@@ -216,7 +216,7 @@ class PaymentRequest(BaseModel):
     card_number: str
     expiration_date: str  # Format: MM/YY
     cvv: str
-    description: Optional[str] = "CheqMart Purchase"
+    description: Optional[str] = "Effinsure Purchase"
     order_id: Optional[str] = None
 
 

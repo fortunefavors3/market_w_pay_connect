@@ -76,11 +76,11 @@ const Navbar = () => {
           <Link to="/" className="flex items-center gap-3 flex-shrink-0 group">
             <img 
               src="https://customer-assets.emergentagent.com/job_d5504b06-2603-41d4-bd91-1b5586e00e8a/artifacts/8ef2uzh5_ChatGPT%20Image%20Dec%205%2C%202025%2C%2011_16_20%20AM.png" 
-              alt="CheqMart Logo" 
+              alt="Effinsure Logo" 
               className="h-10 w-auto transition-transform group-hover:scale-105"
             />
             <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent hidden sm:block">
-              CheqMart
+              Effinsure
             </span>
           </Link>
 

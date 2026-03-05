@@ -397,7 +397,7 @@ const PaymentProcessors = () => {
               <div>
                 <p className="font-semibold text-amber-900 mb-1">Transaction Fees</p>
                 <p className="text-sm text-amber-800">
-                  CheqMart charges a 5.5% transaction fee for use of our checkout system, in addition to the payment processor's fees shown below.
+                  Effinsure charges a 5.5% transaction fee for use of our checkout system, in addition to the payment processor's fees shown below.
                 </p>
               </div>
             </div>

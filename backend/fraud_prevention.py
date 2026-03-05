@@ -1,5 +1,5 @@
 """
-Fraud Prevention Module for CheqMart
+Fraud Prevention Module for Effinsure
 
 Prevents suspended sellers from creating new accounts by tracking:
 1. Phone numbers

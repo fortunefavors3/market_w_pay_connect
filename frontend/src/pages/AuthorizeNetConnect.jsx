@@ -146,7 +146,7 @@ const AuthorizeNetConnect = () => {
 
         toast({
           title: "Successfully Connected!",
-          description: "Your Authorize.net account is now connected to CheqMart.",
+          description: "Your Authorize.net account is now connected to Effinsure.",
         });
 
         // Clear sensitive data from state
@@ -221,7 +221,7 @@ const AuthorizeNetConnect = () => {
         <AlertDescription className="text-amber-800">
           <strong>Manual Credentials Entry:</strong> Authorize.net requires manual credential setup. 
           Unlike Stripe Connect, automatic platform fee collection is not available. 
-          <strong className="block mt-1">CheqMart will invoice you separately for platform fees based on your transaction volume.</strong>
+          <strong className="block mt-1">Effinsure will invoice you separately for platform fees based on your transaction volume.</strong>
         </AlertDescription>
       </Alert>
 
@@ -435,7 +435,7 @@ const AuthorizeNetConnect = () => {
                 <p className="text-xs text-gray-500">+ $25/month gateway fee</p>
               </div>
               <div className="p-4 bg-indigo-50 rounded-lg border border-indigo-200">
-                <p className="text-sm font-medium text-indigo-700">CheqMart Platform Fee</p>
+                <p className="text-sm font-medium text-indigo-700">Effinsure Platform Fee</p>
                 <p className="text-lg font-bold text-indigo-900">5.5% (Invoiced)</p>
                 <p className="text-xs text-indigo-600">Billed monthly based on volume</p>
               </div>

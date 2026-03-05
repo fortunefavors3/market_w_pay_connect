@@ -136,22 +136,22 @@ const IntegrationGuides = () => {
   const integrationSteps = {
     shopify: [
       {
-        title: 'Install the CheqMart App',
+        title: 'Install the Effinsure App',
         description: 'Add our app from the Shopify App Store',
         code: null,
         instructions: [
           'Visit the Shopify App Store',
-          'Search for "CheqMart Checkout"',
+          'Search for "Effinsure Checkout"',
           'Click "Add app" and authorize the installation',
           'You\'ll be redirected to the setup page'
         ]
       },
       {
-        title: 'Connect Your CheqMart Account',
+        title: 'Connect Your Effinsure Account',
         description: 'Link your seller account',
         code: null,
         instructions: [
-          'Log in to your CheqMart seller account',
+          'Log in to your Effinsure seller account',
           'Copy your API key from the Dashboard',
           'Paste it in the Shopify app settings',
           'Click "Connect Account"'
@@ -164,7 +164,7 @@ const IntegrationGuides = () => {
         instructions: [
           'Go to Settings > Checkout',
           'Enable "Custom Checkout" option',
-          'Select products to use CheqMart checkout',
+          'Select products to use Effinsure checkout',
           'Configure payment processor preferences',
           'Save changes'
         ]
@@ -172,10 +172,10 @@ const IntegrationGuides = () => {
       {
         title: 'Add Checkout Button to Product Pages',
         description: 'Embed the custom checkout button',
-        code: `<div id="cheqmart-checkout" data-product-id="{{product.id}}"></div>
-<script src="https://checkout.cheqmart.com/embed.js"></script>
+        code: `<div id="effinsure-checkout" data-product-id="{{product.id}}"></div>
+<script src="https://checkout.effinsure.com/embed.js"></script>
 <script>
-  CheqMart.init({
+  Effinsure.init({
     apiKey: 'YOUR_API_KEY',
     productId: '{{product.id}}',
     theme: 'auto'
@@ -195,7 +195,7 @@ const IntegrationGuides = () => {
         code: null,
         instructions: [
           'Visit your store and select a product',
-          'Click the CheqMart checkout button',
+          'Click the Effinsure checkout button',
           'Complete a test purchase',
           'Verify order appears in both systems',
           'Check webhook notifications'
@@ -215,15 +215,15 @@ const IntegrationGuides = () => {
         ]
       },
       {
-        title: 'Add CheqMart SDK',
+        title: 'Add Effinsure SDK',
         description: 'Install the checkout library',
         code: `import { fetch } from 'wix-fetch';
 
-// Initialize CheqMart
+// Initialize Effinsure
 const CHEQMART_API_KEY = 'YOUR_API_KEY';
-const CHEQMART_API_URL = 'https://api.cheqmart.com';
+const CHEQMART_API_URL = 'https://api.effinsure.com';
 
-export async function initCheqMartCheckout(productId) {
+export async function initEffinsureCheckout(productId) {
   const response = await fetch(\`\${CHEQMART_API_URL}/checkout/init\`, {
     method: 'POST',
     headers: {
@@ -235,23 +235,23 @@ export async function initCheqMartCheckout(productId) {
   return await response.json();
 }`,
         instructions: [
-          'In the code panel, create a new file: backend/cheqmart.jsw',
+          'In the code panel, create a new file: backend/effinsure.jsw',
           'Paste the code snippet above',
-          'Replace YOUR_API_KEY with your CheqMart API key',
+          'Replace YOUR_API_KEY with your Effinsure API key',
           'Save the file'
         ]
       },
       {
         title: 'Create Custom Checkout Button',
         description: 'Add button to product pages',
-        code: `import { initCheqMartCheckout } from 'backend/cheqmart';
+        code: `import { initEffinsureCheckout } from 'backend/effinsure';
 
 $w.onReady(function () {
   $w('#buyNowButton').onClick(async () => {
     const productId = $w('#productPage').getCurrentItem()._id;
     
     try {
-      const checkout = await initCheqMartCheckout(productId);
+      const checkout = await initEffinsureCheckout(productId);
       $w('#checkoutFrame').src = checkout.checkoutUrl;
       $w('#checkoutFrame').show();
     } catch (error) {
@@ -291,7 +291,7 @@ export async function handleCheckoutComplete(checkoutData) {
         instructions: [
           'Create a new backend file: backend/orders.jsw',
           'Paste the order handling code',
-          'Set up webhook endpoint in CheqMart dashboard',
+          'Set up webhook endpoint in Effinsure dashboard',
           'Point webhook to: yoursite.com/_functions/handleCheckout',
           'Test with a sample order'
         ]
@@ -305,17 +305,17 @@ export async function handleCheckoutComplete(checkoutData) {
           'Visit your live product page',
           'Click the checkout button',
           'Complete a test transaction',
-          'Verify order in both Wix and CheqMart dashboards'
+          'Verify order in both Wix and Effinsure dashboards'
         ]
       }
     ],
     woocommerce: [
       {
-        title: 'Install CheqMart Plugin',
+        title: 'Install Effinsure Plugin',
         description: 'Add the WordPress plugin',
         code: null,
         instructions: [
-          'Download the CheqMart WooCommerce plugin',
+          'Download the Effinsure WooCommerce plugin',
           'Go to WordPress Admin > Plugins > Add New',
           'Click "Upload Plugin" and select the .zip file',
           'Click "Install Now" then "Activate"'
@@ -326,8 +326,8 @@ export async function handleCheckoutComplete(checkoutData) {
         description: 'Set up your API credentials',
         code: null,
         instructions: [
-          'Go to WooCommerce > Settings > CheqMart',
-          'Enter your CheqMart API Key',
+          'Go to WooCommerce > Settings > Effinsure',
+          'Enter your Effinsure API Key',
           'Select enabled payment processors',
           'Configure webhook URL',
           'Save changes'
@@ -335,22 +335,22 @@ export async function handleCheckoutComplete(checkoutData) {
       },
       {
         title: 'Enable Custom Checkout',
-        description: 'Activate CheqMart checkout for products',
+        description: 'Activate Effinsure checkout for products',
         code: `// Add to functions.php
-add_filter('woocommerce_product_add_to_cart_url', 'cheqmart_custom_checkout_url', 10, 2);
+add_filter('woocommerce_product_add_to_cart_url', 'effinsure_custom_checkout_url', 10, 2);
 
-function cheqmart_custom_checkout_url($url, $product) {
-    if (get_post_meta($product->get_id(), '_cheqmart_enabled', true) === 'yes') {
+function effinsure_custom_checkout_url($url, $product) {
+    if (get_post_meta($product->get_id(), '_effinsure_enabled', true) === 'yes') {
         return add_query_arg([
-            'cheqmart_checkout' => '1',
+            'effinsure_checkout' => '1',
             'product_id' => $product->get_id()
-        ], home_url('/cheqmart-checkout/'));
+        ], home_url('/effinsure-checkout/'));
     }
     return $url;
 }`,
         instructions: [
           'Edit individual products in WooCommerce',
-          'In Product Data, check "Enable CheqMart Checkout"',
+          'In Product Data, check "Enable Effinsure Checkout"',
           'Or add the code snippet to enable programmatically',
           'Products will now use custom checkout'
         ]
@@ -359,20 +359,20 @@ function cheqmart_custom_checkout_url($url, $product) {
         title: 'Customize Checkout Page',
         description: 'Create a custom checkout template',
         code: `<?php
-// Create: wp-content/themes/your-theme/cheqmart-checkout.php
+// Create: wp-content/themes/your-theme/effinsure-checkout.php
 get_header();
 
 $product_id = isset($_GET['product_id']) ? intval($_GET['product_id']) : 0;
-$api_key = get_option('cheqmart_api_key');
+$api_key = get_option('effinsure_api_key');
 ?>
 
-<div id="cheqmart-checkout-container">
-  <div id="cheqmart-checkout" data-product-id="<?php echo $product_id; ?>"></div>
+<div id="effinsure-checkout-container">
+  <div id="effinsure-checkout" data-product-id="<?php echo $product_id; ?>"></div>
 </div>
 
-<script src="https://checkout.cheqmart.com/embed.js"></script>
+<script src="https://checkout.effinsure.com/embed.js"></script>
 <script>
-  CheqMart.init({
+  Effinsure.init({
     apiKey: '<?php echo esc_js($api_key); ?>',
     productId: '<?php echo $product_id; ?>',
     onComplete: function(order) {
@@ -394,14 +394,14 @@ $api_key = get_option('cheqmart_api_key');
         description: 'Sync orders between systems',
         code: `// Add webhook handler in functions.php
 add_action('rest_api_init', function() {
-    register_rest_route('cheqmart/v1', '/webhook', [
+    register_rest_route('effinsure/v1', '/webhook', [
         'methods' => 'POST',
-        'callback' => 'cheqmart_handle_webhook',
-        'permission_callback' => 'cheqmart_verify_webhook'
+        'callback' => 'effinsure_handle_webhook',
+        'permission_callback' => 'effinsure_verify_webhook'
     ]);
 });
 
-function cheqmart_handle_webhook($request) {
+function effinsure_handle_webhook($request) {
     $data = $request->get_json_params();
     
     // Create WooCommerce order
@@ -417,7 +417,7 @@ function cheqmart_handle_webhook($request) {
         instructions: [
           'Add webhook handler code to functions.php',
           'Copy your webhook URL',
-          'Add it to CheqMart dashboard webhooks',
+          'Add it to Effinsure dashboard webhooks',
           'Test with a sample transaction'
         ]
       }
@@ -435,14 +435,14 @@ function cheqmart_handle_webhook($request) {
         ]
       },
       {
-        title: 'Connect CheqMart to Etsy',
+        title: 'Connect Effinsure to Etsy',
         description: 'Link your Etsy shop',
         code: null,
         instructions: [
-          'Go to CheqMart Dashboard > Integrations',
+          'Go to Effinsure Dashboard > Integrations',
           'Click "Connect Etsy Shop"',
           'Enter your Etsy API credentials',
-          'Authorize CheqMart to access your shop',
+          'Authorize Effinsure to access your shop',
           'Select which listings to sync'
         ]
       },
@@ -451,7 +451,7 @@ function cheqmart_handle_webhook($request) {
         description: 'Sync your products',
         code: `// API call to sync listings
 const syncEtsyListings = async () => {
-  const response = await fetch('https://api.cheqmart.com/etsy/sync', {
+  const response = await fetch('https://api.effinsure.com/etsy/sync', {
     method: 'POST',
     headers: {
       'Authorization': 'Bearer YOUR_API_KEY',
@@ -467,11 +467,11 @@ const syncEtsyListings = async () => {
   console.log(\`Synced \${result.count} listings\`);
 };`,
         instructions: [
-          'In CheqMart dashboard, click "Sync Etsy Products"',
+          'In Effinsure dashboard, click "Sync Etsy Products"',
           'Select sync mode (all, active, or draft)',
           'Wait for sync to complete',
           'Review imported products',
-          'Enable CheqMart checkout for selected items'
+          'Enable Effinsure checkout for selected items'
         ]
       },
       {
@@ -480,8 +480,8 @@ const syncEtsyListings = async () => {
         code: null,
         instructions: [
           'Edit your Etsy listing descriptions',
-          'Add: "Buy directly with faster checkout: [Your CheqMart Link]"',
-          'Get your product link from CheqMart dashboard',
+          'Add: "Buy directly with faster checkout: [Your Effinsure Link]"',
+          'Get your product link from Effinsure dashboard',
           'Etsy will display this link in the listing',
           'Customers can choose either checkout method'
         ]
@@ -490,7 +490,7 @@ const syncEtsyListings = async () => {
         title: 'Configure Order Fulfillment',
         description: 'Handle Etsy order updates',
         code: `// Webhook handler for order updates
-app.post('/webhooks/cheqmart-order', async (req, res) => {
+app.post('/webhooks/effinsure-order', async (req, res) => {
   const order = req.body;
   
   // Update Etsy listing inventory
@@ -512,7 +512,7 @@ app.post('/webhooks/cheqmart-order', async (req, res) => {
   res.json({ success: true });
 });`,
         instructions: [
-          'Set up webhook in CheqMart for order events',
+          'Set up webhook in Effinsure for order events',
           'Configure inventory auto-sync',
           'Enable shipping notifications to Etsy',
           'Test with a sample order',
@@ -522,24 +522,24 @@ app.post('/webhooks/cheqmart-order', async (req, res) => {
     ],
     bigcommerce: [
       {
-        title: 'Install CheqMart App',
+        title: 'Install Effinsure App',
         description: 'Add from BigCommerce marketplace',
         code: null,
         instructions: [
           'Log in to your BigCommerce store',
           'Go to Apps > Marketplace',
-          'Search for "CheqMart Checkout"',
+          'Search for "Effinsure Checkout"',
           'Click "Install" and follow prompts',
           'Authorize app access to your store'
         ]
       },
       {
         title: 'Configure API Credentials',
-        description: 'Connect your CheqMart account',
+        description: 'Connect your Effinsure account',
         code: null,
         instructions: [
-          'In BigCommerce, go to Apps > My Apps > CheqMart',
-          'Copy your CheqMart API Key',
+          'In BigCommerce, go to Apps > My Apps > Effinsure',
+          'Copy your Effinsure API Key',
           'Paste into the app settings',
           'Select your preferred payment processors',
           'Save configuration'
@@ -559,7 +559,7 @@ const initCheckout = async (cartId) => {
     body: JSON.stringify({
       cart_id: cartId,
       channel_id: 1,
-      checkout_url: \`https://checkout.cheqmart.com/bc/\${cartId}\`
+      checkout_url: \`https://checkout.effinsure.com/bc/\${cartId}\`
     })
   });
   
@@ -568,7 +568,7 @@ const initCheckout = async (cartId) => {
 };`,
         instructions: [
           'Enable Checkout API in BigCommerce settings',
-          'Configure redirect URL to CheqMart',
+          'Configure redirect URL to Effinsure',
           'Add checkout button to product pages',
           'Implement the API call shown above'
         ]
@@ -577,20 +577,20 @@ const initCheckout = async (cartId) => {
         title: 'Customize Stencil Theme',
         description: 'Add checkout button to templates',
         code: `{{!-- templates/components/products/add-to-cart.html --}}
-<div class="cheqmart-checkout-wrapper">
+<div class="effinsure-checkout-wrapper">
   <button 
-    class="button button--primary cheqmart-checkout-btn"
+    class="button button--primary effinsure-checkout-btn"
     data-product-id="{{product.id}}"
-    onclick="openCheqMartCheckout({{product.id}})">
-    Buy with CheqMart Checkout
+    onclick="openEffinsureCheckout({{product.id}})">
+    Buy with Effinsure Checkout
   </button>
 </div>
 
 <script>
-function openCheqMartCheckout(productId) {
-  CheqMartCheckout.open({
+function openEffinsureCheckout(productId) {
+  EffinsureCheckout.open({
     productId: productId,
-    apiKey: '{{settings.cheqmart_api_key}}',
+    apiKey: '{{settings.effinsure_api_key}}',
     onSuccess: function(order) {
       window.location.href = '/checkout/order-confirmation?order_id=' + order.id;
     },
@@ -604,7 +604,7 @@ function openCheqMartCheckout(productId) {
           'Access your Stencil theme files',
           'Edit product template files',
           'Add the checkout button code',
-          'Include CheqMart SDK in theme',
+          'Include Effinsure SDK in theme',
           'Upload and apply theme changes'
         ]
       },
@@ -613,10 +613,10 @@ function openCheqMartCheckout(productId) {
         description: 'Sync orders and inventory',
         code: `{
   "scope": "store/order/created",
-  "destination": "https://api.cheqmart.com/webhooks/bigcommerce/order",
+  "destination": "https://api.effinsure.com/webhooks/bigcommerce/order",
   "is_active": true,
   "headers": {
-    "X-CheqMart-Key": "YOUR_API_KEY"
+    "X-Effinsure-Key": "YOUR_API_KEY"
   }
 }`,
         instructions: [
@@ -630,11 +630,11 @@ function openCheqMartCheckout(productId) {
     ],
     wordpress: [
       {
-        title: 'Install CheqMart Plugin',
+        title: 'Install Effinsure Plugin',
         description: 'Add the WordPress plugin to your site',
         code: null,
         instructions: [
-          'Download the CheqMart WordPress plugin from our website',
+          'Download the Effinsure WordPress plugin from our website',
           'Go to WordPress Admin > Plugins > Add New',
           'Click "Upload Plugin" and select the .zip file',
           'Click "Install Now" and wait for installation',
@@ -643,11 +643,11 @@ function openCheqMartCheckout(productId) {
       },
       {
         title: 'Configure Plugin Settings',
-        description: 'Connect your CheqMart account',
+        description: 'Connect your Effinsure account',
         code: null,
         instructions: [
-          'Go to WordPress Admin > Settings > CheqMart',
-          'Enter your CheqMart API Key (from your seller dashboard)',
+          'Go to WordPress Admin > Settings > Effinsure',
+          'Enter your Effinsure API Key (from your seller dashboard)',
           'Enter your Seller ID',
           'Choose your preferred checkout style (popup or redirect)',
           'Select button styling options',
@@ -656,10 +656,10 @@ function openCheqMartCheckout(productId) {
       },
       {
         title: 'Add Products Using Custom Post Type',
-        description: 'Create CheqMart products in WordPress',
+        description: 'Create Effinsure products in WordPress',
         code: null,
         instructions: [
-          'Go to CheqMart Products > Add New in WordPress admin',
+          'Go to Effinsure Products > Add New in WordPress admin',
           'Enter product title and description',
           'Set product price and inventory',
           'Upload product images',
@@ -671,23 +671,23 @@ function openCheqMartCheckout(productId) {
         title: 'Embed Checkout with Shortcode',
         description: 'Add checkout buttons to pages and posts',
         code: `<!-- Single Product Checkout -->
-[cheqmart_checkout product_id="12345" button_text="Buy Now"]
+[effinsure_checkout product_id="12345" button_text="Buy Now"]
 
 <!-- Product with Custom Styling -->
-[cheqmart_checkout product_id="12345" button_color="#4F46E5" button_size="large"]
+[effinsure_checkout product_id="12345" button_color="#4F46E5" button_size="large"]
 
 <!-- Multiple Products -->
-[cheqmart_checkout product_id="12345,67890,11223" layout="grid"]
+[effinsure_checkout product_id="12345,67890,11223" layout="grid"]
 
 <!-- Product Gallery -->
-[cheqmart_products category="electronics" limit="8" columns="4"]
+[effinsure_products category="electronics" limit="8" columns="4"]
 
 <!-- Buy Button with Quantity -->
-[cheqmart_checkout product_id="12345" show_quantity="true" min="1" max="10"]`,
+[effinsure_checkout product_id="12345" show_quantity="true" min="1" max="10"]`,
         instructions: [
           'Edit any page or post in WordPress',
           'Add the shortcode where you want the checkout button',
-          'Replace product_id with your actual CheqMart product ID',
+          'Replace product_id with your actual Effinsure product ID',
           'Customize button text and styling as needed',
           'Preview and publish your page',
           'Shortcodes work in widgets and page builders too'
@@ -700,7 +700,7 @@ function openCheqMartCheckout(productId) {
         instructions: [
           'Open any page in the Block Editor (Gutenberg)',
           'Click the "+" button to add a new block',
-          'Search for "CheqMart Checkout"',
+          'Search for "Effinsure Checkout"',
           'Select your product from the dropdown',
           'Customize button appearance in the block settings',
           'Preview and publish'
@@ -712,7 +712,7 @@ function openCheqMartCheckout(productId) {
         code: null,
         instructions: [
           'Go to Appearance > Widgets',
-          'Find "CheqMart Product Widget"',
+          'Find "Effinsure Product Widget"',
           'Drag it to your desired widget area',
           'Select product or product category',
           'Configure display options (image, price, button)',
@@ -723,18 +723,18 @@ function openCheqMartCheckout(productId) {
         title: 'Configure Order Notifications',
         description: 'Set up email notifications for orders',
         code: `// Add to functions.php for custom order handling
-add_action('cheqmart_order_completed', 'custom_cheqmart_order_handler', 10, 1);
+add_action('effinsure_order_completed', 'custom_effinsure_order_handler', 10, 1);
 
-function custom_cheqmart_order_handler($order_data) {
+function custom_effinsure_order_handler($order_data) {
     // Send custom email notification
     $to = get_option('admin_email');
-    $subject = 'New CheqMart Order: ' . $order_data['order_id'];
+    $subject = 'New Effinsure Order: ' . $order_data['order_id'];
     $message = 'Order details: ' . print_r($order_data, true);
     wp_mail($to, $subject, $message);
     
     // Log to custom database table
     global $wpdb;
-    $wpdb->insert('wp_cheqmart_orders', [
+    $wpdb->insert('wp_effinsure_orders', [
         'order_id' => $order_data['order_id'],
         'customer_email' => $order_data['customer_email'],
         'total' => $order_data['total'],
@@ -746,7 +746,7 @@ function custom_cheqmart_order_handler($order_data) {
     do_action('my_custom_order_action', $order_data);
 }`,
         instructions: [
-          'Go to Settings > CheqMart > Notifications',
+          'Go to Settings > Effinsure > Notifications',
           'Enable email notifications for new orders',
           'Enter notification email addresses',
           'Customize email templates',
@@ -760,7 +760,7 @@ function custom_cheqmart_order_handler($order_data) {
         code: `/* Add to your theme's style.css or custom CSS */
 
 /* Customize Buy Button */
-.cheqmart-checkout-button {
+.effinsure-checkout-button {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border: none;
     border-radius: 8px;
@@ -771,13 +771,13 @@ function custom_cheqmart_order_handler($order_data) {
     transition: transform 0.2s;
 }
 
-.cheqmart-checkout-button:hover {
+.effinsure-checkout-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
 /* Product Grid Layout */
-.cheqmart-products-grid {
+.effinsure-products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 24px;
@@ -785,14 +785,14 @@ function custom_cheqmart_order_handler($order_data) {
 }
 
 /* Product Card Styling */
-.cheqmart-product-card {
+.effinsure-product-card {
     border: 1px solid #e5e7eb;
     border-radius: 12px;
     padding: 16px;
     transition: box-shadow 0.3s;
 }
 
-.cheqmart-product-card:hover {
+.effinsure-product-card:hover {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }`,
         instructions: [
@@ -809,11 +809,11 @@ function custom_cheqmart_order_handler($order_data) {
         description: 'Verify everything works correctly',
         code: null,
         instructions: [
-          'Create a test product in CheqMart',
+          'Create a test product in Effinsure',
           'Add the product to a WordPress page using shortcode',
           'Click the checkout button on the live page',
           'Complete a test purchase (use test card if available)',
-          'Verify order appears in CheqMart dashboard',
+          'Verify order appears in Effinsure dashboard',
           'Check that email notifications are received',
           'Test on mobile devices and different browsers'
         ]
@@ -903,7 +903,7 @@ function custom_cheqmart_order_handler($order_data) {
                   {platform.name} Integration Guide
                 </CardTitle>
                 <CardDescription>
-                  Follow these steps to integrate CheqMart checkout
+                  Follow these steps to integrate Effinsure checkout
                 </CardDescription>
               </div>
               <Button
@@ -1016,7 +1016,7 @@ function custom_cheqmart_order_handler($order_data) {
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Platform Integrations</h1>
         <p className="text-gray-600">
-          Integrate CheqMart checkout with your existing e-commerce platform
+          Integrate Effinsure checkout with your existing e-commerce platform
         </p>
       </div>
 
@@ -1048,7 +1048,7 @@ function custom_cheqmart_order_handler($order_data) {
               <strong>API Documentation:</strong> Full API reference with examples for custom integrations
             </p>
             <p>
-              <strong>Developer Forum:</strong> Join our community of developers building on CheqMart
+              <strong>Developer Forum:</strong> Join our community of developers building on Effinsure
             </p>
             <p>
               <strong>Webhook Reference:</strong> Complete guide to handling real-time events
