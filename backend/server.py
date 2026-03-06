@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, UploadFile, File, Form
+from fastapi import FastAPI, APIRouter, UploadFile, File, Form, Request
 from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
@@ -111,6 +111,27 @@ async def get_status_checks():
             check['timestamp'] = datetime.fromisoformat(check['timestamp'])
     
     return status_checks
+
+
+# IP Address endpoint for fraud prevention
+@api_router.get("/get-client-ip")
+async def get_client_ip(request: Request):
+    """Get client's IP address for fraud prevention metadata."""
+    from fastapi import Request
+    
+    # Try to get real IP from headers (for proxied requests)
+    forwarded_for = request.headers.get("x-forwarded-for")
+    real_ip = request.headers.get("x-real-ip")
+    
+    if forwarded_for:
+        client_ip = forwarded_for.split(",")[0].strip()
+    elif real_ip:
+        client_ip = real_ip
+    else:
+        client_ip = request.client.host if request.client else "unknown"
+    
+    return {"ip": client_ip}
+
 
 # User Endpoints
 @api_router.post("/users/stripe-account")
@@ -1038,6 +1059,7 @@ from fraud_prevention import block_user_identifiers, unblock_user_identifiers
 from payment_processors import router as payment_processors_router
 from admin import router as admin_router
 from checkout_analytics import router as checkout_analytics_router
+from fraud_protection import router as fraud_protection_router
 
 # Include the routers in the main app
 app.include_router(api_router)
@@ -1052,6 +1074,7 @@ app.include_router(fraud_prevention_router)
 app.include_router(payment_processors_router)
 app.include_router(admin_router)
 app.include_router(checkout_analytics_router)
+app.include_router(fraud_protection_router)
 
 # Mount static files for serving uploaded avatars
 app.mount("/api/uploads", StaticFiles(directory=str(UPLOADS_DIR)), name="uploads")

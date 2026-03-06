@@ -45,7 +45,7 @@ const Footer = () => {
             <ul className="space-y-3 text-sm">
               <li><Link to="/forums" className="hover:text-cyan-400 transition-colors duration-200 hover:translate-x-1 inline-block">Forums</Link></li>
               <li><Link to="/events" className="hover:text-cyan-400 transition-colors duration-200 hover:translate-x-1 inline-block">Events</Link></li>
-              <li><Link to="/giving-works" className="hover:text-cyan-400 transition-colors duration-200 hover:translate-x-1 inline-block">Giving Works</Link></li>
+              {/* <li><Link to="/giving-works" className="hover:text-cyan-400 transition-colors duration-200 hover:translate-x-1 inline-block">Giving Works</Link></li> */}
             </ul>
           </div>
         </div>
@@ -53,7 +53,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-indigo-900/50 mt-10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="text-sm text-gray-400">
-            <p>&copy; 2025 Effinsure. All rights reserved.</p>
+            <p>&copy; 2025 Effinsure Patent Pending All Rights Reserved.</p>
           </div>
           <div className="flex gap-6">
             <Link to="/privacy" className="text-sm hover:text-cyan-400 transition-colors duration-200">Privacy Policy</Link>

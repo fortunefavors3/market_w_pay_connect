@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Button } from '../components/ui/button';
@@ -11,6 +11,7 @@ import { CreditCard, ShieldCheck } from 'lucide-react';
 import { mockCart } from '../mock';
 import { useAuth } from '../context/AuthContext';
 import { toast } from '../hooks/use-toast';
+import { collectDeviceMetadata, generateDeviceFingerprint } from '../utils/deviceFingerprint';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 
@@ -23,6 +24,11 @@ const EnhancedCheckout = () => {
   const [verificationCode, setVerificationCode] = useState('');
   const [generatedCouponCode, setGeneratedCouponCode] = useState('');
   const [couponExpiry, setCouponExpiry] = useState(null);
+  const [transactionId, setTransactionId] = useState(null);
+  const checkoutStartTime = useRef(Date.now());
+  
+  // Fraud prevention metadata
+  const [fraudMetadata, setFraudMetadata] = useState(null);
   
   const [formData, setFormData] = useState({
     // Shipping
@@ -44,6 +50,37 @@ const EnhancedCheckout = () => {
   const shipping = subtotal > 50 ? 0 : 9.99;
   const tax = subtotal * 0.08;
   const total = subtotal + shipping + tax;
+
+  // Collect device metadata on mount for fraud prevention
+  useEffect(() => {
+    const collectMetadata = async () => {
+      try {
+        // Get device fingerprint and metadata
+        const deviceData = collectDeviceMetadata();
+        
+        // Get client IP from backend
+        const ipResponse = await axios.get(`${BACKEND_URL}/api/get-client-ip`);
+        const clientIP = ipResponse.data.ip;
+        
+        setFraudMetadata({
+          ...deviceData,
+          ip_address: clientIP,
+          device_fingerprint: generateDeviceFingerprint()
+        });
+      } catch (error) {
+        console.error('Error collecting fraud metadata:', error);
+        // Still generate local fingerprint even if IP fetch fails
+        const deviceData = collectDeviceMetadata();
+        setFraudMetadata({
+          ...deviceData,
+          ip_address: 'unknown',
+          device_fingerprint: generateDeviceFingerprint()
+        });
+      }
+    };
+    
+    collectMetadata();
+  }, []);
 
   // Analytics tracking function
   const trackEvent = useCallback(async (eventType, metadata = {}) => {
