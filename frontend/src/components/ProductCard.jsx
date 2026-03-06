@@ -4,9 +4,18 @@ import { Heart, Eye } from 'lucide-react';
 import { Card, CardContent } from './ui/card';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
+import { useWatchlist } from '../context/WatchlistContext';
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
+  const { isInWatchlist, toggleWatchlist } = useWatchlist();
+  
+  const inWatchlist = isInWatchlist(product.id);
+
+  const handleWatchlistClick = async (e) => {
+    e.stopPropagation();
+    await toggleWatchlist(product.id, product.title);
+  };
 
   return (
     <Card className="group cursor-pointer overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
@@ -25,13 +34,14 @@ const ProductCard = ({ product }) => {
         <Button
           size="icon"
           variant="ghost"
-          className="absolute top-2 right-2 bg-white/80 hover:bg-white backdrop-blur-sm"
-          onClick={(e) => {
-            e.stopPropagation();
-            // Add to watchlist logic
-          }}
+          className={`absolute top-2 right-2 backdrop-blur-sm transition-all ${
+            inWatchlist 
+              ? 'bg-red-500 hover:bg-red-600 text-white' 
+              : 'bg-white/80 hover:bg-white'
+          }`}
+          onClick={handleWatchlistClick}
         >
-          <Heart className="w-4 h-4" />
+          <Heart className={`w-4 h-4 ${inWatchlist ? 'fill-current' : ''}`} />
         </Button>
       </div>
       <CardContent className="p-4" onClick={() => navigate(`/product/${product.id}`)}>

@@ -560,7 +560,7 @@ const Dashboard = () => {
                     navigate('/sell');
                   }}
                   disabled={feeInfo.is_suspended}
-                  className={`text-gray hover:bg-blue-500 hover:text-white ${
+                  className={`text-gray bg-gray-100 hover:bg-blue-500 hover:text-white ${
                     feeInfo.is_suspended ? 'opacity-50 cursor-not-allowed hover:bg-blue-500' : ''
                   }`}
                 >
@@ -585,11 +585,11 @@ const Dashboard = () => {
                         <div className="flex items-center gap-4 text-sm text-gray-600 mt-2">
                           <span className="flex items-center gap-1">
                             <Eye className="w-4 h-4" />
-                            {listing.views} views
+                            {listing.views} Views
                           </span>
                           <span className="flex items-center gap-1">
                             <Heart className="w-4 h-4" />
-                            {listing.watchers} watching
+                            {listing.watchers} Watching
                           </span>
                         </div>
                       </div>

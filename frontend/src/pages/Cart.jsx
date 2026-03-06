@@ -158,7 +158,7 @@ const Cart = () => {
               >
                 Proceed to Checkout
               </Button>
-              <Button variant="outline" className="w-full" onClick={() => navigate('/')}>
+              <Button variant="outline" className="w-full bg-gray-50 hover:bg-gray-100" onClick={() => navigate('/')}>
                 Continue Shopping
               </Button>
             </CardContent>

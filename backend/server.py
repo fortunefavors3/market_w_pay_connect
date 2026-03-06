@@ -386,6 +386,70 @@ async def get_user_avatar(user_id: str):
 
 
 # ============================================
+# Watchlist Endpoints
+# ============================================
+
+@api_router.get("/users/{user_id}/watchlist")
+async def get_user_watchlist(user_id: str):
+    """Get all items in user's watchlist."""
+    watchlist = await db.watchlist.find({"user_id": user_id}).to_list(100)
+    product_ids = [item["product_id"] for item in watchlist]
+    return {
+        "watchlist": product_ids,
+        "count": len(product_ids)
+    }
+
+@api_router.post("/users/{user_id}/watchlist/{product_id}")
+async def add_to_watchlist(user_id: str, product_id: str):
+    """Add a product to user's watchlist."""
+    # Check if already in watchlist
+    existing = await db.watchlist.find_one({"user_id": user_id, "product_id": product_id})
+    if existing:
+        return {"success": True, "message": "Already in watchlist", "action": "exists"}
+    
+    # Add to watchlist
+    watchlist_item = {
+        "id": str(uuid.uuid4()),
+        "user_id": user_id,
+        "product_id": product_id,
+        "added_at": datetime.now(timezone.utc).isoformat()
+    }
+    await db.watchlist.insert_one(watchlist_item)
+    
+    return {"success": True, "message": "Added to watchlist", "action": "added"}
+
+@api_router.delete("/users/{user_id}/watchlist/{product_id}")
+async def remove_from_watchlist(user_id: str, product_id: str):
+    """Remove a product from user's watchlist."""
+    result = await db.watchlist.delete_one({"user_id": user_id, "product_id": product_id})
+    
+    if result.deleted_count > 0:
+        return {"success": True, "message": "Removed from watchlist", "action": "removed"}
+    else:
+        return {"success": False, "message": "Item not found in watchlist", "action": "not_found"}
+
+@api_router.post("/users/{user_id}/watchlist/{product_id}/toggle")
+async def toggle_watchlist(user_id: str, product_id: str):
+    """Toggle a product in user's watchlist (add if not present, remove if present)."""
+    existing = await db.watchlist.find_one({"user_id": user_id, "product_id": product_id})
+    
+    if existing:
+        # Remove from watchlist
+        await db.watchlist.delete_one({"user_id": user_id, "product_id": product_id})
+        return {"success": True, "in_watchlist": False, "action": "removed"}
+    else:
+        # Add to watchlist
+        watchlist_item = {
+            "id": str(uuid.uuid4()),
+            "user_id": user_id,
+            "product_id": product_id,
+            "added_at": datetime.now(timezone.utc).isoformat()
+        }
+        await db.watchlist.insert_one(watchlist_item)
+        return {"success": True, "in_watchlist": True, "action": "added"}
+
+
+# ============================================
 # Sales Statistics Endpoints
 # ============================================
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { Toaster } from './components/ui/toaster';
 import { AuthProvider } from './context/AuthContext';
+import { WatchlistProvider } from './context/WatchlistContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -50,6 +51,7 @@ import AuthPage from './pages/AuthPage';
 import OrderSuccess from './pages/OrderSuccess';
 import Messages from './pages/Messages';
 import OrderTracking from './pages/OrderTracking';
+import Watchlist from './pages/Watchlist';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Privacy from './pages/Privacy';
@@ -62,10 +64,11 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <div className="min-h-screen flex flex-col bg-white">
-          <ConditionalNavbar />
-          <main className="flex-1">
-            <Routes>
+        <WatchlistProvider>
+          <div className="min-h-screen flex flex-col bg-white">
+            <ConditionalNavbar />
+            <main className="flex-1">
+              <Routes>
               {/* Public Routes */}
               <Route path="/" element={<Home />} />
               <Route path="/product/:id" element={<ProductDetail />} />
@@ -113,12 +116,13 @@ function App() {
               <Route path="/order-success" element={<ProtectedRoute><OrderSuccess /></ProtectedRoute>} />
               <Route path="/messages" element={<ProtectedRoute><Messages /></ProtectedRoute>} />
               <Route path="/orders/:id" element={<ProtectedRoute><OrderTracking /></ProtectedRoute>} />
-              <Route path="/watchlist" element={<ProtectedRoute><SearchResults /></ProtectedRoute>} />
+              <Route path="/watchlist" element={<ProtectedRoute><Watchlist /></ProtectedRoute>} />
             </Routes>
           </main>
           <Footer />
           <Toaster />
         </div>
+        </WatchlistProvider>
       </AuthProvider>
     </BrowserRouter>
   );

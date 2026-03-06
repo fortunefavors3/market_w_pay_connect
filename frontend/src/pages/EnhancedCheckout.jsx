@@ -454,7 +454,7 @@ const EnhancedCheckout = () => {
                   </div>
 
                   <div className="flex gap-4">
-                    <Button type="button" variant="outline" className="flex-1" onClick={() => setStep(1)}>
+                    <Button type="button" variant="outline" className="flex-1 bg-gray-50 hover:bg-gray-100" onClick={() => setStep(1)}>
                       Back
                     </Button>
                     <Button type="submit" className="flex-1 bg-green-600 hover:bg-green-700" size="lg">
@@ -517,7 +517,7 @@ const EnhancedCheckout = () => {
                   </div>
 
                   <div className="flex gap-4">
-                    <Button type="button" variant="outline" className="flex-1" onClick={() => setStep(2)}>
+                    <Button type="button" variant="outline" className="flex-1 bg-gray-50 hover:bg-gray-50" onClick={() => setStep(2)}>
                       Back
                     </Button>
                     <Button type="submit" className="flex-1 bg-green-600 hover:bg-green-700" size="lg">
